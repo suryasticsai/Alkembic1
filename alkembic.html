@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Alkembic — SM Knowledge Base</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Epilogue:wght@400;500;700;800&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/minisearch@6.3.0/dist/umd/index.min.js"></script>
+<style>
+:root {
+  --bg:       #100e0b;
+  --surface:  #1a1712;
+  --card:     #211e18;
+  --border:   #2e2a22;
+  --amber:    #e8a020;
+  --amber2:   #f0c060;
+  --amber-dim:#7a5010;
+  --green:    #5db87a;
+  --red:      #d96060;
+  --text:     #d4c9b0;
+  --muted:    #6a6050;
+  --heading:  #f0e8d0;
+  --tag-bg:   #2a2318;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Epilogue', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+/* ── Top Bar ── */
+#topbar {
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding:14px 28px;
+  border-bottom:1px solid var(--border);
+  background:var(--surface);
+  position:sticky;top:0;z-index:100;
+}
+
+.logo {
+  font-family:'DM Serif Display',serif;
+  font-size:22px;
+  color:var(--amber);
+  letter-spacing:0.5px;
+  flex-shrink:0;
+  cursor:pointer;
+}
+.logo span { color:var(--text); font-style:italic; font-size:14px; margin-left:6px; }
+
+#searchBar {
+  flex:1;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:8px 14px;
+  color:var(--heading);
+  font-family:'DM Mono',monospace;
+  font-size:13px;
+  outline:none;
+  transition:border-color 0.2s;
+}
+#searchBar::placeholder{color:var(--muted);}
+#searchBar:focus{border-color:var(--amber-dim);}
+
+.top-btn {
+  background:var(--amber);
+  color:#100e0b;
+  border:none;
+  border-radius:6px;
+  padding:8px 18px;
+  font-family:'Epilogue',sans-serif;
+  font-weight:700;
+  font-size:13px;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:background 0.2s;
+}
+.top-btn:hover{background:var(--amber2);}
+
+.icon-btn {
+  background:transparent;
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:7px 12px;
+  color:var(--muted);
+  font-size:13px;
+  cursor:pointer;
+  font-family:'DM Mono',monospace;
+  transition:all 0.2s;
+  white-space:nowrap;
+}
+.icon-btn:hover{border-color:var(--amber-dim);color:var(--amber);}
+
+/* ── Layout ── */
+#app {
+  display:flex;
+  flex:1;
+  height:calc(100vh - 53px);
+  overflow:hidden;
+}
+
+/* ── Sidebar ── */
+#sidebar {
+  width:200px;
+  flex-shrink:0;
+  border-right:1px solid var(--border);
+  padding:20px 0;
+  overflow-y:auto;
+  background:var(--surface);
+}
+
+.sidebar-label {
+  font-family:'DM Mono',monospace;
+  font-size:9px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--muted);
+  padding:0 18px;
+  margin-bottom:8px;
+}
+
+.cat-item {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:8px 18px;
+  cursor:pointer;
+  font-size:13px;
+  color:var(--text);
+  border-left:3px solid transparent;
+  transition:all 0.15s;
+}
+.cat-item:hover{background:var(--card);color:var(--heading);}
+.cat-item.active{
+  border-left-color:var(--amber);
+  background:var(--card);
+  color:var(--amber);
+}
+.cat-count {
+  background:var(--border);
+  color:var(--muted);
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  padding:1px 6px;
+  border-radius:10px;
+}
+
+.sidebar-divider{height:1px;background:var(--border);margin:14px 0;}
+
+/* ── Main Content ── */
+#main {
+  flex:1;
+  overflow-y:auto;
+  padding:28px 32px;
+}
+
+/* ── Views ── */
+.view{display:none;}
+.view.active{display:block;}
+
+/* ── Stats Row ── */
+.stats-row {
+  display:flex;
+  gap:16px;
+  margin-bottom:28px;
+}
+.stat-card {
+  flex:1;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:16px 20px;
+}
+.stat-num {
+  font-family:'DM Serif Display',serif;
+  font-size:32px;
+  color:var(--amber);
+  line-height:1;
+}
+.stat-label {
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:2px;
+  margin-top:4px;
+}
+
+/* ── Section title ── */
+.section-title {
+  font-family:'DM Serif Display',serif;
+  font-size:20px;
+  color:var(--heading);
+  margin-bottom:16px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.section-title small {
+  font-family:'DM Mono',monospace;
+  font-size:11px;
+  color:var(--muted);
+  font-weight:400;
+}
+
+/* ── Artifact Cards ── */
+.artifact-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:14px;
+}
+
+.artifact-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:18px;
+  cursor:pointer;
+  transition:border-color 0.2s,transform 0.15s;
+  position:relative;
+}
+.artifact-card:hover{
+  border-color:var(--amber-dim);
+  transform:translateY(-2px);
+}
+
+.ac-cat {
+  font-family:'DM Mono',monospace;
+  font-size:9px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--amber-dim);
+  margin-bottom:8px;
+}
+.ac-title {
+  font-family:'DM Serif Display',serif;
+  font-size:16px;
+  color:var(--heading);
+  margin-bottom:8px;
+  line-height:1.3;
+}
+.ac-preview {
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.6;
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.ac-footer {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-top:12px;
+}
+.ac-date {
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  color:var(--muted);
+}
+.ac-tags {
+  display:flex;
+  gap:5px;
+  flex-wrap:wrap;
+}
+.tag {
+  background:var(--tag-bg);
+  border:1px solid var(--border);
+  color:var(--muted);
+  font-family:'DM Mono',monospace;
+  font-size:9px;
+  padding:2px 7px;
+  border-radius:3px;
+}
+
+.empty-state {
+  text-align:center;
+  padding:60px 20px;
+  color:var(--muted);
+}
+.empty-state .big {
+  font-family:'DM Serif Display',serif;
+  font-size:48px;
+  color:var(--border);
+  display:block;
+  margin-bottom:12px;
+}
+.empty-state p { font-size:14px; }
+
+/* ── Detail View ── */
+#detailView {
+  max-width:720px;
+}
+.detail-header {
+  margin-bottom:24px;
+}
+.detail-cat {
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--amber);
+  margin-bottom:10px;
+}
+.detail-title {
+  font-family:'DM Serif Display',serif;
+  font-size:32px;
+  color:var(--heading);
+  line-height:1.2;
+  margin-bottom:14px;
+}
+.detail-meta {
+  font-family:'DM Mono',monospace;
+  font-size:11px;
+  color:var(--muted);
+  margin-bottom:16px;
+}
+.detail-tags {
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  margin-bottom:24px;
+}
+.detail-content {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:24px;
+  font-size:14px;
+  line-height:1.8;
+  color:var(--text);
+  white-space:pre-wrap;
+  word-break:break-word;
+}
+.detail-actions {
+  display:flex;
+  gap:10px;
+  margin-top:20px;
+}
+
+.btn-outline {
+  background:transparent;
+  border:1px solid var(--border);
+  color:var(--text);
+  border-radius:6px;
+  padding:8px 18px;
+  font-family:'Epilogue',sans-serif;
+  font-size:13px;
+  cursor:pointer;
+  transition:all 0.2s;
+}
+.btn-outline:hover{border-color:var(--amber-dim);color:var(--amber);}
+.btn-danger {
+  background:transparent;
+  border:1px solid var(--border);
+  color:var(--red);
+  border-radius:6px;
+  padding:8px 18px;
+  font-family:'Epilogue',sans-serif;
+  font-size:13px;
+  cursor:pointer;
+  transition:all 0.2s;
+}
+.btn-danger:hover{border-color:var(--red);background:rgba(217,96,96,0.08);}
+
+/* ── Add/Edit Form ── */
+#formView {
+  max-width:660px;
+}
+
+.form-title {
+  font-family:'DM Serif Display',serif;
+  font-size:26px;
+  color:var(--heading);
+  margin-bottom:28px;
+}
+
+.form-group {
+  margin-bottom:20px;
+}
+.form-label {
+  display:block;
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:8px;
+}
+.form-input, .form-select, .form-textarea {
+  width:100%;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:10px 14px;
+  color:var(--heading);
+  font-family:'Epilogue',sans-serif;
+  font-size:14px;
+  outline:none;
+  transition:border-color 0.2s;
+}
+.form-input:focus,.form-select:focus,.form-textarea:focus{
+  border-color:var(--amber-dim);
+}
+.form-select option{background:var(--card);}
+.form-textarea {
+  min-height:240px;
+  resize:vertical;
+  line-height:1.7;
+  font-family:'DM Mono',monospace;
+  font-size:13px;
+}
+.form-actions {
+  display:flex;
+  gap:10px;
+  margin-top:8px;
+}
+
+/* ── Search Results ── */
+.search-result-count {
+  font-family:'DM Mono',monospace;
+  font-size:12px;
+  color:var(--muted);
+  margin-bottom:16px;
+}
+mark {
+  background:rgba(232,160,32,0.25);
+  color:var(--amber2);
+  border-radius:2px;
+  padding:0 2px;
+}
+
+/* ── Toast ── */
+#toast {
+  position:fixed;
+  bottom:24px;
+  right:24px;
+  background:var(--green);
+  color:#0a1a10;
+  font-family:'DM Mono',monospace;
+  font-size:12px;
+  font-weight:500;
+  padding:10px 18px;
+  border-radius:6px;
+  opacity:0;
+  transform:translateY(8px);
+  transition:all 0.3s;
+  pointer-events:none;
+  z-index:999;
+}
+#toast.show{opacity:1;transform:translateY(0);}
+#toast.error{background:var(--red);color:#fff;}
+
+/* ── Back btn ── */
+.back-btn {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-family:'DM Mono',monospace;
+  font-size:11px;
+  color:var(--muted);
+  cursor:pointer;
+  margin-bottom:20px;
+  transition:color 0.2s;
+}
+.back-btn:hover{color:var(--amber);}
+
+/* ── Animations ── */
+@keyframes fadeIn {
+  from{opacity:0;transform:translateY(10px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.artifact-card{animation:fadeIn 0.2s ease both;}
+.artifact-card:nth-child(2){animation-delay:0.04s;}
+.artifact-card:nth-child(3){animation-delay:0.08s;}
+.artifact-card:nth-child(4){animation-delay:0.12s;}
+.artifact-card:nth-child(5){animation-delay:0.16s;}
+
+/* ── Confirm Modal ── */
+#confirmModal {
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.7);
+  z-index:200;
+  align-items:center;
+  justify-content:center;
+}
+#confirmModal.show{display:flex;}
+.modal-box {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:28px 32px;
+  max-width:360px;
+  width:90%;
+}
+.modal-box h3{
+  font-family:'DM Serif Display',serif;
+  color:var(--heading);
+  font-size:20px;
+  margin-bottom:10px;
+}
+.modal-box p{font-size:13px;color:var(--muted);margin-bottom:20px;}
+.modal-actions{display:flex;gap:10px;}
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div id="topbar">
+  <div class="logo" onclick="showHome()">Alkembic <span>sm·kb</span></div>
+  <input type="text" id="searchBar" placeholder="Search artifacts, tags, content..." oninput="onSearch(this.value)"/>
+  <button class="icon-btn" onclick="exportAll()">⬇ Export</button>
+  <button class="icon-btn" onclick="triggerImport()">⬆ Import</button>
+  <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)"/>
+  <button class="top-btn" onclick="showAddForm()">+ New Artifact</button>
+</div>
+
+<!-- App Body -->
+<div id="app">
+
+  <!-- Sidebar -->
+  <div id="sidebar">
+    <div class="sidebar-label">Categories</div>
+    <div class="cat-item active" data-cat="all" onclick="filterCat('all')">
+      All <span class="cat-count" id="cnt-all">0</span>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="cat-item" data-cat="Retro Notes" onclick="filterCat('Retro Notes')">
+      🔥 Retro Notes <span class="cat-count" id="cnt-retro">0</span>
+    </div>
+    <div class="cat-item" data-cat="Sprint Summary" onclick="filterCat('Sprint Summary')">
+      ⚡ Sprint Summary <span class="cat-count" id="cnt-sprint">0</span>
+    </div>
+    <div class="cat-item" data-cat="Impediment Log" onclick="filterCat('Impediment Log')">
+      🚧 Impediment Log <span class="cat-count" id="cnt-imp">0</span>
+    </div>
+    <div class="cat-item" data-cat="Team Dynamics" onclick="filterCat('Team Dynamics')">
+      👥 Team Dynamics <span class="cat-count" id="cnt-team">0</span>
+    </div>
+    <div class="cat-item" data-cat="Framework Ref" onclick="filterCat('Framework Ref')">
+      📐 Framework Ref <span class="cat-count" id="cnt-fw">0</span>
+    </div>
+    <div class="cat-item" data-cat="Templates" onclick="filterCat('Templates')">
+      📄 Templates <span class="cat-count" id="cnt-tmpl">0</span>
+    </div>
+    <div class="cat-item" data-cat="Meeting Notes" onclick="filterCat('Meeting Notes')">
+      🗒 Meeting Notes <span class="cat-count" id="cnt-meet">0</span>
+    </div>
+    <div class="cat-item" data-cat="Stakeholder" onclick="filterCat('Stakeholder')">
+      🤝 Stakeholder <span class="cat-count" id="cnt-stake">0</span>
+    </div>
+    <div class="cat-item" data-cat="Other" onclick="filterCat('Other')">
+      📌 Other <span class="cat-count" id="cnt-other">0</span>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-label" style="margin-top:4px">Storage</div>
+    <div style="padding:0 18px;">
+      <div id="storageInfo" style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);line-height:1.8;"></div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div id="main">
+
+    <!-- Home View -->
+    <div id="homeView" class="view active">
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-num" id="statTotal">0</div>
+          <div class="stat-label">Total Artifacts</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statCats">0</div>
+          <div class="stat-label">Categories Used</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statRecent">0</div>
+          <div class="stat-label">Added This Month</div>
+        </div>
+      </div>
+      <div class="section-title">
+        All Artifacts <small id="filterLabel">showing all</small>
+      </div>
+      <div id="artifactGrid" class="artifact-grid">
+        <div class="empty-state">
+          <span class="big">⚗</span>
+          <p>No artifacts yet. Click <strong>+ New Artifact</strong> to begin.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search Results View -->
+    <div id="searchView" class="view">
+      <div class="section-title">Search Results</div>
+      <div id="searchCount" class="search-result-count"></div>
+      <div id="searchGrid" class="artifact-grid"></div>
+    </div>
+
+    <!-- Detail View -->
+    <div id="detailView" class="view">
+      <div class="back-btn" onclick="showHome()">← Back to library</div>
+      <div class="detail-header">
+        <div class="detail-cat" id="dCat"></div>
+        <div class="detail-title" id="dTitle"></div>
+        <div class="detail-meta" id="dMeta"></div>
+        <div class="detail-tags" id="dTags"></div>
+      </div>
+      <div class="detail-content" id="dContent"></div>
+      <div class="detail-actions">
+        <button class="btn-outline" onclick="editCurrent()">✏ Edit</button>
+        <button class="btn-outline" onclick="copyContent()">⎘ Copy</button>
+        <button class="btn-danger" onclick="confirmDelete()">✕ Delete</button>
+      </div>
+    </div>
+
+    <!-- Add/Edit Form View -->
+    <div id="formView" class="view">
+      <div class="back-btn" onclick="showHome()">← Cancel</div>
+      <div class="form-title" id="formTitle">New Artifact</div>
+
+      <div class="form-group">
+        <label class="form-label">Title *</label>
+        <input type="text" class="form-input" id="fTitle" placeholder="e.g. Sprint 12 Retro — Team Phoenix"/>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Category *</label>
+        <select class="form-select" id="fCat">
+          <option value="">— Select Category —</option>
+          <option>Retro Notes</option>
+          <option>Sprint Summary</option>
+          <option>Impediment Log</option>
+          <option>Team Dynamics</option>
+          <option>Framework Ref</option>
+          <option>Templates</option>
+          <option>Meeting Notes</option>
+          <option>Stakeholder</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Tags (comma separated)</label>
+        <input type="text" class="form-input" id="fTags" placeholder="e.g. SAFe, PI Planning, Team Alpha"/>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Content *</label>
+        <textarea class="form-textarea" id="fContent" placeholder="Paste or write your artifact content here..."></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button class="top-btn" onclick="saveArtifact()">Save Artifact</button>
+        <button class="btn-outline" onclick="showHome()">Cancel</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<!-- Confirm Delete Modal -->
+<div id="confirmModal">
+  <div class="modal-box">
+    <h3>Delete Artifact?</h3>
+    <p>This cannot be undone. The artifact will be permanently removed from your local storage.</p>
+    <div class="modal-actions">
+      <button class="btn-danger" onclick="deleteConfirmed()">Yes, Delete</button>
+      <button class="btn-outline" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Storage Key ──
+const STORE_KEY = 'alkembic_artifacts';
+
+// ── State ──
+let artifacts = [];
+let currentId = null;
+let editingId = null;
+let currentFilter = 'all';
+let miniSearch = null;
+
+// ── Init MiniSearch ──
+function initSearch() {
+  miniSearch = new MiniSearch({
+    fields: ['title','content','tags','category'],
+    storeFields: ['id'],
+    searchOptions: {
+      boost: { title: 3, tags: 2 },
+      fuzzy: 0.2,
+      prefix: true
+    }
+  });
+  if (artifacts.length > 0) {
+    miniSearch.addAll(artifacts.map(a => ({
+      id: a.id,
+      title: a.title,
+      content: a.content,
+      tags: a.tags,
+      category: a.category
+    })));
+  }
+}
+
+// ── Load ──
+function loadData() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    artifacts = raw ? JSON.parse(raw) : [];
+  } catch(e) {
+    artifacts = [];
+  }
+  initSearch();
+  renderHome();
+  updateSidebar();
+  updateStorage();
+}
+
+// ── Save ──
+function saveData() {
+  localStorage.setItem(STORE_KEY, JSON.stringify(artifacts));
+  updateSidebar();
+  updateStorage();
+}
+
+// ── Generate ID ──
+function genId() {
+  return 'a_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
+}
+
+// ── Format Date ──
+function fmtDate(iso) {
+  return new Date(iso).toLocaleDateString('en-IN', {day:'2-digit',month:'short',year:'numeric'});
+}
+
+// ── Views ──
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function showHome() {
+  currentId = null;
+  document.getElementById('searchBar').value = '';
+  renderHome();
+  showView('homeView');
+}
+
+function showDetail(id) {
+  currentId = id;
+  const a = artifacts.find(x => x.id === id);
+  if (!a) return;
+  document.getElementById('dCat').textContent = a.category;
+  document.getElementById('dTitle').textContent = a.title;
+  document.getElementById('dMeta').textContent =
+    `Created ${fmtDate(a.createdAt)}  ·  Modified ${fmtDate(a.updatedAt)}`;
+  document.getElementById('dTags').innerHTML =
+    a.tags ? a.tags.split(',').map(t => `<span class="tag">${t.trim()}</span>`).join('') : '';
+  document.getElementById('dContent').textContent = a.content;
+  showView('detailView');
+}
+
+function showAddForm() {
+  editingId = null;
+  document.getElementById('formTitle').textContent = 'New Artifact';
+  document.getElementById('fTitle').value = '';
+  document.getElementById('fCat').value = '';
+  document.getElementById('fTags').value = '';
+  document.getElementById('fContent').value = '';
+  showView('formView');
+}
+
+function editCurrent() {
+  const a = artifacts.find(x => x.id === currentId);
+  if (!a) return;
+  editingId = currentId;
+  document.getElementById('formTitle').textContent = 'Edit Artifact';
+  document.getElementById('fTitle').value = a.title;
+  document.getElementById('fCat').value = a.category;
+  document.getElementById('fTags').value = a.tags;
+  document.getElementById('fContent').value = a.content;
+  showView('formView');
+}
+
+// ── Save Artifact ──
+function saveArtifact() {
+  const title   = document.getElementById('fTitle').value.trim();
+  const cat     = document.getElementById('fCat').value;
+  const tags    = document.getElementById('fTags').value.trim();
+  const content = document.getElementById('fContent').value.trim();
+
+  if (!title)   { toast('Title is required', true); return; }
+  if (!cat)     { toast('Please select a category', true); return; }
+  if (!content) { toast('Content cannot be empty', true); return; }
+
+  const now = new Date().toISOString();
+
+  if (editingId) {
+    // Update
+    const idx = artifacts.findIndex(a => a.id === editingId);
+    if (idx === -1) return;
+    const updated = { ...artifacts[idx], title, category: cat, tags, content, updatedAt: now };
+    artifacts[idx] = updated;
+    // Update search index
+    miniSearch.replace({ id: editingId, title, content, tags, category: cat });
+    currentId = editingId;
+    editingId = null;
+    saveData();
+    toast('Artifact updated');
+    showDetail(currentId);
+  } else {
+    // Create
+    const artifact = {
+      id: genId(),
+      title, category: cat, tags, content,
+      createdAt: now,
+      updatedAt: now
+    };
+    artifacts.unshift(artifact);
+    miniSearch.add({ id: artifact.id, title, content, tags, category: cat });
+    saveData();
+    toast('Artifact saved');
+    showHome();
+  }
+}
+
+// ── Delete ──
+function confirmDelete() {
+  document.getElementById('confirmModal').classList.add('show');
+}
+function closeModal() {
+  document.getElementById('confirmModal').classList.remove('show');
+}
+function deleteConfirmed() {
+  closeModal();
+  if (!currentId) return;
+  miniSearch.remove({ id: currentId });
+  artifacts = artifacts.filter(a => a.id !== currentId);
+  saveData();
+  toast('Artifact deleted');
+  showHome();
+}
+
+// ── Copy ──
+function copyContent() {
+  const a = artifacts.find(x => x.id === currentId);
+  if (!a) return;
+  navigator.clipboard.writeText(a.content).then(() => toast('Content copied'));
+}
+
+// ── Render Home ──
+function renderHome() {
+  const filtered = currentFilter === 'all'
+    ? artifacts
+    : artifacts.filter(a => a.category === currentFilter);
+
+  document.getElementById('filterLabel').textContent =
+    currentFilter === 'all' ? `showing all · ${filtered.length}` : `${currentFilter} · ${filtered.length}`;
+
+  updateStats();
+  renderGrid('artifactGrid', filtered, false);
+}
+
+// ── Render Grid ──
+function renderGrid(containerId, list, highlight) {
+  const grid = document.getElementById(containerId);
+  if (list.length === 0) {
+    grid.innerHTML = `<div class="empty-state">
+      <span class="big">⚗</span>
+      <p>No artifacts found.</p>
+    </div>`;
+    return;
+  }
+  grid.innerHTML = list.map(a => `
+    <div class="artifact-card" onclick="showDetail('${a.id}')">
+      <div class="ac-cat">${a.category}</div>
+      <div class="ac-title">${a.title}</div>
+      <div class="ac-preview">${a.content.slice(0,160)}${a.content.length>160?'...':''}</div>
+      <div class="ac-footer">
+        <span class="ac-date">${fmtDate(a.updatedAt)}</span>
+        <div class="ac-tags">${(a.tags||'').split(',').filter(Boolean).slice(0,3).map(t=>`<span class="tag">${t.trim()}</span>`).join('')}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── Search ──
+function onSearch(query) {
+  if (!query.trim()) {
+    showView('homeView');
+    return;
+  }
+  showView('searchView');
+  const results = miniSearch.search(query);
+  const ids = new Set(results.map(r => r.id));
+  const matched = artifacts.filter(a => ids.has(a.id));
+  document.getElementById('searchCount').textContent =
+    `${matched.length} result${matched.length !== 1 ? 's' : ''} for "${query}"`;
+  renderGrid('searchGrid', matched, false);
+}
+
+// ── Filter by Category ──
+function filterCat(cat) {
+  currentFilter = cat;
+  document.querySelectorAll('.cat-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.cat === cat);
+  });
+  showView('homeView');
+  renderHome();
+}
+
+// ── Update Sidebar Counts ──
+function updateSidebar() {
+  const catMap = {
+    'Retro Notes':'retro','Sprint Summary':'sprint','Impediment Log':'imp',
+    'Team Dynamics':'team','Framework Ref':'fw','Templates':'tmpl',
+    'Meeting Notes':'meet','Stakeholder':'stake','Other':'other'
+  };
+  document.getElementById('cnt-all').textContent = artifacts.length;
+  for (const [cat, key] of Object.entries(catMap)) {
+    const el = document.getElementById('cnt-'+key);
+    if (el) el.textContent = artifacts.filter(a => a.category === cat).length;
+  }
+}
+
+// ── Update Stats ──
+function updateStats() {
+  document.getElementById('statTotal').textContent = artifacts.length;
+  const cats = new Set(artifacts.map(a => a.category)).size;
+  document.getElementById('statCats').textContent = cats;
+  const thisMonth = new Date();
+  thisMonth.setDate(1); thisMonth.setHours(0,0,0,0);
+  const recent = artifacts.filter(a => new Date(a.createdAt) >= thisMonth).length;
+  document.getElementById('statRecent').textContent = recent;
+}
+
+// ── Storage Info ──
+function updateStorage() {
+  const raw = localStorage.getItem(STORE_KEY) || '';
+  const bytes = new Blob([raw]).size;
+  const kb = (bytes / 1024).toFixed(1);
+  document.getElementById('storageInfo').innerHTML =
+    `${artifacts.length} artifacts<br>${kb} KB used<br>Local only`;
+}
+
+// ── Export ──
+function exportAll() {
+  if (artifacts.length === 0) { toast('Nothing to export yet', true); return; }
+  const blob = new Blob([JSON.stringify(artifacts, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `alkembic-export-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast(`Exported ${artifacts.length} artifacts`);
+}
+
+// ── Import ──
+function triggerImport() {
+  document.getElementById('importFile').click();
+}
+
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const imported = JSON.parse(e.target.result);
+      if (!Array.isArray(imported)) throw new Error('Invalid format');
+      // Merge, avoid duplicates by id
+      const existingIds = new Set(artifacts.map(a => a.id));
+      const newOnes = imported.filter(a => !existingIds.has(a.id));
+      artifacts = [...newOnes, ...artifacts];
+      initSearch();
+      saveData();
+      renderHome();
+      toast(`Imported ${newOnes.length} new artifact${newOnes.length !== 1 ? 's' : ''}`);
+    } catch(err) {
+      toast('Import failed — invalid file', true);
+    }
+    event.target.value = '';
+  };
+  reader.readAsText(file);
+}
+
+// ── Toast ──
+function toast(msg, isErr = false) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = isErr ? 'error' : '';
+  void el.offsetWidth;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2800);
+}
+
+// ── Init ──
+loadData();
+</script>
+</body>
+</html>
