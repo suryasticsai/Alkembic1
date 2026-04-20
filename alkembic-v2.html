@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Alkembic — SM Knowledge Board</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/minisearch@6.3.0/dist/umd/index.min.js"></script>
+<style>
+:root {
+  --bg:#0c1118; --surface:#131922; --card:#1a2232; --card2:#1e2840;
+  --border:#253045; --border2:#2d3a52;
+  --amber:#f59e0b; --amber2:#fbbf24; --amber-dim:#7c4d09;
+  --green:#22c55e; --red:#ef4444; --blue:#3b82f6; --purple:#a855f7; --orange:#f97316;
+  --text:#94a3b8; --muted:#4a5a70; --heading:#e2e8f0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;height:100vh;display:flex;flex-direction:column;overflow:hidden;}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+/* ── Name Setup ── */
+#nameSetup{position:fixed;inset:0;background:rgba(10,15,25,0.97);display:flex;align-items:center;justify-content:center;z-index:1000;}
+.name-box{background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:44px 52px;max-width:420px;width:90%;text-align:center;}
+.name-logo{font-weight:800;font-size:34px;color:var(--amber);margin-bottom:4px;letter-spacing:-1px;}
+.name-sub{color:var(--muted);font-size:13px;margin-bottom:30px;line-height:1.6;}
+.name-box input{width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:13px 16px;color:var(--heading);font-family:'Outfit',sans-serif;font-size:15px;outline:none;text-align:center;margin-bottom:14px;transition:border-color 0.2s;}
+.name-box input:focus{border-color:var(--amber-dim);}
+.name-enter{width:100%;background:var(--amber);color:#0c1118;border:none;border-radius:8px;padding:13px;font-family:'Outfit',sans-serif;font-weight:700;font-size:15px;cursor:pointer;transition:background 0.2s;}
+.name-enter:hover{background:var(--amber2);}
+
+/* ── Top Bar ── */
+#topbar{display:flex;align-items:center;gap:10px;padding:0 18px;height:52px;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;z-index:50;}
+.logo{font-weight:800;font-size:18px;color:var(--amber);flex-shrink:0;cursor:pointer;user-select:none;letter-spacing:-0.5px;}
+.logo sub{color:var(--muted);font-size:10px;font-family:'IBM Plex Mono',monospace;font-weight:400;}
+.user-badge{background:var(--amber-dim);color:var(--amber);font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px;white-space:nowrap;flex-shrink:0;}
+.view-tabs{display:flex;gap:2px;background:var(--bg);border-radius:8px;padding:3px;flex-shrink:0;}
+.view-tab{padding:5px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;color:var(--muted);transition:all 0.15s;user-select:none;border:none;background:transparent;font-family:'Outfit',sans-serif;}
+.view-tab.active{background:var(--card2);color:var(--heading);}
+.view-tab:hover:not(.active){color:var(--text);}
+#searchBar{flex:1;background:var(--card);border:1px solid var(--border);border-radius:7px;padding:7px 14px;color:var(--heading);font-family:'Outfit',sans-serif;font-size:13px;outline:none;transition:border-color 0.2s;min-width:0;}
+#searchBar::placeholder{color:var(--muted);}
+#searchBar:focus{border-color:var(--amber-dim);}
+.hdr-btn{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:7px;padding:6px 12px;font-size:12px;font-family:'Outfit',sans-serif;cursor:pointer;white-space:nowrap;transition:all 0.2s;flex-shrink:0;}
+.hdr-btn:hover{border-color:var(--amber-dim);color:var(--amber);}
+.new-btn{background:var(--amber);color:#0c1118;border:none;border-radius:7px;padding:7px 16px;font-size:13px;font-family:'Outfit',sans-serif;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background 0.2s;}
+.new-btn:hover{background:var(--amber2);}
+
+/* ── Main ── */
+#main{flex:1;overflow:hidden;display:flex;flex-direction:column;}
+.view{display:none;flex:1;overflow:hidden;}
+.view.active{display:flex;flex-direction:column;}
+
+/* ── Kanban ── */
+#kanbanView{flex-direction:row!important;overflow-x:auto;gap:0;padding:16px;}
+.kb-column{flex-shrink:0;width:272px;display:flex;flex-direction:column;background:var(--surface);border-radius:10px;margin-right:12px;border:1px solid var(--border);max-height:100%;overflow:hidden;}
+.kb-col-header{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.kb-col-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.kb-col-title{font-weight:700;font-size:13px;color:var(--heading);flex:1;}
+.kb-col-count{background:var(--border);color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 7px;border-radius:10px;}
+.kb-col-body{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:8px;min-height:80px;}
+.kb-col-body.drag-over{background:rgba(245,158,11,0.05);border-radius:6px;outline:1px dashed var(--amber-dim);}
+
+/* ── Kanban Card ── */
+.kb-card{background:var(--card);border:1px solid var(--border);border-left:3px solid transparent;border-radius:8px;padding:12px;cursor:pointer;transition:all 0.15s;user-select:none;animation:fadeUp 0.18s ease both;}
+.kb-card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.4);}
+.kb-card.dragging{opacity:0.35;transform:scale(0.97);}
+.kc-top{display:flex;align-items:center;gap:6px;margin-bottom:7px;}
+.kc-cat{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+.kc-p-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.kc-title{font-weight:600;font-size:13px;color:var(--heading);margin-bottom:7px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.kc-preview{font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.kc-labels{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;}
+.kc-label{font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border-radius:3px;font-weight:500;}
+.kc-footer{display:flex;align-items:center;justify-content:space-between;}
+.kc-date{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);}
+.kc-avatar{width:22px;height:22px;border-radius:50%;background:var(--amber-dim);color:var(--amber);font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.kb-add-card{background:transparent;border:1px dashed var(--border);color:var(--muted);border-radius:8px;padding:10px;font-size:12px;cursor:pointer;width:100%;text-align:center;font-family:'Outfit',sans-serif;transition:all 0.2s;margin-top:4px;}
+.kb-add-card:hover{border-color:var(--amber-dim);color:var(--amber);}
+
+/* ── Timeline ── */
+#timelineView{overflow-y:auto;padding:24px 40px;}
+#tlInner{max-width:680px;margin:0 auto;position:relative;}
+#tlInner::before{content:'';position:absolute;left:20px;top:0;bottom:0;width:1px;background:var(--border);}
+.tl-month{margin-bottom:28px;}
+.tl-month-label{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--amber);margin-bottom:12px;padding-left:52px;font-weight:500;letter-spacing:1px;}
+.tl-item{display:flex;align-items:flex-start;gap:14px;margin-bottom:10px;}
+.tl-dot-wrap{width:40px;flex-shrink:0;display:flex;justify-content:center;padding-top:15px;}
+.tl-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--bg);box-shadow:0 0 0 2px var(--border);}
+.tl-card{flex:1;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 16px;cursor:pointer;transition:border-color 0.2s;}
+.tl-card:hover{border-color:var(--border2);}
+.tl-card-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;}
+.tl-cat{font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);}
+.tl-title{font-weight:600;font-size:14px;color:var(--heading);margin-bottom:5px;}
+.tl-preview{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.tl-bottom{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.chip{font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 8px;border-radius:3px;font-weight:500;}
+
+/* ── Trash ── */
+#trashView{overflow-y:auto;padding:24px;}
+.trash-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;max-width:920px;margin-left:auto;margin-right:auto;}
+.trash-hdr-title{font-size:18px;font-weight:700;color:var(--heading);}
+.trash-hdr-count{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);}
+.empty-trash-btn{background:transparent;border:1px solid var(--red);color:var(--red);border-radius:6px;padding:6px 14px;font-size:12px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;}
+.empty-trash-btn:hover{background:rgba(239,68,68,0.1);}
+.trash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;max-width:920px;margin:0 auto;}
+.trash-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;opacity:0.7;}
+.trash-card-cat{font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:5px;}
+.trash-card-title{font-weight:600;font-size:13px;color:var(--heading);margin-bottom:4px;}
+.trash-card-del{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--red);margin-bottom:12px;}
+.trash-card-actions{display:flex;gap:8px;}
+.restore-btn{flex:1;background:transparent;border:1px solid var(--border);color:var(--green);border-radius:5px;padding:6px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;}
+.restore-btn:hover{border-color:var(--green);}
+.perm-btn{flex:1;background:transparent;border:1px solid var(--border);color:var(--red);border-radius:5px;padding:6px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;}
+.perm-btn:hover{border-color:var(--red);}
+
+/* ── Create Modal ── */
+#createModal{display:none;position:fixed;inset:0;background:rgba(10,15,25,0.88);z-index:200;align-items:flex-start;justify-content:center;overflow-y:auto;padding:24px 16px;}
+#createModal.show{display:flex;}
+.modal-inner{background:var(--card);border:1px solid var(--border2);border-radius:12px;width:100%;max-width:600px;padding:28px;margin:auto;}
+.modal-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;}
+.modal-title{font-size:20px;font-weight:700;color:var(--heading);}
+.modal-close{background:transparent;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:4px 8px;border-radius:6px;}
+.modal-close:hover{background:var(--border);color:var(--heading);}
+.form-row{margin-bottom:16px;}
+.form-label{display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:7px;}
+.form-input,.form-select,.form-textarea{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:10px 14px;color:var(--heading);font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--amber-dim);}
+.form-select option{background:var(--card);}
+.form-textarea{min-height:150px;resize:vertical;line-height:1.65;}
+.cat-row{display:flex;gap:8px;}
+.cat-row .form-select{flex:1;}
+.add-cat-btn{background:var(--surface);border:1px solid var(--border);color:var(--muted);border-radius:7px;padding:0 14px;font-size:20px;cursor:pointer;transition:all 0.2s;flex-shrink:0;line-height:1;}
+.add-cat-btn:hover{border-color:var(--amber-dim);color:var(--amber);}
+#newCatWrap{display:none;margin-top:8px;display:none;}
+#newCatWrap input{margin-bottom:8px;}
+.new-cat-acts{display:flex;gap:8px;}
+.btn-xs-amber{background:var(--amber);color:#0c1118;border:none;border-radius:5px;padding:5px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;}
+.btn-xs-ghost{background:transparent;border:none;color:var(--muted);font-size:12px;cursor:pointer;font-family:'Outfit',sans-serif;}
+/* Priority */
+.p-btns{display:flex;gap:8px;}
+.p-btn{flex:1;padding:8px 4px;border-radius:6px;border:2px solid var(--border);background:transparent;font-size:12px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;color:var(--muted);transition:all 0.2s;}
+.p-btn[data-p="Low"]{color:#22c55e;}.p-btn[data-p="Low"].sel{background:rgba(34,197,94,0.1);border-color:#22c55e;}
+.p-btn[data-p="Medium"]{color:#f59e0b;}.p-btn[data-p="Medium"].sel{background:rgba(245,158,11,0.1);border-color:#f59e0b;}
+.p-btn[data-p="High"]{color:#f97316;}.p-btn[data-p="High"].sel{background:rgba(249,115,22,0.1);border-color:#f97316;}
+.p-btn[data-p="Critical"]{color:#ef4444;}.p-btn[data-p="Critical"].sel{background:rgba(239,68,68,0.1);border-color:#ef4444;}
+/* Status */
+.s-btns{display:flex;gap:8px;flex-wrap:wrap;}
+.s-btn{flex:1;min-width:80px;padding:7px 4px;border-radius:6px;border:2px solid var(--border);background:transparent;font-size:11px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;color:var(--muted);transition:all 0.2s;white-space:nowrap;}
+.s-btn.sel[data-s="Backlog"]{border-color:#64748b;color:#64748b;background:rgba(100,116,139,0.1);}
+.s-btn.sel[data-s="In Progress"]{border-color:#3b82f6;color:#3b82f6;background:rgba(59,130,246,0.1);}
+.s-btn.sel[data-s="In Review"]{border-color:#a855f7;color:#a855f7;background:rgba(168,85,247,0.1);}
+.s-btn.sel[data-s="Done"]{border-color:#22c55e;color:#22c55e;background:rgba(34,197,94,0.1);}
+/* Labels */
+.labels-grid{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+.label-chip{padding:4px 10px;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;border:2px solid transparent;transition:all 0.15s;font-family:'IBM Plex Mono',monospace;opacity:0.45;}
+.label-chip.sel{opacity:1;border-color:rgba(255,255,255,0.25);}
+.add-label-row{display:flex;gap:8px;margin-top:4px;}
+#newLabelText{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:7px 12px;color:var(--heading);font-size:12px;font-family:'Outfit',sans-serif;outline:none;}
+#newLabelColor{width:38px;height:38px;border:1px solid var(--border);border-radius:6px;cursor:pointer;background:transparent;padding:3px;}
+.add-label-btn{background:var(--amber);color:#0c1118;border:none;border-radius:6px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;}
+/* Modal Footer */
+.modal-footer{display:flex;gap:10px;margin-top:20px;align-items:center;flex-wrap:wrap;}
+.save-btn{background:var(--amber);color:#0c1118;border:none;border-radius:7px;padding:10px 22px;font-weight:700;font-size:14px;cursor:pointer;font-family:'Outfit',sans-serif;transition:background 0.2s;}
+.save-btn:hover{background:var(--amber2);}
+.save-fs-btn{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:7px;padding:9px 14px;font-size:12px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;}
+.save-fs-btn:hover{border-color:var(--amber-dim);color:var(--amber);}
+.cancel-btn{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:7px;padding:9px 14px;font-size:13px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;margin-left:auto;}
+.cancel-btn:hover{color:var(--text);}
+
+/* ── Detail Modal ── */
+#detailModal{display:none;position:fixed;inset:0;background:rgba(10,15,25,0.88);z-index:200;align-items:flex-start;justify-content:center;overflow-y:auto;padding:24px 16px;}
+#detailModal.show{display:flex;}
+.detail-inner{background:var(--card);border:1px solid var(--border2);border-radius:12px;width:100%;max-width:640px;padding:28px;margin:auto;}
+.detail-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;}
+.detail-cat{font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:6px;}
+.detail-title{font-size:22px;font-weight:700;color:var(--heading);line-height:1.3;}
+.detail-close{background:transparent;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:4px 8px;border-radius:6px;flex-shrink:0;margin-left:12px;}
+.detail-close:hover{background:var(--border);color:var(--heading);}
+.detail-chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px;align-items:center;}
+.detail-content{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:18px;font-size:14px;line-height:1.75;color:var(--text);white-space:pre-wrap;word-break:break-word;margin-bottom:18px;max-height:300px;overflow-y:auto;}
+.detail-footer{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.d-btn{background:transparent;border:1px solid var(--border);color:var(--text);border-radius:6px;padding:7px 16px;font-size:12px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;font-weight:500;}
+.d-btn:hover{border-color:var(--amber-dim);color:var(--amber);}
+.d-del{background:transparent;border:1px solid var(--border);color:var(--red);border-radius:6px;padding:7px 16px;font-size:12px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;}
+.d-del:hover{border-color:var(--red);background:rgba(239,68,68,0.07);}
+.d-meta{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-left:auto;}
+
+/* ── Confirm Modal ── */
+#confirmModal{display:none;position:fixed;inset:0;background:rgba(10,15,25,0.9);z-index:300;align-items:center;justify-content:center;}
+#confirmModal.show{display:flex;}
+.confirm-box{background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:28px 32px;max-width:360px;width:90%;}
+.confirm-box h3{font-size:18px;color:var(--heading);margin-bottom:8px;}
+.confirm-box p{font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.55;}
+.confirm-btns{display:flex;gap:10px;}
+.confirm-yes{background:var(--red);color:#fff;border:none;border-radius:6px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;}
+.confirm-no{background:transparent;border:1px solid var(--border);color:var(--text);border-radius:6px;padding:8px 20px;font-size:13px;cursor:pointer;font-family:'Outfit',sans-serif;}
+
+/* ── Toast ── */
+#toast{position:fixed;bottom:20px;right:20px;background:var(--surface);border:1px solid var(--border2);color:var(--heading);font-family:'IBM Plex Mono',monospace;font-size:12px;padding:10px 16px;border-radius:8px;opacity:0;transform:translateY(6px);transition:all 0.25s;pointer-events:none;z-index:500;max-width:300px;}
+#toast.show{opacity:1;transform:translateY(0);}
+#toast.ok{border-left:3px solid var(--green);}
+#toast.err{border-left:3px solid var(--red);}
+#toast.info{border-left:3px solid var(--amber);}
+
+/* ── Empty ── */
+.empty-state{text-align:center;padding:48px 16px;color:var(--muted);}
+.empty-icon{font-size:36px;opacity:0.25;display:block;margin-bottom:12px;}
+.empty-state p{font-size:13px;}
+
+/* ── Animations ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.kb-card{animation:fadeUp 0.18s ease both;}
+.kb-card:nth-child(2){animation-delay:0.04s;}
+.kb-card:nth-child(3){animation-delay:0.08s;}
+.kb-card:nth-child(4){animation-delay:0.12s;}
+@keyframes modalIn{from{opacity:0;transform:scale(0.97)}to{opacity:1;transform:scale(1)}}
+.modal-inner,.detail-inner,.confirm-box{animation:modalIn 0.2s ease;}
+</style>
+</head>
+<body>
+
+<!-- Name Setup -->
+<div id="nameSetup">
+  <div class="name-box">
+    <div class="name-logo">⚗ Alkembic</div>
+    <div class="name-sub">Your offline SM Knowledge Board.<br/>Powered by MiniSearch. Zero cloud. What should we call you?</div>
+    <input type="text" id="nameInput" placeholder="Your name (e.g. Surya)" maxlength="30" onkeydown="if(event.key==='Enter')setName()"/>
+    <button class="name-enter" onclick="setName()">Enter Alkembic →</button>
+  </div>
+</div>
+
+<!-- Top Bar -->
+<div id="topbar">
+  <div class="logo" onclick="switchView('kanban')">⚗ Alkembic <sub>sm·kb</sub></div>
+  <div class="user-badge" id="userBadge"></div>
+  <div class="view-tabs">
+    <button class="view-tab active" id="tab-kanban" onclick="switchView('kanban')">⊞ Board</button>
+    <button class="view-tab" id="tab-timeline" onclick="switchView('timeline')">↕ Timeline</button>
+    <button class="view-tab" id="tab-trash" onclick="switchView('trash')">🗑 Trash</button>
+  </div>
+  <input type="text" id="searchBar" placeholder="Search tiles, tags, content..." oninput="doSearch(this.value)"/>
+  <button class="hdr-btn" onclick="exportAll()">⬇ Export</button>
+  <button class="hdr-btn" onclick="triggerImport()">⬆ Import</button>
+  <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)"/>
+  <button class="new-btn" onclick="openCreate()">+ New Tile</button>
+</div>
+
+<!-- Main -->
+<div id="main">
+
+  <!-- Kanban -->
+  <div id="kanbanView" class="view active"></div>
+
+  <!-- Timeline -->
+  <div id="timelineView" class="view" style="overflow-y:auto;padding:24px 40px;">
+    <div id="tlInner"></div>
+  </div>
+
+  <!-- Trash -->
+  <div id="trashView" class="view" style="overflow-y:auto;padding:24px;">
+    <div class="trash-hdr">
+      <div>
+        <div class="trash-hdr-title">🗑 Trash</div>
+        <div class="trash-hdr-count" id="trashCount"></div>
+      </div>
+      <button class="empty-trash-btn" onclick="emptyTrash()">Empty Trash</button>
+    </div>
+    <div class="trash-grid" id="trashGrid"></div>
+  </div>
+
+</div>
+
+<!-- Create / Edit Modal -->
+<div id="createModal">
+  <div class="modal-inner">
+    <div class="modal-title-row">
+      <div class="modal-title" id="modalTitle">New Tile</div>
+      <button class="modal-close" onclick="closeCreate()">✕</button>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Title *</label>
+      <input type="text" class="form-input" id="fTitle" placeholder="e.g. Sprint 12 Retro — Team Phoenix"/>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Category *</label>
+      <div class="cat-row">
+        <select class="form-select" id="fCat"></select>
+        <button class="add-cat-btn" title="Add new category" onclick="toggleNewCat()">+</button>
+      </div>
+      <div id="newCatWrap" style="display:none;margin-top:8px;">
+        <input type="text" class="form-input" id="newCatInput" placeholder="New category name..." onkeydown="if(event.key==='Enter')addCategory()"/>
+        <div class="new-cat-acts" style="margin-top:8px;">
+          <button class="btn-xs-amber" onclick="addCategory()">Add Category</button>
+          <button class="btn-xs-ghost" onclick="cancelNewCat()">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Labels</label>
+      <div class="labels-grid" id="labelsGrid"></div>
+      <div class="add-label-row">
+        <input type="text" id="newLabelText" placeholder="New label name..."/>
+        <input type="color" id="newLabelColor" value="#f59e0b"/>
+        <button class="add-label-btn" onclick="addLabel()">+ Add</button>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Priority</label>
+      <div class="p-btns">
+        <button class="p-btn" data-p="Low" onclick="selP('Low')">Low</button>
+        <button class="p-btn" data-p="Medium" onclick="selP('Medium')">Medium</button>
+        <button class="p-btn" data-p="High" onclick="selP('High')">High</button>
+        <button class="p-btn" data-p="Critical" onclick="selP('Critical')">Critical</button>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Status / Column</label>
+      <div class="s-btns">
+        <button class="s-btn" data-s="Backlog" onclick="selS('Backlog')">○ Backlog</button>
+        <button class="s-btn" data-s="In Progress" onclick="selS('In Progress')">◑ In Progress</button>
+        <button class="s-btn" data-s="In Review" onclick="selS('In Review')">◕ In Review</button>
+        <button class="s-btn" data-s="Done" onclick="selS('Done')">● Done</button>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Content</label>
+      <textarea class="form-textarea" id="fContent" placeholder="Paste or write artifact content here..."></textarea>
+    </div>
+
+    <div class="modal-footer">
+      <button class="save-btn" onclick="saveArtifact(false)">Save Tile</button>
+      <button class="save-fs-btn" onclick="saveArtifact(true)">💾 Save + Export File</button>
+      <button class="cancel-btn" onclick="closeCreate()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Detail Modal -->
+<div id="detailModal">
+  <div class="detail-inner">
+    <div class="detail-top">
+      <div>
+        <div class="detail-cat" id="dCat"></div>
+        <div class="detail-title" id="dTitle"></div>
+      </div>
+      <button class="detail-close" onclick="closeDetail()">✕</button>
+    </div>
+    <div class="detail-chips" id="dChips"></div>
+    <div class="detail-content" id="dContent"></div>
+    <div class="detail-footer">
+      <button class="d-btn" onclick="editDetail()">✏ Edit</button>
+      <button class="d-btn" onclick="copyDetail()">⎘ Copy</button>
+      <button class="d-del" onclick="deleteDetail()">✕ Trash</button>
+      <span class="d-meta" id="dMeta"></span>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Modal -->
+<div id="confirmModal">
+  <div class="confirm-box">
+    <h3 id="cfmTitle">Are you sure?</h3>
+    <p id="cfmMsg"></p>
+    <div class="confirm-btns">
+      <button class="confirm-yes" id="cfmYes">Confirm</button>
+      <button class="confirm-no" onclick="closeConfirm()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ── Constants ──
+const KEYS = {arts:'alk_v2_arts',trash:'alk_v2_trash',sets:'alk_v2_sets',cats:'alk_v2_cats',labels:'alk_v2_labels'};
+const DEF_CATS = ['Retro Notes','Sprint Summary','Impediment Log','Team Dynamics','Framework Ref','Templates','Meeting Notes','Stakeholder','Other'];
+const DEF_LABELS = [{id:'l1',text:'SAFe',color:'#f59e0b'},{id:'l2',text:'Scrum',color:'#22c55e'},{id:'l3',text:'Blocker',color:'#ef4444'},{id:'l4',text:'PI Planning',color:'#a855f7'},{id:'l5',text:'ART',color:'#3b82f6'},{id:'l6',text:'Impediment',color:'#f97316'}];
+const STATUSES = ['Backlog','In Progress','In Review','Done'];
+const P_COLORS = {Low:'#22c55e',Medium:'#f59e0b',High:'#f97316',Critical:'#ef4444'};
+const S_COLORS = {Backlog:'#64748b','In Progress':'#3b82f6','In Review':'#a855f7',Done:'#22c55e'};
+
+// ── State ──
+let artifacts=[], trash=[], settings={}, categories=[], labelDefs=[];
+let currentView='kanban', editingId=null, detailId=null;
+let curPriority='Medium', curStatus='Backlog', curLabelIds=[];
+let dragId=null, miniSearch=null, searchActive=false, searchResults=[];
+
+// ── Init ──
+function init() {
+  loadData();
+  if (!settings.userName) {
+    document.getElementById('nameSetup').style.display='flex';
+  } else {
+    document.getElementById('nameSetup').style.display='none';
+    start();
+  }
+}
+
+function setName() {
+  const n = document.getElementById('nameInput').value.trim();
+  if (!n) { document.getElementById('nameInput').focus(); return; }
+  settings.userName = n;
+  saveSettings();
+  document.getElementById('nameSetup').style.display='none';
+  start();
+}
+
+function start() {
+  document.getElementById('userBadge').textContent = settings.userName;
+  renderKanban();
+}
+
+// ── Storage ──
+function loadData() {
+  try { artifacts = JSON.parse(localStorage.getItem(KEYS.arts))||[]; } catch{ artifacts=[]; }
+  try { trash = JSON.parse(localStorage.getItem(KEYS.trash))||[]; } catch{ trash=[]; }
+  try { settings = JSON.parse(localStorage.getItem(KEYS.sets))||{}; } catch{ settings={}; }
+  try { categories = JSON.parse(localStorage.getItem(KEYS.cats))||[...DEF_CATS]; } catch{ categories=[...DEF_CATS]; }
+  try { labelDefs = JSON.parse(localStorage.getItem(KEYS.labels))||[...DEF_LABELS]; } catch{ labelDefs=[...DEF_LABELS]; }
+  initSearch();
+}
+function saveArts(){ localStorage.setItem(KEYS.arts, JSON.stringify(artifacts)); }
+function saveTrashLS(){ localStorage.setItem(KEYS.trash, JSON.stringify(trash)); }
+function saveSettings(){ localStorage.setItem(KEYS.sets, JSON.stringify(settings)); }
+function saveCats(){ localStorage.setItem(KEYS.cats, JSON.stringify(categories)); }
+function saveLabelsLS(){ localStorage.setItem(KEYS.labels, JSON.stringify(labelDefs)); }
+
+function initSearch() {
+  miniSearch = new MiniSearch({
+    fields:['title','content','tagStr','category'],
+    storeFields:['id'],
+    searchOptions:{boost:{title:3,tagStr:2},fuzzy:0.2,prefix:true}
+  });
+  if (artifacts.length) miniSearch.addAll(artifacts.map(toDoc));
+}
+const toDoc = a => ({id:a.id,title:a.title,content:a.content||'',tagStr:(a.labels||[]).map(l=>l.text).join(' '),category:a.category||''});
+
+function genId(){ return 'a_'+Date.now()+'_'+Math.random().toString(36).slice(2,7); }
+function fmtDate(iso){ return new Date(iso).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}); }
+function fmtMonth(iso){ return new Date(iso).toLocaleDateString('en-IN',{month:'long',year:'numeric'}); }
+function initials(name){ return (name||'?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2); }
+
+// ── Views ──
+function switchView(v) {
+  currentView=v;
+  document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.view-tab').forEach(el=>el.classList.remove('active'));
+  document.getElementById(v+'View').classList.add('active');
+  document.getElementById('tab-'+v).classList.add('active');
+  if(v==='kanban') renderKanban();
+  if(v==='timeline') renderTimeline();
+  if(v==='trash') renderTrash();
+}
+
+// ── Kanban ──
+function renderKanban() {
+  const list = searchActive ? searchResults : artifacts;
+  document.getElementById('kanbanView').innerHTML = STATUSES.map(status => {
+    const cards = list.filter(a=>(a.status||'Backlog')===status);
+    const colId = 'col_'+status.replace(/\s/g,'_');
+    return `<div class="kb-column">
+      <div class="kb-col-header">
+        <div class="kb-col-dot" style="background:${S_COLORS[status]}"></div>
+        <div class="kb-col-title">${status}</div>
+        <div class="kb-col-count">${cards.length}</div>
+      </div>
+      <div class="kb-col-body" id="${colId}"
+        ondragover="onDragOver(event)"
+        ondragleave="onDragLeave(event)"
+        ondrop="onDrop(event,'${status}')">
+        ${cards.length ? cards.map(c=>kbCard(c)).join('') : `<div class="empty-state"><span class="empty-icon">○</span><p>Drop tiles here</p></div>`}
+        <button class="kb-add-card" onclick="openCreateForStatus('${status}')">+ Add tile</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function kbCard(a) {
+  const labels = (a.labels||[]).map(l=>`<span class="kc-label" style="background:${l.color}22;color:${l.color}">${l.text}</span>`).join('');
+  return `<div class="kb-card" id="kc_${a.id}"
+    style="border-left-color:${P_COLORS[a.priority||'Medium']}"
+    draggable="true"
+    ondragstart="onDragStart(event,'${a.id}')"
+    ondragend="onDragEnd(event)"
+    onclick="openDetail('${a.id}')">
+    <div class="kc-top">
+      <div class="kc-cat">${a.category||'—'}</div>
+      <div class="kc-p-dot" style="background:${P_COLORS[a.priority||'Medium']}" title="${a.priority||'Medium'}"></div>
+    </div>
+    <div class="kc-title">${escHtml(a.title)}</div>
+    ${(a.content||'').trim() ? `<div class="kc-preview">${escHtml((a.content||'').slice(0,100))}</div>` : ''}
+    ${labels?`<div class="kc-labels">${labels}</div>`:''}
+    <div class="kc-footer">
+      <div class="kc-date">${fmtDate(a.updatedAt)}</div>
+      <div class="kc-avatar" title="${a.assignee||settings.userName}">${initials(a.assignee||settings.userName)}</div>
+    </div>
+  </div>`;
+}
+
+// ── Drag & Drop ──
+function onDragStart(e,id) {
+  dragId=id;
+  e.dataTransfer.effectAllowed='move';
+  setTimeout(()=>{ const el=document.getElementById('kc_'+id); if(el) el.classList.add('dragging'); },0);
+}
+function onDragEnd(e) {
+  if(dragId){ const el=document.getElementById('kc_'+dragId); if(el) el.classList.remove('dragging'); }
+  dragId=null;
+  document.querySelectorAll('.kb-col-body').forEach(c=>c.classList.remove('drag-over'));
+}
+function onDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect='move';
+  e.currentTarget.classList.add('drag-over');
+}
+function onDragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
+function onDrop(e, status) {
+  e.preventDefault();
+  document.querySelectorAll('.kb-col-body').forEach(c=>c.classList.remove('drag-over'));
+  if(!dragId) return;
+  const idx=artifacts.findIndex(a=>a.id===dragId);
+  if(idx===-1) return;
+  if(artifacts[idx].status===status) return;
+  artifacts[idx].status=status;
+  artifacts[idx].updatedAt=new Date().toISOString();
+  miniSearch.replace(toDoc(artifacts[idx]));
+  saveArts();
+  renderKanban();
+  toast(`Moved to ${status}`,'ok');
+}
+
+// ── Timeline ──
+function renderTimeline() {
+  const list = (searchActive?searchResults:artifacts).slice().sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
+  const inner = document.getElementById('tlInner');
+  if(!list.length){ inner.innerHTML=`<div class="empty-state"><span class="empty-icon">↕</span><p>No tiles yet.</p></div>`; return; }
+  const groups={};
+  list.forEach(a=>{ const k=fmtMonth(a.createdAt); if(!groups[k]) groups[k]=[]; groups[k].push(a); });
+  inner.innerHTML = Object.entries(groups).map(([month,items])=>`
+    <div class="tl-month">
+      <div class="tl-month-label">${month}</div>
+      ${items.map(a=>{
+        const labels=(a.labels||[]).slice(0,3).map(l=>`<span class="chip" style="background:${l.color}22;color:${l.color}">${l.text}</span>`).join('');
+        return `<div class="tl-item">
+          <div class="tl-dot-wrap"><div class="tl-dot" style="background:${P_COLORS[a.priority||'Medium']}"></div></div>
+          <div class="tl-card" onclick="openDetail('${a.id}')">
+            <div class="tl-card-top">
+              <div class="tl-cat">${a.category||'—'}</div>
+              <span class="chip" style="background:${S_COLORS[a.status||'Backlog']}22;color:${S_COLORS[a.status||'Backlog']}">${a.status||'Backlog'}</span>
+              <span class="chip" style="background:${P_COLORS[a.priority||'Medium']}22;color:${P_COLORS[a.priority||'Medium']}">${a.priority||'Medium'}</span>
+            </div>
+            <div class="tl-title">${escHtml(a.title)}</div>
+            ${(a.content||'').trim()?`<div class="tl-preview">${escHtml((a.content||'').slice(0,130))}${(a.content||'').length>130?'...':''}</div>`:''}
+            <div class="tl-bottom">${labels}<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-left:auto">${fmtDate(a.createdAt)} · ${a.assignee||settings.userName}</span></div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`).join('');
+}
+
+// ── Trash ──
+function renderTrash() {
+  document.getElementById('trashCount').textContent = trash.length ? `${trash.length} item${trash.length!==1?'s':''} in trash` : 'Trash is empty';
+  const grid=document.getElementById('trashGrid');
+  if(!trash.length){ grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><span class="empty-icon">🗑</span><p>Nothing here.</p></div>`; return; }
+  grid.innerHTML=trash.map(a=>`
+    <div class="trash-card">
+      <div class="trash-card-cat">${a.category||'—'}</div>
+      <div class="trash-card-title">${escHtml(a.title)}</div>
+      <div class="trash-card-del">Deleted ${fmtDate(a.deletedAt||a.updatedAt)}</div>
+      <div class="trash-card-actions">
+        <button class="restore-btn" onclick="restoreArtifact('${a.id}')">↩ Restore</button>
+        <button class="perm-btn" onclick="permDelete('${a.id}')">✕ Forever</button>
+      </div>
+    </div>`).join('');
+}
+
+// ── Search ──
+function doSearch(q) {
+  if(!q.trim()){ searchActive=false; searchResults=[]; rerender(); return; }
+  const ids=new Set(miniSearch.search(q).map(r=>r.id));
+  searchResults=artifacts.filter(a=>ids.has(a.id));
+  searchActive=true;
+  rerender();
+}
+function rerender(){
+  if(currentView==='kanban') renderKanban();
+  if(currentView==='timeline') renderTimeline();
+}
+
+// ── Create / Edit Modal ──
+function openCreate(preset={}) {
+  editingId=null;
+  curPriority=preset.priority||'Medium';
+  curStatus=preset.status||'Backlog';
+  curLabelIds=[];
+  document.getElementById('modalTitle').textContent='New Tile';
+  document.getElementById('fTitle').value='';
+  document.getElementById('fContent').value='';
+  cancelNewCat();
+  buildCatSelect();
+  buildLabelsGrid();
+  refreshPBtns();
+  refreshSBtns();
+  document.getElementById('createModal').classList.add('show');
+  setTimeout(()=>document.getElementById('fTitle').focus(),100);
+}
+
+function openCreateForStatus(status){
+  openCreate({status});
+}
+
+function openEdit(id) {
+  const a=artifacts.find(x=>x.id===id); if(!a) return;
+  editingId=id;
+  curPriority=a.priority||'Medium';
+  curStatus=a.status||'Backlog';
+  curLabelIds=(a.labels||[]).map(l=>l.id);
+  document.getElementById('modalTitle').textContent='Edit Tile';
+  document.getElementById('fTitle').value=a.title;
+  document.getElementById('fContent').value=a.content||'';
+  cancelNewCat();
+  buildCatSelect(a.category);
+  buildLabelsGrid();
+  refreshPBtns();
+  refreshSBtns();
+  closeDetail();
+  document.getElementById('createModal').classList.add('show');
+}
+
+function closeCreate(){ document.getElementById('createModal').classList.remove('show'); }
+
+function buildCatSelect(selected) {
+  const sel=document.getElementById('fCat');
+  sel.innerHTML=categories.map(c=>`<option value="${c}" ${c===(selected||'')?'selected':''}>${c}</option>`).join('');
+}
+
+function toggleNewCat(){
+  const w=document.getElementById('newCatWrap');
+  const vis=w.style.display!=='none'&&w.style.display!=='';
+  w.style.display=vis?'none':'block';
+  if(!vis) document.getElementById('newCatInput').focus();
+}
+function cancelNewCat(){
+  document.getElementById('newCatWrap').style.display='none';
+  document.getElementById('newCatInput').value='';
+}
+function addCategory(){
+  const name=document.getElementById('newCatInput').value.trim(); if(!name) return;
+  if(!categories.includes(name)){ categories.push(name); saveCats(); }
+  buildCatSelect(name);
+  cancelNewCat();
+  toast('Category added','ok');
+}
+
+function buildLabelsGrid(){
+  document.getElementById('labelsGrid').innerHTML=labelDefs.map(l=>`
+    <div class="label-chip ${curLabelIds.includes(l.id)?'sel':''}"
+      style="background:${l.color}22;color:${l.color}"
+      onclick="toggleLabel('${l.id}')">${l.text}</div>`).join('');
+}
+function toggleLabel(id){
+  curLabelIds=curLabelIds.includes(id)?curLabelIds.filter(x=>x!==id):[...curLabelIds,id];
+  buildLabelsGrid();
+}
+function addLabel(){
+  const text=document.getElementById('newLabelText').value.trim(); if(!text) return;
+  const color=document.getElementById('newLabelColor').value;
+  const id='l_'+Date.now();
+  labelDefs.push({id,text,color});
+  saveLabelsLS();
+  curLabelIds.push(id);
+  document.getElementById('newLabelText').value='';
+  buildLabelsGrid();
+  toast('Label created','ok');
+}
+function selP(p){ curPriority=p; refreshPBtns(); }
+function selS(s){ curStatus=s; refreshSBtns(); }
+function refreshPBtns(){ document.querySelectorAll('.p-btn').forEach(b=>b.classList.toggle('sel',b.dataset.p===curPriority)); }
+function refreshSBtns(){ document.querySelectorAll('.s-btn').forEach(b=>b.classList.toggle('sel',b.dataset.s===curStatus)); }
+
+// ── Save Artifact ──
+async function saveArtifact(toFs) {
+  const title=document.getElementById('fTitle').value.trim();
+  const cat=document.getElementById('fCat').value;
+  const content=document.getElementById('fContent').value.trim();
+  if(!title){ toast('Title is required','err'); return; }
+  if(!cat){ toast('Select a category','err'); return; }
+  const labels=labelDefs.filter(l=>curLabelIds.includes(l.id));
+  const now=new Date().toISOString();
+  if(editingId){
+    const idx=artifacts.findIndex(a=>a.id===editingId); if(idx===-1) return;
+    artifacts[idx]={...artifacts[idx],title,category:cat,labels,content,priority:curPriority,status:curStatus,updatedAt:now};
+    miniSearch.replace(toDoc(artifacts[idx]));
+    saveArts();
+    toast('Tile updated','ok');
+    if(toFs) await exportToFs(artifacts[idx]);
+    closeCreate();
+    if(currentView==='kanban') renderKanban();
+    if(currentView==='timeline') renderTimeline();
+  } else {
+    const a={id:genId(),title,category:cat,labels,content,priority:curPriority,status:curStatus,assignee:settings.userName,createdAt:now,updatedAt:now};
+    artifacts.unshift(a);
+    miniSearch.add(toDoc(a));
+    saveArts();
+    toast('Tile created','ok');
+    if(toFs) await exportToFs(a);
+    closeCreate();
+    if(currentView==='kanban') renderKanban();
+    if(currentView==='timeline') renderTimeline();
+  }
+}
+
+// ── File System ──
+async function exportToFs(artifact) {
+  if(!window.showDirectoryPicker){ downloadJson([artifact], safeFilename(artifact)+'.json'); return; }
+  try {
+    const dir=await window.showDirectoryPicker({mode:'readwrite'});
+    const dateStr=new Date().toISOString().slice(0,10);
+    const dateDir=await dir.getDirectoryHandle(dateStr,{create:true});
+    const fname=safeFilename(artifact)+'.json';
+    const fh=await dateDir.getFileHandle(fname,{create:true});
+    const w=await fh.createWritable();
+    await w.write(JSON.stringify(artifact,null,2));
+    await w.close();
+    toast(`Saved → ${dateStr}/${fname}`,'info');
+  } catch(e){
+    if(e.name!=='AbortError') downloadJson([artifact], safeFilename(artifact)+'.json');
+  }
+}
+
+async function moveToTrashFs(artifact) {
+  if(!window.showDirectoryPicker) return;
+  try {
+    // Reuse stored handle concept — try quietly
+    const dir=await window.showDirectoryPicker({mode:'readwrite'});
+    const tDir=await dir.getDirectoryHandle('_trash',{create:true});
+    const fh=await tDir.getFileHandle(safeFilename(artifact)+'.json',{create:true});
+    const w=await fh.createWritable();
+    await w.write(JSON.stringify({...artifact,deletedAt:new Date().toISOString()},null,2));
+    await w.close();
+  } catch(e){ /* silent, FS is optional */ }
+}
+
+function safeFilename(a){ return a.title.replace(/[^a-z0-9]/gi,'-').toLowerCase().slice(0,50)+'-'+a.id.slice(-5); }
+
+// ── Detail Modal ──
+function openDetail(id) {
+  detailId=id;
+  const a=artifacts.find(x=>x.id===id); if(!a) return;
+  document.getElementById('dCat').textContent=a.category||'—';
+  document.getElementById('dTitle').textContent=a.title;
+  document.getElementById('dContent').textContent=a.content||'(No content)';
+  document.getElementById('dMeta').textContent=`Created ${fmtDate(a.createdAt)} · ${a.assignee||settings.userName}`;
+  const chips=[
+    `<span class="chip" style="background:${S_COLORS[a.status||'Backlog']}22;color:${S_COLORS[a.status||'Backlog']}">${a.status||'Backlog'}</span>`,
+    `<span class="chip" style="background:${P_COLORS[a.priority||'Medium']}22;color:${P_COLORS[a.priority||'Medium']}">${a.priority||'Medium'} Priority</span>`,
+    ...(a.labels||[]).map(l=>`<span class="chip" style="background:${l.color}22;color:${l.color}">${l.text}</span>`)
+  ];
+  document.getElementById('dChips').innerHTML=chips.join('');
+  document.getElementById('detailModal').classList.add('show');
+}
+function closeDetail(){ document.getElementById('detailModal').classList.remove('show'); detailId=null; }
+function editDetail(){ if(detailId) openEdit(detailId); }
+function copyDetail(){
+  const a=artifacts.find(x=>x.id===detailId);
+  if(a) navigator.clipboard.writeText(a.content||'').then(()=>toast('Copied','ok'));
+}
+function deleteDetail(){
+  if(!detailId) return;
+  showConfirm('Move to Trash?','The tile will be moved to trash and can be restored later.',()=>{ moveToTrash(detailId); closeDetail(); });
+}
+
+// ── Trash Logic ──
+function moveToTrash(id) {
+  const idx=artifacts.findIndex(a=>a.id===id); if(idx===-1) return;
+  const [a]=artifacts.splice(idx,1);
+  a.deletedAt=new Date().toISOString();
+  trash.unshift(a);
+  try{ miniSearch.remove({id}); }catch(e){}
+  saveArts(); saveTrashLS();
+  toast('Moved to Trash','info');
+  rerender();
+}
+
+function restoreArtifact(id){
+  const idx=trash.findIndex(a=>a.id===id); if(idx===-1) return;
+  const [a]=trash.splice(idx,1);
+  delete a.deletedAt;
+  a.updatedAt=new Date().toISOString();
+  artifacts.unshift(a);
+  miniSearch.add(toDoc(a));
+  saveArts(); saveTrashLS();
+  renderTrash();
+  toast('Restored!','ok');
+}
+
+function permDelete(id){
+  showConfirm('Delete Forever?','This cannot be undone. The tile will be permanently removed.',()=>{
+    trash=trash.filter(a=>a.id!==id);
+    saveTrashLS();
+    renderTrash();
+    toast('Permanently deleted','err');
+  });
+}
+
+function emptyTrash(){
+  if(!trash.length){ toast('Trash is already empty','info'); return; }
+  showConfirm('Empty Trash?',`${trash.length} tile${trash.length!==1?'s':''} will be permanently deleted.`,()=>{
+    trash=[];
+    saveTrashLS();
+    renderTrash();
+    toast('Trash emptied','info');
+  });
+}
+
+// ── Confirm Modal ──
+function showConfirm(title,msg,onYes){
+  document.getElementById('cfmTitle').textContent=title;
+  document.getElementById('cfmMsg').textContent=msg;
+  document.getElementById('cfmYes').onclick=()=>{ closeConfirm(); onYes(); };
+  document.getElementById('confirmModal').classList.add('show');
+}
+function closeConfirm(){ document.getElementById('confirmModal').classList.remove('show'); }
+
+// ── Export / Import ──
+function exportAll(){
+  if(!artifacts.length){ toast('Nothing to export','err'); return; }
+  downloadJson(artifacts,`alkembic-${new Date().toISOString().slice(0,10)}.json`);
+  toast(`Exported ${artifacts.length} tiles`,'ok');
+}
+function downloadJson(data,fname){
+  const b=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const u=URL.createObjectURL(b),a=document.createElement('a');
+  a.href=u; a.download=fname; a.click(); URL.revokeObjectURL(u);
+}
+function triggerImport(){ document.getElementById('importFile').click(); }
+function importData(e){
+  const file=e.target.files[0]; if(!file) return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    try{
+      const data=JSON.parse(ev.target.result);
+      if(!Array.isArray(data)) throw new Error();
+      const existing=new Set(artifacts.map(a=>a.id));
+      const fresh=data.filter(a=>!existing.has(a.id));
+      artifacts=[...fresh,...artifacts];
+      initSearch(); saveArts();
+      rerender();
+      toast(`Imported ${fresh.length} tile${fresh.length!==1?'s':''}`,'ok');
+    }catch{ toast('Import failed — invalid file','err'); }
+    e.target.value='';
+  };
+  r.readAsText(file);
+}
+
+// ── Toast ──
+function toast(msg,type='ok'){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.className=type;
+  void el.offsetWidth; el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),2600);
+}
+
+// ── Utils ──
+function escHtml(str){ const d=document.createElement('div'); d.appendChild(document.createTextNode(str||'')); return d.innerHTML; }
+
+// ── Backdrop / Keyboard ──
+document.getElementById('createModal').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeCreate(); });
+document.getElementById('detailModal').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeDetail(); });
+document.getElementById('confirmModal').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeConfirm(); });
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){ closeCreate(); closeDetail(); closeConfirm(); }
+  if(e.key==='n'&&!e.ctrlKey&&!e.metaKey&&document.activeElement.tagName==='BODY') openCreate();
+});
+
+// ── Boot ──
+init();
+</script>
+</body>
+</html>
