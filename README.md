@@ -2,7 +2,7 @@
 Alkembic PlugnPlay smart is utility tool exclusive for Smart Scrum Master who led their teams and automate mundane tasks
 
 Alkembic Ace Edition 
-Version : 0.5.2
+Version : 0.5.3
 Standard Release : April 2026
 OVERVIEW
 --------
@@ -21,10 +21,12 @@ visual clarity — without breaking existing workflows.
 
 ------------------------------------------------------------
 
-WHAT’S NEW IN ACE v0.5.2
+WHAT’S NEW IN ACE v0.5.3
 -----------------------
 
 🆕 ACE FEATURES (Additive)
+• Login by name (New)
+  - Stores your username and creates new account if new user
 • Brightness Slider (New)
   - Fine‑grained brightness control layered over themes
   - Non‑intrusive CSS filter approach
