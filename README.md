@@ -1,6 +1,46 @@
 # Alkembic1
 Alkembic PlugnPlay smart is utility tool exclusive for Smart Scrum Master who led their teams and automate mundane tasks
 
+Alkembic Ace Edition 
+Version : 0.5.2
+Standard Release : April 2026
+OVERVIEW
+--------
+Alkembic Ace is an offline‑first leadership and knowledge
+management tool designed primarily for Scrum Masters,
+Agile Leaders, and Delivery Managers.
+
+It enables structured thinking, people‑aware tracking,
+and zero‑cloud personal data control through a Kanban-
+centric experience enriched with dashboards, timelines,
+and exports.
+
+This version (Ace v0.5.2) builds on Alkembic Core by adding
+UX polish, adaptive appearance controls, and executive‑grade
+visual clarity — without breaking existing workflows.
+
+------------------------------------------------------------
+
+WHAT’S NEW IN ACE v0.5.2
+-----------------------
+
+🆕 ACE FEATURES (Additive)
+• Brightness Slider (New)
+  - Fine‑grained brightness control layered over themes
+  - Non‑intrusive CSS filter approach
+  - Persists user preference in localStorage
+  - Does NOT modify existing theme logic
+
+• Glassmorphism Footer Tile (New)
+  - Floating glass‑effect footer
+  - Golden mono typography (JetBrains Mono)
+  - Branding + documentation link
+  - Dark‑mode friendly with backdrop blur
+
+• Identity Branding Updates
+  - “Alkembic Ace” product naming
+  - Version badge clarity across login, topbar, footer
+
 Alkembic Version 0.3
 👥 People Involved Field
 In the create/edit modal:
