@@ -1,306 +1,713 @@
 <!--
 ════════════════════════════════════════════════════════════
-⚗ Alkembic Ace Edition v1.0.0
+⚗ Alkembic Ace Edition v1.2.0
 Leadership Intelligence Platform
 Zero‑Cloud | Offline‑First | Folder or IndexedDB
 ════════════════════════════════════════════════════════════
--->
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
-<title>Alkembic Ace v1.0.0</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/minisearch@6.3.0/dist/umd/index.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<style>
-/* ═══════ TOKENS (full theme as before) ═══════ */
-:root{--tr:all 0.2s ease;}
-[data-theme="dark"]{
-  --bg:#080c12;--sf:#0e1420;--card:#13192a;--card2:#171f30;
-  --bd:#1e2a3d;--bd2:#26354d;
-  --am:#f0a500;--am2:#f7c040;--amd:rgba(240,165,0,.15);
-  --gr:#1db87a;--rd:#e8445a;--bl:#3d8ef0;--pu:#8b5cf6;--or:#f06040;
-  --tx:#7a8fa8;--mu:#334455;--hd:#d8e3f0;
-  --sh:0 8px 32px rgba(0,0,0,.6);
-  --ibg:#0a0f1a;
-}
-[data-theme="light"]{
-  --bg:#f4f7fb;--sf:#ffffff;--card:#ffffff;--card2:#f9fbff;
-  --bd:#dde6f0;--bd2:#c8d8e8;
-  --am:#d4870a;--am2:#b86f00;--amd:rgba(212,135,10,.12);
-  --gr:#16a35a;--rd:#d03050;--bl:#2260d0;--pu:#7040e0;--or:#d04020;
-  --tx:#4a6070;--mu:#9ab0c0;--hd:#1a2530;
-  --sh:0 4px 20px rgba(0,0,0,.08);
-  --ibg:#f0f4fa;
-}
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html{height:100%;font-size:14px;}
-body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;height:100%;display:flex;flex-direction:column;overflow:hidden;transition:background .25s,color .25s;}
-::-webkit-scrollbar{width:4px;height:4px;}
-::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px;}
-input,button,select,textarea{font-family:'Inter',sans-serif;}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+  <title>⚗ Alkembic Ace v1.2</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+  <style>
+    :root { --tr: all 0.2s ease; --radius: 12px; }
+    [data-theme="dark"] {
+      --bg: #06080f; --sf: #0c1220; --card: #101827; --card2: #141f30;
+      --bd: #1c2a3e; --bd2: #243448;
+      --am: #f0a500; --gr: #00e676; --rd: #ff3860; --bl: #448aff;
+      --pu: #d050ff; --cy: #00e5ff; --or: #ff6d00;
+      --tx: #b8c7da; --hd: #dce8f8; --mu: #6a7d94;
+      --ibg: #080e18;
+      --neon-am: 0 0 16px rgba(240,165,0,0.5), 0 0 32px rgba(240,165,0,0.2);
+      --neon-gr: 0 0 16px rgba(0,230,118,0.4);
+      --neon-rd: 0 0 16px rgba(255,56,96,0.4);
+      --neon-bl: 0 0 16px rgba(68,138,255,0.4);
+      --neon-cy: 0 0 16px rgba(0,229,255,0.4);
+      --amd: rgba(240,165,0,0.12);
+    }
+    [data-theme="light"] {
+      --bg: #f1f5f9; --sf: #ffffff; --card: #ffffff; --card2: #f8fafc;
+      --bd: #e2e8f0; --bd2: #cbd5e1;
+      --am: #d4870a; --gr: #059669; --rd: #dc2626; --bl: #2563eb;
+      --pu: #7c3aed; --cy: #06b6d4; --or: #ea580c;
+      --tx: #334155; --hd: #0f172a; --mu: #94a3b8;
+      --ibg: #e2e8f0;
+      --neon-am: 0 0 12px rgba(212,135,10,0.4);
+      --neon-gr: 0 0 12px rgba(5,150,105,0.4);
+      --neon-rd: 0 0 12px rgba(220,38,38,0.4);
+      --neon-bl: 0 0 12px rgba(37,99,235,0.4);
+      --neon-cy: 0 0 12px rgba(6,182,212,0.4);
+      --amd: rgba(212,135,10,0.08);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body { height:100%; font-family:'Inter',sans-serif; font-size:14px; }
+    body {
+      background: var(--bg); color: var(--tx); display:flex; flex-direction:column;
+      overflow:hidden; transition: background 0.3s, color 0.3s;
+    }
+    ::-webkit-scrollbar { width:6px; height:6px; }
+    ::-webkit-scrollbar-thumb { background: var(--bd2); border-radius:3px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    input,button,select,textarea { font-family:inherit; }
+    a { color:var(--am); cursor:pointer; text-decoration:none; }
+    table { width:100%; border-collapse:collapse; }
+    th, td { padding:8px 10px; text-align:left; border-bottom:1px solid var(--bd); font-size:0.85rem; }
+    th { color:var(--am); font-family:'JetBrains Mono',monospace; font-size:0.75rem; text-transform:uppercase; }
+    h3 { color:var(--hd); margin-bottom:8px; }
 
-/* (All previous CSS from v0.6.0 – kanban, modals, etc. – included in final file for brevity in this response, I'll summarize) */
-/* I'll add the new workspace/profile/calendar styles and keep the rest compact. For full completeness, the entire CSS block from v0.6.0 is present in the actual code below. */
-/* In this response, I'll include the essential new styles + a note that the rest is identical. */
-/* (To keep the answer manageable, I'll state that the CSS from v0.6.0 is unchanged and present, then add new styles.) */
+    .topbar::after {
+      content: ''; position: absolute; left:0; right:0; bottom:0; height:1px;
+      background: linear-gradient(90deg, transparent, var(--am), var(--cy), transparent);
+      opacity:0.4; pointer-events:none;
+    }
+    .topbar { position:relative; display:flex; align-items:center; gap:10px;
+      padding:0 16px; height:56px; background:var(--sf); border-bottom:1px solid var(--bd);
+      flex-shrink:0; z-index:10; }
+    .logo { font-family:'Syne',sans-serif; font-weight:800; font-size:1.4rem;
+      color:var(--am); text-shadow: var(--neon-am); white-space:nowrap; cursor:pointer; }
+    .desktop-tabs { display:flex; gap:4px; flex:1; overflow-x:auto; }
+    .tab { padding:8px 16px; border-radius:8px; font-weight:600; color:var(--tx);
+      background:transparent; transition:var(--tr); white-space:nowrap; cursor:pointer; font-size:0.88rem; }
+    .tab:hover { color:var(--am); }
+    .tab.active { background:var(--amd); color:var(--am); }
 
-/* NEW: Workspace Setup, Profiles, Scanner, Calendar Ribbon, Dashboard Manager */
-.workspace-setup { max-width: 500px; margin: 0 auto; padding: 20px; }
-.profile-card { background: var(--card); border:1px solid var(--bd2); border-radius:16px; padding:24px; text-align:center; cursor:pointer; transition: var(--tr); margin-bottom:12px; }
-.profile-card:hover { border-color: var(--am); }
-.profile-avatar { font-size:40px; margin-bottom:8px; }
-.scan-progress { margin:10px 0; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--mu); }
-.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap:2px; }
-.calendar-day { background: var(--card); border:1px solid var(--bd); border-radius:4px; min-height:80px; padding:4px; cursor:pointer; position: relative; }
-.calendar-day:hover { background: var(--card2); }
-.calendar-day.other-month { opacity:0.4; }
-.day-number { font-size:12px; font-weight:600; color:var(--hd); margin-bottom:4px; }
-.event-ribbon { height:4px; border-radius:2px; margin-bottom:2px; }
-.dashboard-tabs { display:flex; gap:6px; overflow-x:auto; padding:8px 0; }
-.dash-tab { padding:6px 12px; background:var(--card); border:1px solid var(--bd); border-radius:8px; cursor:pointer; font-size:12px; white-space:nowrap; color:var(--mu); transition:var(--tr); }
-.dash-tab.active { background:var(--am); color:#080c12; border-color:var(--am); font-weight:600; }
-.dash-tab:hover:not(.active) { border-color:var(--am); color:var(--am); }
-/* ... all other existing styles retained ... */
-</style>
+    .user-badge { padding:4px 12px; background:var(--card); border:1px solid var(--bd);
+      border-radius:20px; display:flex; align-items:center; gap:6px; cursor:pointer; font-size:0.85rem; color:var(--hd); }
+    .btn { display:inline-flex; align-items:center; gap:6px; padding:8px 16px;
+      border-radius:8px; font-weight:600; background:var(--am); color:#06080f;
+      border:none; cursor:pointer; transition:var(--tr); font-size:0.85rem; }
+    .btn:hover { box-shadow:var(--neon-am); transform:translateY(-1px); }
+    .btn-outline { background:transparent; border:1px solid var(--am); color:var(--am); }
+    .btn-outline:hover { background:var(--amd); }
+    .btn-ghost { background:transparent; color:var(--mu); border:1px solid var(--bd); }
+    .btn-ghost:hover { color:var(--am); border-color:var(--am); }
+    .btn-danger { background:var(--rd); color:#fff; }
+    .btn-danger:hover { box-shadow:var(--neon-rd); }
+    .btn-sm { padding:5px 10px; font-size:0.78rem; }
+
+    .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:9998;
+      display:flex; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(4px); }
+    .modal-content { background:var(--sf); border:1px solid var(--bd2); border-radius:16px;
+      padding:24px; width:100%; max-width:520px; max-height:90vh; overflow-y:auto; }
+
+    .setup-card {
+      background:var(--sf); border-radius:24px; padding:32px; width:100%; max-width:440px;
+      box-shadow:0 0 30px rgba(0,0,0,0.5); border:1px solid var(--bd2);
+      position:relative; overflow:hidden;
+    }
+    .setup-card::before {
+      content:''; position:absolute; top:0; left:0; width:100%; height:2px;
+      background: linear-gradient(90deg, var(--am), var(--cy), var(--pu), var(--am));
+      background-size:200% 100%; animation: shimmer 3s linear infinite;
+    }
+    .setup-card h2 { color:var(--am); font-family:'Syne',sans-serif; margin-bottom:8px; }
+    .setup-card p { color:var(--mu); margin-bottom:16px; font-size:0.88rem; }
+    .setup-card input { width:100%; padding:10px 12px; margin:6px 0;
+      background:var(--ibg); border:1px solid var(--bd); color:var(--hd);
+      border-radius:8px; font-size:0.9rem; transition:var(--tr); }
+    .setup-card input:focus { outline:none; border-color:var(--am); box-shadow:var(--neon-am); }
+    @keyframes shimmer { 0%{background-position:200% 0;} 100%{background-position:0 0;} }
+
+    .section-card { background:var(--card); border:1px solid var(--bd); border-radius:12px; padding:20px; }
+
+    .stat-card {
+      background:var(--card); border:1px solid var(--bd2); border-radius:12px;
+      padding:18px; position:relative; transition:var(--tr); overflow:hidden;
+    }
+    .stat-card h3 { color:var(--hd); font-size:1.8rem; font-family:'Syne',sans-serif; margin-bottom:4px; }
+    .stat-card { font-size:0.78rem; color:var(--mu); text-transform:uppercase; letter-spacing:1px; font-family:'JetBrains Mono',monospace; }
+    .stat-card:hover { transform:translateY(-2px); box-shadow:0 4px 20px rgba(0,0,0,0.3); }
+    .stat-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; }
+    .stat-card.am::before { background:var(--am); } .stat-card.gr::before { background:var(--gr); }
+    .stat-card.bl::before { background:var(--bl); } .stat-card.pu::before { background:var(--pu); }
+    .stat-card.cy::before { background:var(--cy); }
+
+    .toggle-switch { position:relative; display:inline-block; width:46px; height:24px; flex-shrink:0; }
+    .toggle-switch input { opacity:0; width:0; height:0; }
+    .toggle-track {
+      position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0;
+      background:var(--bd2); border-radius:24px; transition:0.3s;
+    }
+    .toggle-track::after {
+      content:""; position:absolute; height:18px; width:18px; left:3px; top:3px;
+      background:#fff; border-radius:50%; transition:0.3s;
+    }
+    .toggle-switch input:checked + .toggle-track { background:var(--am); box-shadow:var(--neon-am); }
+    .toggle-switch input:checked + .toggle-track::after { transform:translateX(22px); background:#06080f; }
+
+    .kanban-board { display:flex; gap:12px; overflow-x:auto; padding-bottom:8px; }
+    .kanban-col { flex:1 1 280px; min-width:280px; max-width:380px; background:var(--card);
+      border:1px solid var(--bd2); border-radius:12px; padding:12px;
+      display:flex; flex-direction:column; transition:var(--tr); }
+    .kanban-col.drag-over { border-color:var(--am); box-shadow:var(--neon-am); }
+    .col-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+    .col-title { display:flex; align-items:center; gap:8px; font-weight:700; text-transform:uppercase; font-size:0.82rem; color:var(--hd); }
+    .col-dot { width:8px; height:8px; border-radius:50%; }
+    .col-todo .col-dot { background:var(--am); } .col-inprogress .col-dot { background:var(--bl); }
+    .col-done .col-dot { background:var(--gr); }
+    .col-count { font-family:'JetBrains Mono',monospace; font-size:0.78rem; color:var(--mu);
+      padding:2px 8px; background:var(--card2); border-radius:10px; }
+
+    .kanban-card { background:var(--card2); border:1px solid var(--bd); border-radius:10px;
+      padding:12px; margin-bottom:10px; cursor:grab; transition:var(--tr); }
+    .kanban-card:hover { transform:translateY(-1px); }
+    .kanban-card[data-priority="critical"]:hover { border-color:var(--rd); box-shadow:var(--neon-rd); }
+    .kanban-card[data-priority="high"]:hover { border-color:var(--or); }
+    .kanban-card[data-priority="medium"]:hover { border-color:var(--am); box-shadow:var(--neon-am); }
+    .kanban-card[data-priority="low"]:hover { border-color:var(--gr); box-shadow:var(--neon-gr); }
+
+    .label-tag {
+      font-family:'JetBrains Mono',monospace; font-size:0.66rem; text-transform:uppercase;
+      letter-spacing:0.5px; padding:2px 8px; border-radius:4px; border:1px solid currentColor;
+      background: transparent; position:relative; display:inline-block;
+    }
+    .label-tag::before {
+      content:""; position:absolute; inset:0; background:currentColor;
+      opacity:0.12; border-radius:2px;
+    }
+    .people-tag { display:inline-block; padding:2px 8px; background:var(--card); border:1px solid var(--bd);
+      border-radius:4px; font-size:0.72rem; color:var(--hd); }
+    .people-tag .role { color:var(--mu); font-size:0.66rem; }
+    .color-0{color:var(--cy)} .color-1{color:var(--pu)} .color-2{color:var(--bl)}
+    .color-3{color:var(--or)} .color-4{color:var(--gr)} .color-5{color:var(--am)}
+
+    .drop-zone-empty {
+      border:2px dashed var(--bd); border-radius:10px; padding:24px 12px;
+      text-align:center; color:var(--mu); transition:var(--tr); cursor:pointer;
+    }
+    .drop-zone-empty:hover { border-color:var(--am); color:var(--am); background:var(--amd); }
+    .dz-icon { font-size:1.6rem; margin-bottom:4px; }
+    .dz-text { font-family:'JetBrains Mono',monospace; font-size:0.78rem; }
+
+    .console-bar {
+      position:fixed; bottom:36px; left:0; right:0; background:var(--sf);
+      border-top:1px solid var(--bd); z-index:50; transition:height 0.3s;
+    }
+    .console-main { display:flex; align-items:center; padding:6px 16px; gap:8px; }
+    .console-input {
+      flex:1; background:var(--ibg); border:1px solid var(--bd); color:var(--hd);
+      padding:6px 10px; border-radius:6px; font-family:'JetBrains Mono',monospace; font-size:0.82rem;
+    }
+    .console-input:focus { outline:none; border-color:var(--am); }
+    .console-log {
+      max-height:120px; overflow-y:auto; padding:6px 16px;
+      font-family:'JetBrains Mono',monospace; font-size:0.75rem; display:none;
+      border-top:1px solid var(--bd);
+    }
+    .console-bar.has-log .console-log { display:block; }
+    .log-line { padding:1px 0; }
+    .log-line.success { color:var(--gr); } .log-line.error { color:var(--rd); }
+    .log-line.info { color:var(--cy); } .log-line.warn { color:var(--am); }
+
+    .app-footer {
+      position:fixed; bottom:0; left:0; right:0; height:36px;
+      background:var(--ibg); border-top:1px solid var(--bd);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 16px; z-index:40;
+    }
+    .footer-brand { font-family:'Syne',sans-serif; font-size:0.85rem; color:var(--am); font-weight:700; }
+    .footer-stats { display:flex; gap:16px; font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:var(--mu); }
+    .footer-clock { font-family:'JetBrains Mono',monospace; font-size:0.78rem; color:var(--am); font-weight:600; }
+    .autosave-dot { width:6px; height:6px; border-radius:50%; background:var(--gr); animation:pulse 2s infinite; }
+
+    .main-area { flex:1; overflow-y:auto; padding:16px; padding-bottom:calc(52px + 36px + 24px); }
+    .view { display:none; }
+    .view.active { display:block; animation:fadeIn 0.3s; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+    @keyframes pulse { 0%{opacity:1;} 50%{opacity:0.5;} 100%{opacity:1;} }
+
+    .filter-chip {
+      padding:5px 12px; border-radius:20px; font-size:0.76rem; border:1px solid var(--bd);
+      background:transparent; color:var(--mu); cursor:pointer; transition:var(--tr);
+      font-family:'JetBrains Mono',monospace;
+    }
+    .filter-chip:hover { border-color:var(--am); color:var(--am); }
+    .filter-chip.active { background:var(--amd); border-color:var(--am); color:var(--am); }
+
+    /* Enhanced Timeline Styles */
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+    }
+    .cal-header {
+      font-weight: 700;
+      padding: 6px;
+      color: var(--am);
+      font-size: 0.75rem;
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .cal-day {
+      min-height: 74px;
+      padding: 6px;
+      background: var(--card);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: var(--tr);
+      border: 1px solid transparent;
+      position: relative;
+    }
+    .cal-day:hover { border-color: var(--am); }
+    .cal-day.today { border: 1px solid var(--am); box-shadow: var(--neon-am); }
+    .cal-day.range-start { outline: 2px solid var(--cy); outline-offset: -2px; background: var(--amd); }
+    .cal-day.empty { background: transparent; cursor: default; }
+    .day-num { font-size: 0.78rem; font-weight: 600; color: var(--hd); margin-bottom: 4px; }
+    .ribbon-wrap { margin-top: 4px; }
+    .day-ribbon {
+      height: 4px;
+      border-radius: 2px;
+      margin: 2px 0;
+      transition: transform 0.15s;
+    }
+    .day-ribbon:hover { transform: scaleY(2.5); }
+    .day-ribbon-label {
+      font-size: 0.58rem;
+      cursor: pointer;
+      line-height: 1.2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .form-grid-full { grid-column:1 / -1; }
+    .form-field { display:flex; flex-direction:column; gap:4px; }
+    .form-field label { font-size:0.74rem; color:var(--mu); font-family:'JetBrains Mono',monospace;
+      text-transform:uppercase; letter-spacing:0.5px; }
+    .form-input { padding:8px 10px; background:var(--ibg); border:1px solid var(--bd);
+      color:var(--hd); border-radius:6px; font-size:0.88rem; font-family:inherit; }
+    .form-input:focus { outline:none; border-color:var(--am); box-shadow:0 0 0 2px var(--amd); }
+    textarea.form-input { resize:vertical; min-height:60px; }
+
+    .settings-row { display:flex; justify-content:space-between; align-items:center;
+      padding:10px 0; gap:12px; border-bottom:1px solid var(--bd); }
+    .settings-row:last-child { border-bottom:none; }
+    .settings-row > span:first-child { color:var(--hd); font-size:0.88rem; flex:1; }
+    .settings-row select, .settings-row input[type="text"], .settings-row input[type="password"] {
+      padding:6px 10px; border:1px solid var(--bd); border-radius:8px;
+      background:var(--ibg); color:var(--hd); font-size:0.85rem;
+    }
+    .settings-section-title { font-family:'JetBrains Mono',monospace; font-size:0.7rem;
+      color:var(--am); text-transform:uppercase; letter-spacing:1px; margin:16px 0 8px; }
+
+    .hidden { display:none !important; }
+
+    /* Mobile sidebar */
+    .sidebar { position:fixed; top:0; left:0; width:280px; height:100%;
+      background:var(--sf); border-right:1px solid var(--bd); z-index:101;
+      transform:translateX(-100%); transition:0.3s; padding:20px; overflow-y:auto; }
+    .sidebar.open { transform:translateX(0); }
+    .sidebar-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.6);
+      z-index:100; display:none; backdrop-filter:blur(2px); }
+    .sidebar-overlay.show { display:block; }
+    .sidebar h3 { font-family:'Syne',sans-serif; color:var(--am); margin-bottom:20px;
+      padding-bottom:12px; border-bottom:1px solid var(--bd); }
+    .sidebar-item { display:flex; align-items:center; gap:10px;
+      padding:12px 14px; border-radius:8px; cursor:pointer; transition:var(--tr);
+      color:var(--tx); font-weight:600; margin-bottom:4px; font-size:0.95rem;
+      list-style:none; border:none; background:transparent; width:100%; text-align:left; }
+    .sidebar-item:hover { background:var(--card); color:var(--am); }
+    .sidebar-item.active { background:var(--amd); color:var(--am); }
+    .sidebar-item .icon { font-size:1.1rem; width:24px; text-align:center; }
+
+    .hamburger { display:none; font-size:1.6rem; background:none; border:none;
+      color:var(--am); cursor:pointer; padding:4px 8px; }
+
+    .mobile-tabbar { display:none; position:fixed; bottom:36px; left:0; right:0;
+      background:var(--sf); border-top:1px solid var(--bd); z-index:55;
+      padding:4px 0; }
+    .mobile-tabbar-inner { display:flex; justify-content:space-around; }
+    .mtab { flex:1; display:flex; flex-direction:column; align-items:center; gap:2px;
+      padding:6px 4px; cursor:pointer; color:var(--mu); transition:var(--tr);
+      background:none; border:none; }
+    .mtab:active { transform:scale(0.94); }
+    .mtab.active { color:var(--am); }
+    .mtab .mt-icon { font-size:1.1rem; }
+    .mtab .mt-label { font-size:0.62rem; font-family:'JetBrains Mono',monospace;
+      text-transform:uppercase; letter-spacing:0.5px; }
+
+    .card-action-btn { width:26px; height:26px; border:none; background:var(--card);
+      color:var(--mu); border-radius:5px; cursor:pointer; transition:var(--tr); font-size:0.85rem; }
+    .card-action-btn:hover { background:var(--am); color:#000; }
+
+    @media (max-width:768px) {
+      .hamburger { display:block; }
+      .desktop-tabs { display:none; }
+      .kanban-board { flex-direction:column; }
+      .kanban-col { max-width:none; }
+      .mobile-tabbar { display:block; }
+      .console-bar { bottom:calc(36px + 56px); }
+      .main-area { padding-bottom:calc(36px + 56px + 60px); }
+      .modal-content { padding:16px; }
+      .form-grid { grid-template-columns:1fr; }
+      .topbar { padding:0 10px; gap:6px; }
+      .logo { font-size:1.15rem; }
+      .user-badge { padding:3px 8px; font-size:0.78rem; }
+    }
+  </style>
 </head>
 <body>
+  <!-- Setup screen -->
+  <div id="setupScreen" class="modal-overlay">
+    <div class="setup-card" id="setupContent"></div>
+  </div>
 
-<!-- SETUP SCREEN (first-time workspace / profile setup) -->
-<div id="setupScreen" style="position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column;">
-  <div id="setupContent" class="workspace-setup"></div>
-</div>
+  <!-- Hidden file input for import -->
+  <input type="file" id="importFileInput" accept=".json" style="display:none" onchange="importWorkspaceFile(event)">
 
-<!-- MAIN APP (hidden until setup complete) -->
-<div id="appContainer" style="display:none;flex-direction:column;height:100%;">
-  <!-- TOPBAR (same as v0.6 but with dashboard selector) -->
-  <div id="topbar">
-    <button class="ham-btn" id="hamBtn">☰</button>
-    <div class="logo" onclick="switchView('dashboard')">⚗ Alkembic <span class="logo-ver">Ace v1.0.0</span></div>
-    <div class="ubadge" id="ubadge"></div>
-    <div class="dtabs">
-      <button class="dtab" id="tab-dashboard" onclick="switchView('dashboard')">⊡ Dashboard</button>
-      <button class="dtab active" id="tab-kanban" onclick="switchView('kanban')">⊞ Board</button>
-      <button class="dtab" id="tab-timeline" onclick="switchView('timeline')">↕ Timeline</button>
-      <button class="dtab" id="tab-trash" onclick="switchView('trash')">🗑 Trash</button>
-      <button class="dtab" id="tab-dashboards" onclick="switchView('dashboards')">📊 Dashboards</button>
-      <button class="dtab" id="tab-calendar" onclick="switchView('calendar')">📅 Calendar</button>
+  <!-- Mobile sidebar -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <div class="sidebar" id="sidebar">
+    <h3>⚗ Alkembic</h3>
+    <button class="sidebar-item" data-view="dashboard" onclick="switchView('dashboard')"><span class="icon">📊</span>Dashboard</button>
+    <button class="sidebar-item" data-view="board" onclick="switchView('board')"><span class="icon">📋</span>Board</button>
+    <button class="sidebar-item" data-view="timeline" onclick="switchView('timeline')"><span class="icon">📅</span>Timeline</button>
+    <button class="sidebar-item" data-view="analytics" onclick="switchView('analytics')"><span class="icon">📈</span>Analytics</button>
+    <button class="sidebar-item" data-view="trash" onclick="switchView('trash')"><span class="icon">🗑</span>Trash</button>
+    <div style="height:1px;background:var(--bd);margin:12px 0;"></div>
+    <button class="sidebar-item" onclick="openSettings();toggleSidebar();"><span class="icon">⚙️</span>Settings</button>
+    <button class="sidebar-item" onclick="logout()"><span class="icon">🚪</span>Logout</button>
+  </div>
+
+  <!-- Main app -->
+  <div id="appContainer" style="display:none; flex-direction:column; height:100%;">
+    <div class="topbar">
+      <button class="hamburger" onclick="toggleSidebar()">☰</button>
+      <div class="logo" onclick="switchView('dashboard')">⚗ Alkembic <small style="font-size:0.62rem;color:var(--mu);margin-left:4px;">v1.0</small></div>
+      <div class="desktop-tabs" id="desktopNav">
+        <div class="tab active" data-view="dashboard" onclick="switchView('dashboard')">📊 Dashboard</div>
+        <div class="tab" data-view="board" onclick="switchView('board')">📋 Board</div>
+        <div class="tab" data-view="timeline" onclick="switchView('timeline')">📅 Timeline</div>
+        <div class="tab" data-view="analytics" onclick="switchView('analytics')">📈 Analytics</div>
+        <div class="tab" data-view="trash" onclick="switchView('trash')">🗑 Trash</div>
+      </div>
+      <button class="btn btn-sm btn-ghost" onclick="openSettings()">⚙️</button>
+      <div class="user-badge" id="ubadge" onclick="logout()" title="Click to logout">👤 <span id="userNameDisplay"></span></div>
     </div>
-    <input type="text" id="srchBar" placeholder="Search… ( / )" oninput="doSearch(this.value)"/>
-    <button class="icon-btn" onclick="openSettings()">⚙ Settings</button>
-    <button class="icon-btn" onclick="triggerImport()">⬆ Import</button>
-    <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)"/>
-    <button class="new-btn" onclick="openCreate()">+ New Tile</button>
+
+    <div class="main-area">
+      <!-- Dashboard view -->
+      <div id="view-dashboard" class="view active">
+        <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:12px; margin-bottom:16px;">
+          <div class="stat-card am"><h3 id="statCards">0</h3>Cards</div>
+          <div class="stat-card gr"><h3 id="statDone">0</h3>Done</div>
+          <div class="stat-card bl"><h3 id="statEvents">0</h3>Events</div>
+          <div class="stat-card pu"><h3 id="statImports">0</h3>Imports</div>
+          <div class="stat-card cy"><h3 id="statTrash">0</h3>Trash</div>
+        </div>
+        <div style="display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap;">
+          <input type="file" id="fileImport" accept=".txt,.csv,.xlsx,.xls" onchange="handleFileImport(event)" hidden>
+          <button class="btn" onclick="document.getElementById('fileImport').click()">📄 Import Data</button>
+          <button class="btn btn-outline" onclick="exportTilesTable()">📋 Export CSV</button>
+        </div>
+        <div class="section-card" style="margin-bottom:16px;">
+          <h3 style="font-family:'Syne',sans-serif;font-size:1rem;margin-bottom:12px;">Data Overview</h3>
+          <canvas id="overviewChart" height="100"></canvas>
+        </div>
+        <div class="section-card" style="margin-bottom:16px;">
+          <h3 style="font-family:'Syne',sans-serif;font-size:1rem;margin-bottom:12px;">Imported Data (editable)</h3>
+          <div style="overflow-x:auto;"><table id="importedTable"><thead><tr><th>Label</th><th>Value</th></tr></thead><tbody></tbody></table></div>
+          <button class="btn btn-sm" onclick="saveEditableTable()" style="margin-top:8px;">💾 Save</button>
+        </div>
+        <div class="section-card">
+          <h3 style="font-family:'JetBrains Mono',monospace; font-size:0.8rem; color:var(--mu); margin-bottom:12px;">📜 Activity Feed</h3>
+          <div id="activityFeed"></div>
+        </div>
+      </div>
+
+      <!-- Board view -->
+      <div id="view-board" class="view">
+        <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:16px;">
+          <button class="btn" onclick="openCreateCard()">⊕ New Card</button>
+          <input type="text" id="kanbanSearch" placeholder="🔍 Search..." oninput="renderKanban()" style="padding:8px 14px;border:1px solid var(--bd);border-radius:20px;background:var(--ibg);color:var(--hd);font-size:0.85rem;min-width:160px;">
+          <span class="filter-chip active" data-filter="all" onclick="setFilter(this)">ALL</span>
+          <span class="filter-chip" data-filter="critical" onclick="setFilter(this)">🔴 CRIT</span>
+          <span class="filter-chip" data-filter="high" onclick="setFilter(this)">🟠 HIGH</span>
+          <span class="filter-chip" data-filter="medium" onclick="setFilter(this)">🟡 MED</span>
+          <span class="filter-chip" data-filter="low" onclick="setFilter(this)">🟢 LOW</span>
+          <select id="sortBy" onchange="renderKanban()" style="padding:7px 10px;border:1px solid var(--bd);border-radius:8px;background:var(--ibg);color:var(--hd);font-size:0.8rem;">
+            <option value="priority">Priority</option>
+            <option value="date">Due Date</option>
+            <option value="alpha">A → Z</option>
+          </select>
+        </div>
+        <div class="kanban-board" id="kanbanBoard"></div>
+      </div>
+
+      <!-- Enhanced Timeline view -->
+      <div id="view-timeline" class="view">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
+          <button class="btn btn-sm btn-outline" onclick="changeTimelineMonth(-1)">◀</button>
+          <span id="timelineMonth" style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:var(--hd);flex:1;text-align:center;"></span>
+          <button class="btn btn-sm btn-outline" onclick="changeTimelineMonth(1)">▶</button>
+          <input type="text" id="timelineFilter" placeholder="Filter..." oninput="renderTimeline()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:20px;background:var(--ibg);color:var(--hd);font-size:0.82rem;width:140px;">
+          <button class="btn btn-sm btn-ghost" onclick="clearDateRange()">✕ Range</button>
+          <button class="btn btn-sm" onclick="exportICS()">📅 ICS</button>
+        </div>
+        <div id="rangeHint" class="hidden" style="padding:10px 16px;background:var(--card2);border:1px solid var(--cy);border-radius:10px;color:var(--cy);font-family:'JetBrains Mono',monospace;font-size:0.8rem;margin-bottom:12px;">📍 Click end date to create a ribbon card. Press Esc to cancel.</div>
+        <div class="cal-grid" id="timelineCalendar"></div>
+        <div class="section-card" style="margin-top:20px;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:600;color:var(--mu);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;">Gantt View</div>
+          <div id="ganttView"></div>
+        </div>
+      </div>
+
+      <!-- Analytics view -->
+      <div id="view-analytics" class="view">
+        <div style="display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap;">
+          <input type="file" id="dashImport" accept=".txt,.csv,.xlsx,.xls" onchange="handleDashImport(event)" hidden>
+          <button class="btn" onclick="document.getElementById('dashImport').click()">📄 Import</button>
+          <select id="chartType" style="padding:8px;background:var(--ibg);border:1px solid var(--bd);color:var(--hd);border-radius:6px;">
+            <option value="bar">Bar</option>
+            <option value="line">Line</option>
+            <option value="pie">Pie</option>
+            <option value="doughnut">Doughnut</option>
+          </select>
+          <button class="btn btn-outline" onclick="applyChartTypeToLast()">🔧 Apply Type</button>
+        </div>
+        <div id="dashChartsContainer"></div>
+      </div>
+
+      <!-- Trash view -->
+      <div id="view-trash" class="view">
+        <div style="display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap;">
+          <button class="btn btn-danger" onclick="emptyTrash()">🗑 Empty All</button>
+          <button class="btn btn-outline" onclick="restoreAllTrash()">↩ Restore All</button>
+        </div>
+        <div id="trashContent"></div>
+      </div>
+    </div>
+
+    <!-- Mobile bottom tab bar -->
+    <div class="mobile-tabbar">
+      <div class="mobile-tabbar-inner">
+        <button class="mtab active" data-view="dashboard" onclick="switchView('dashboard')"><span class="mt-icon">📊</span><span class="mt-label">Dash</span></button>
+        <button class="mtab" data-view="board" onclick="switchView('board')"><span class="mt-icon">📋</span><span class="mt-label">Board</span></button>
+        <button class="mtab" data-view="timeline" onclick="switchView('timeline')"><span class="mt-icon">📅</span><span class="mt-label">Time</span></button>
+        <button class="mtab" data-view="analytics" onclick="switchView('analytics')"><span class="mt-icon">📈</span><span class="mt-label">Stats</span></button>
+        <button class="mtab" data-view="trash" onclick="switchView('trash')"><span class="mt-icon">🗑</span><span class="mt-label">Trash</span></button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div class="footer-brand">⚗ Alkembic</div>
+      <div class="footer-stats">
+        <div>📋 <span id="fCards">0</span></div>
+        <div>✅ <span id="fDone">0</span></div>
+        <div>📊 <span id="fImports">0</span></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div id="autosaveIndicator" style="display:flex;align-items:center;gap:4px;font-family:'JetBrains Mono',monospace;font-size:0.66rem;color:var(--gr);">
+          <div class="autosave-dot"></div> AUTO
+        </div>
+        <div class="footer-clock" id="footerClock">--:--:--</div>
+      </div>
+    </footer>
+
+    <!-- Console bar -->
+    <div class="console-bar" id="consoleBar">
+      <div class="console-main">
+        <span style="font-family:'JetBrains Mono',monospace;color:var(--am);font-size:0.82rem;flex-shrink:0;">⚗ $</span>
+        <input type="text" class="console-input" id="consoleInput" placeholder="color:red; bg:#0a0f19; accent:#00e5ff; theme:light | help" onkeydown="handleConsoleKey(event)">
+        <button class="btn btn-sm" onclick="runConsole()">▶</button>
+        <button class="btn btn-sm btn-ghost" onclick="toggleConsoleLog()">LOG</button>
+      </div>
+      <div class="console-log" id="consoleLog"></div>
+    </div>
   </div>
-  <!-- BULK BAR, MAIN VIEWS (kanban, dashboard, timeline, trash, dashboards, calendar) -->
-  <!-- (identical structure to v0.6.0 but with extra views) -->
-  <div id="bulkBar">...</div>
-  <div id="mainArea">
-    <div id="dashView" class="view"></div>
-    <div id="kanbanView" class="view active"></div>
-    <div id="timelineView" class="view"></div>
-    <div id="trashView" class="view"></div>
-    <div id="dashboardsView" class="view"></div>
-    <div id="calendarView" class="view"></div>
+
+  <!-- Create/Edit Card Modal -->
+  <div id="createCardModal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <h3 style="color:var(--am); margin:0;" id="cardModalTitle">New Card</h3>
+        <button onclick="closeCreateCard()" style="background:none;border:none;color:var(--mu);font-size:1.5rem;cursor:pointer;line-height:1;">×</button>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div class="form-field form-grid-full"><label>Subject *</label><input type="text" id="cardSubject" class="form-input"></div>
+        <div class="form-field form-grid-full"><label>Description</label><textarea id="cardDesc" rows="2" class="form-input"></textarea></div>
+        <div class="form-field form-grid-full"><label>People (Name Role, comma)</label><input type="text" id="cardPeople" class="form-input" placeholder="Alice Dev, Bob PM"></div>
+        <div class="form-field form-grid-full"><label>Labels (comma)</label><input type="text" id="cardLabels" class="form-input" placeholder="backend, urgent"></div>
+        <div class="form-grid">
+          <div class="form-field"><label>Story Points</label><input type="number" id="cardPoints" min="1" max="21" class="form-input"></div>
+          <div class="form-field"><label>Progress %</label><input type="number" id="cardProgress" min="0" max="100" class="form-input"></div>
+          <div class="form-field"><label>Start Date</label><input type="date" id="cardStart" class="form-input"></div>
+          <div class="form-field"><label>End Date</label><input type="date" id="cardEnd" class="form-input"></div>
+          <div class="form-field"><label>Status</label><select id="cardStatus" class="form-input"><option value="todo">To Do</option><option value="in-progress">In Progress</option><option value="done">Done</option></select></div>
+          <div class="form-field"><label>Priority</label><select id="cardPriority" class="form-input"><option value="low">🟢 Low</option><option value="medium" selected>🟡 Medium</option><option value="high">🟠 High</option><option value="critical">🔴 Critical</option></select></div>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:8px;">
+          <button class="btn btn-ghost" onclick="closeCreateCard()">Cancel</button>
+          <button class="btn" id="cardSaveBtn" onclick="saveKanbanCard()">Create</button>
+        </div>
+      </div>
+    </div>
   </div>
-  <!-- MOBILE NAV (same) -->
-  <!-- MODALS (create, detail, confirm, chart wizard, settings) -->
-  <!-- FOOTER -->
-</div>
 
-<script>
-/* ═══════════════════════════════════════════
-   ALKEMBIC ACE v1.0.0 – Complete Application
-   ═══════════════════════════════════════════ */
+  <!-- View Card Modal -->
+  <div id="viewCardModal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <div style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:var(--am);" id="viewCardTitle">Card</div>
+        <button onclick="closeViewCard()" style="background:none;border:none;color:var(--mu);font-size:1.5rem;cursor:pointer;line-height:1;">×</button>
+      </div>
+      <div id="viewCardContent"></div>
+      <hr style="border:none;border-top:1px solid var(--bd);margin:16px 0;">
+      <div><label style="font-size:0.74rem;color:var(--mu);font-family:'JetBrains Mono',monospace;">Add Comment</label><div style="display:flex;gap:8px; margin-top:6px;"><input type="text" id="commentInput" placeholder="Write a comment..." class="form-input" style="flex:1;"><button class="btn btn-sm" onclick="addComment()">Post</button></div></div>
+      <div id="commentsList" style="margin-top:12px;"></div>
+      <div style="display:flex;justify-content:space-between;gap:8px;margin-top:16px;flex-wrap:wrap;">
+        <div style="display:flex;gap:8px;"><button class="btn btn-sm" id="viewEditBtn">✏️ Edit</button><button class="btn btn-sm btn-outline" id="viewCloneBtn">📋 Clone</button></div>
+        <div style="display:flex;gap:8px;"><button class="btn btn-sm btn-ghost" onclick="closeViewCard()">Close</button><button class="btn btn-sm btn-danger" id="viewDeleteBtn">🗑 Delete</button></div>
+      </div>
+    </div>
+  </div>
 
-/* ── GLOBAL VARIABLES ── */
-const ROLES = [ /* same as before */ ];
-const STS = ['Backlog','In Progress','In Review','Done'];
-const PC = { Low:'#1db87a', Medium:'#f0a500', High:'#f06040', Critical:'#e8445a' };
-const AVC = ['#3d8ef0','#1db87a','#f0a500','#8b5cf6','#f06040','#e84393','#14b8a6','#e8445a'];
-const DC = ['Retro Notes','Sprint Summary','Impediment Log','Team Dynamics','Framework Ref','Templates','Meeting Notes','Stakeholder','Other'];
-const DL = [ /* labels */ ];
-const KS = { /* localStorage keys */ };
+  <script>
+    // ============================== FULL ALKEMBIC V1.0===============================
+    // --- Core State ---
+    function defaultSettings() { return { theme:'dark', font:'Inter', fontColor:'', bgColor:'', bgImage:'', tokenEnabled:true, autosave:true, accentColor:'#f0a500' }; }
+    function blankWorkspace() { return { name:'', password:'', token:'', cards:[], events:[], importedData:[], dashDatasets:[], settings: defaultSettings() }; }
+    let workspace = blankWorkspace();
+    let trashItems = [];
+    let activityLog = [];
+    let currentUser = null;
+    let workspaceMode = 'indexeddb';
+    let folderHandle = null;
+    let folderHandleId = null;
+    let timelineMonth = new Date().getMonth();
+    let timelineYear = new Date().getFullYear();
+    let rangeStart = null;
+    let chartInstance = null, dashChartInstances = [];
+    let autosaveInterval = null;
+    let viewingCardId = null;
+    let editingCardId = null;
+    let activeFilter = 'all';
+    let consoleHistory = [], historyIdx = -1, consoleLogVisible = false;
+    let draggedCardId = null;
 
-// State
-let arts = [], trash = [], sets = {}, cats = [], lbls = [];
-let dashCharts = [], dashGridOrder = [];  // for Dashboards view
-let cv = 'kanban', eid = null, did = null;
-let ms = null, sAct = false, sRes = [];
-let sel = new Set();
-let dCh = {}; // dashboard charts (old)
-// Workspace
-let workspaceMode = 'indexeddb'; // 'folder' or 'indexeddb'
-let workspaceHandle = null;      // FileSystemDirectoryHandle (if folder mode)
-let currentUserProfile = null;
-let profileId = null;
-let encryptionKey = null;        // CryptoKey (if encryption enabled)
+    // --- IndexedDB for folder handles ---
+    const IDB_NAME = 'alkembic_handles';
+    const IDB_STORE = 'handles';
+    function openIDB() { return new Promise((resolve,reject)=>{ const req = indexedDB.open(IDB_NAME, 1); req.onupgradeneeded = ()=> req.result.createObjectStore(IDB_STORE); req.onsuccess = ()=> resolve(req.result); req.onerror = ()=> reject(req.error); }); }
+    async function idbPut(key, val) { const db = await openIDB(); return new Promise((resolve,reject)=>{ const tx = db.transaction(IDB_STORE,'readwrite'); tx.objectStore(IDB_STORE).put(val, key); tx.oncomplete = ()=>resolve(); tx.onerror = ()=>reject(tx.error); }); }
+    async function idbGet(key) { const db = await openIDB(); return new Promise((resolve,reject)=>{ const tx = db.transaction(IDB_STORE,'readonly'); const req = tx.objectStore(IDB_STORE).get(key); req.onsuccess = ()=>resolve(req.result); req.onerror = ()=>reject(req.error); }); }
+    async function idbGetAllKeys() { const db = await openIDB(); return new Promise((resolve,reject)=>{ const tx = db.transaction(IDB_STORE,'readonly'); const req = tx.objectStore(IDB_STORE).getAllKeys(); req.onsuccess = ()=>resolve(req.result||[]); req.onerror = ()=>reject(req.error); }); }
+    async function verifyFolderPermission(handle) { if (!handle) return false; const opts = { mode:'readwrite' }; if ((await handle.queryPermission(opts)) === 'granted') return true; if ((await handle.requestPermission(opts)) === 'granted') return true; return false; }
 
-/* ── UTILITIES (esc, fd, etc. – same) ── */
-// ... (include all utility functions from v0.6.0)
+    async function readJSON(fn) { if (workspaceMode === 'folder' && folderHandle) { try { const h = await folderHandle.getFileHandle(fn); const f = await h.getFile(); return JSON.parse(await f.text()); } catch(e){ return null; } } else { const d = localStorage.getItem(fn); return d ? JSON.parse(d) : null; } }
+    async function writeJSON(fn, data) { if (workspaceMode === 'folder' && folderHandle) { const h = await folderHandle.getFileHandle(fn, { create: true }); const w = await h.createWritable(); await w.write(JSON.stringify(data, null, 2)); await w.close(); } else { localStorage.setItem(fn, JSON.stringify(data)); } }
+    function slug(s) { return (s||'').toString().toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'') || 'workspace'; }
+    async function saveAllData() { const payload = { name: workspace.name, password: workspace.password, token: workspace.token, cards: workspace.cards, events: workspace.events, importedData: workspace.importedData, dashDatasets: workspace.dashDatasets, settings: workspace.settings, trashItems, activityLog, savedAt: new Date().toISOString() }; const filename = workspace.name ? `${slug(workspace.name)}_profile.json` : 'workspace_data'; await writeJSON(filename, payload); await writeJSON('workspace_data', payload); }
+    async function loadWorkspaceData() { let data = null; if (workspace.name) data = await readJSON(`${slug(workspace.name)}_profile.json`); if (!data) data = await readJSON('workspace_data'); if (data) { workspace.name = data.name || workspace.name; workspace.password = data.password || workspace.password; workspace.token = data.token || workspace.token; workspace.cards = data.cards||[]; workspace.events = data.events||[]; workspace.importedData = data.importedData||[]; workspace.dashDatasets = data.dashDatasets||[]; workspace.settings = { ...defaultSettings(), ...(data.settings||{}) }; trashItems = data.trashItems||[]; activityLog = data.activityLog||[]; } if (workspace.settings.autosave) startAutosave(); }
+    function startAutosave() { if (autosaveInterval) clearInterval(autosaveInterval); autosaveInterval = setInterval(saveAllData, 8000); workspace.settings.autosave = true; const ind = document.getElementById('autosaveIndicator'); if (ind) ind.style.color = 'var(--gr)'; }
+    function stopAutosave() { if (autosaveInterval) clearInterval(autosaveInterval); autosaveInterval = null; workspace.settings.autosave = false; const ind = document.getElementById('autosaveIndicator'); if (ind) ind.style.color = 'var(--mu)'; }
+    function showToast(msg, type='success') { const t = document.createElement('div'); t.textContent = msg; const bg = type==='error' ? 'var(--rd)' : 'var(--am)'; const color = type==='error' ? '#fff' : '#06080f'; t.style.cssText = `position:fixed;bottom:90px;right:20px;background:${bg};color:${color};padding:10px 18px;border-radius:8px;z-index:9999;font-weight:600;font-size:0.88rem;box-shadow:0 4px 12px rgba(0,0,0,0.3);animation:fadeIn 0.3s;`; document.body.appendChild(t); setTimeout(()=>t.remove(), 3000); }
+    function logActivity(type, message) { activityLog.unshift({type, message, time: new Date().toISOString()}); if (activityLog.length > 50) activityLog.pop(); }
 
-/* ── DETECT PLATFORM & SETUP WORKSPACE ── */
-async function initApp() {
-  const hasFS = 'showDirectoryPicker' in window;
-  if (hasFS) {
-    // Ask user: Folder workspace or IndexedDB?
-    // For simplicity, default to folder on desktop
-    workspaceMode = 'folder';
-  } else {
-    workspaceMode = 'indexeddb';
-  }
-  // Show setup screen
-  document.getElementById('setupScreen').style.display = 'flex';
-  document.getElementById('appContainer').style.display = 'none';
-  renderSetupScreen();
-}
+    // --- Setup & Auth (simplified for brevity but fully functional) ---
+    async function renderSetupScreen() { const c = document.getElementById('setupContent'); const knownFolderKeys = ('showDirectoryPicker' in window) ? await idbGetAllKeys() : []; const knownLocalKeys = Object.keys(localStorage).filter(k => k.endsWith('_profile.json')); let knownHTML = ''; if (knownFolderKeys.length || knownLocalKeys.length) { knownHTML += '<div style=\"margin:14px 0;\"><div style=\"font-family:JetBrains Mono,monospace;font-size:0.7rem;color:var(--am);text-transform:uppercase;margin-bottom:6px;\">Known Workspaces</div>'; for (const key of knownFolderKeys) knownHTML += `<button class=\"btn btn-outline\" style=\"width:100%;justify-content:space-between;margin:4px 0;\" onclick=\"openKnownFolder('${key.replace(/'/g,"&#39;")}')\">📁 ${key} <span style=\"font-size:0.7rem;color:var(--mu);\">folder</span></button>`; for (const key of knownLocalKeys) { const name = key.replace('_profile.json',''); knownHTML += `<button class=\"btn btn-outline\" style=\"width:100%;justify-content:space-between;margin:4px 0;\" onclick=\"openKnownLocal('${name.replace(/'/g,"&#39;")}')\">💻 ${name} <span style=\"font-size:0.7rem;color:var(--mu);\">browser</span></button>`; } knownHTML += '</div>'; } const folderBtn = ('showDirectoryPicker' in window) ? `<button class=\"btn\" onclick=\"selectFolderWorkspace()\" style=\"width:100%;margin:6px 0;\">📁 New Folder Workspace</button>` : ''; c.innerHTML = `<h2>⚗ Alkembic</h2><p>Choose how you want to store your workspace.</p>${knownHTML}${folderBtn}<button class=\"btn btn-outline\" onclick=\"workspaceMode='indexeddb';showCreateForm()\" style=\"width:100%;margin:6px 0;\">💻 New Browser Workspace</button><button class=\"btn btn-ghost\" onclick=\"document.getElementById('importFileInput').click()\" style=\"width:100%;margin:6px 0;\">📥 Import Workspace</button>`; }
+    async function openKnownFolder(key) { try { const handle = await idbGet(key); if (!handle) { showToast('Handle missing','error'); return; } const ok = await verifyFolderPermission(handle); if (!ok) { showToast('Permission denied','error'); return; } folderHandle = handle; folderHandleId = key; workspaceMode = 'folder'; workspace.name = key; await loadWorkspaceData(); showLoginForm(key); } catch(e) { showToast(e.message,'error'); } }
+    async function openKnownLocal(name) { workspaceMode = 'indexeddb'; workspace.name = name; await loadWorkspaceData(); showLoginForm(name); }
+    function showCreateForm() { document.getElementById('setupContent').innerHTML = `<h2>Create Workspace</h2><p>Choose a name & password. Your token = HHMM at creation.</p><input id=\"newName\" placeholder=\"Workspace Name\"><input type=\"password\" id=\"newPassword\" placeholder=\"Password (min 6)\"><p style=\"font-size:0.74rem;color:var(--mu);margin-top:-4px;margin-bottom:12px;\">Your login token = current time (HHMM 24h).</p><button class=\"btn\" onclick=\"createWorkspace()\" style=\"width:100%\">⚡ Create</button><p style=\"text-align:center;margin-top:12px;\"><a onclick=\"showLoginForm()\">Login Instead</a> · <a onclick=\"renderSetupScreen()\">Back</a></p>`; }
+    function showLoginForm(prefillName='') { document.getElementById('setupContent').innerHTML = `<h2>Login</h2><p>Enter credentials for <strong style=\"color:var(--am);\">${prefillName||'workspace'}</strong></p><input id=\"loginName\" placeholder=\"Workspace Name\" value=\"${prefillName||''}\"><input type=\"password\" id=\"loginPassword\" placeholder=\"Password\"><button class=\"btn\" onclick=\"loginWithPassword()\" style=\"width:100%;margin-top:4px;\">🔓 Login</button><div style=\"text-align:center;margin:14px 0;color:var(--mu);font-size:0.82rem;\">— or use token —</div><input type=\"text\" id=\"tokenInput\" placeholder=\"HHMM (e.g. 1432)\" maxlength=\"4\" style=\"letter-spacing:6px;font-size:1.1rem;text-align:center;font-family:JetBrains Mono,monospace;\"><button class=\"btn btn-outline\" onclick=\"loginWithToken()\" style=\"width:100%;margin-top:6px;\">🕐 Login with Token</button><p style=\"text-align:center;margin-top:12px;\"><a onclick=\"renderSetupScreen()\">Back</a></p>`; }
+    async function selectFolderWorkspace() { try { folderHandle = await window.showDirectoryPicker({mode:'readwrite'}); workspaceMode = 'folder'; const existing = await readJSON('workspace_data'); if (existing && existing.name) { folderHandleId = existing.name; await idbPut(existing.name, folderHandle); workspace.name = existing.name; await loadWorkspaceData(); showLoginForm(existing.name); } else { showCreateForm(); } } catch(e) { if (e.name !== 'AbortError') showToast('Folder selection failed','error'); } }
+    function importWorkspaceFile(event) { const file = event.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = async function(e) { try { const imported = JSON.parse(e.target.result); const wsData = imported.workspace || imported; if (!wsData.name || !wsData.password) { showToast('Invalid workspace file','error'); return; } const verifyMethod = prompt('Verify workspace. Enter PASSWORD or TOKEN:'); if (!verifyMethod) return; if (verifyMethod !== wsData.password && verifyMethod !== wsData.token) { showToast('Incorrect','error'); return; } if ('showDirectoryPicker' in window) { const choice = confirm('Store imported workspace in a folder? (OK = Folder, Cancel = Browser)'); if (choice) { folderHandle = await window.showDirectoryPicker({mode:'readwrite'}); workspaceMode = 'folder'; await idbPut(wsData.name, folderHandle); folderHandleId = wsData.name; } else { workspaceMode = 'indexeddb'; } } workspace = { ...blankWorkspace(), ...wsData }; trashItems = imported.trashItems || []; activityLog = imported.activityLog || []; currentUser = workspace.name; await saveAllData(); finishSetup(); showToast('Workspace imported'); } catch(ex) { showToast('Error reading file','error'); } }; reader.readAsText(file); event.target.value = ''; }
+    async function createWorkspace() { const name = document.getElementById('newName').value.trim(); const pwd = document.getElementById('newPassword').value; if (!name || pwd.length < 6) return alert('Name and password (min 6) required.'); const now = new Date(); const token = `${String(now.getHours()).padStart(2,'0')}${String(now.getMinutes()).padStart(2,'0')}`; workspace = { ...blankWorkspace(), name, password:pwd, token }; trashItems = []; activityLog = []; if (workspaceMode === 'folder' && folderHandle) { await idbPut(name, folderHandle); folderHandleId = name; } await saveAllData(); currentUser = name; alert(`Workspace created!\nLogin token: ${token}\n(Save this — it's your current time HHMM.)`); finishSetup(); }
+    async function loginWithPassword() { const name = document.getElementById('loginName').value.trim(); const pwd = document.getElementById('loginPassword').value; if (!name || !pwd) return alert('Enter name and password'); workspace.name = name; let data = await readJSON(`${slug(name)}_profile.json`); if (!data) data = await readJSON('workspace_data'); if (data && data.name === name && data.password === pwd) { workspace = { ...blankWorkspace(), ...data }; trashItems = data.trashItems || []; activityLog = data.activityLog || []; currentUser = name; await loadWorkspaceData(); finishSetup(); } else { alert('Invalid credentials.'); } }
+    async function loginWithToken() { const token = document.getElementById('tokenInput').value.trim(); const name = document.getElementById('loginName').value.trim(); if (name) workspace.name = name; let data = await readJSON(name ? `${slug(name)}_profile.json` : 'workspace_data'); if (!data) data = await readJSON('workspace_data'); if (data && data.token === token && (data.settings?.tokenEnabled !== false)) { workspace = { ...blankWorkspace(), ...data }; trashItems = data.trashItems || []; activityLog = data.activityLog || []; currentUser = data.name; await loadWorkspaceData(); finishSetup(); } else { alert('Invalid token or token login disabled.'); } }
+    function finishSetup() { document.getElementById('setupScreen').style.display = 'none'; document.getElementById('appContainer').style.display = 'flex'; document.getElementById('userNameDisplay').textContent = currentUser; applySettings(); switchView('dashboard'); renderAllViews(); startFooterClock(); updateFooterStats(); logActivity('login', `Logged in as ${currentUser}`); if (workspace.settings.autosave) startAutosave(); }
+    async function logout() { if (autosaveInterval) await saveAllData(); stopAutosave(); showToast('Logged out'); document.getElementById('appContainer').style.display = 'none'; document.getElementById('setupScreen').style.display = 'flex'; workspace = blankWorkspace(); trashItems = []; activityLog = []; currentUser = null; folderHandle = null; workspaceMode = 'indexeddb'; renderSetupScreen(); }
 
-function renderSetupScreen() {
-  const content = document.getElementById('setupContent');
-  if (workspaceMode === 'folder') {
-    content.innerHTML = `
-      <h2>Select Workspace Folder</h2>
-      <p>Your data will be stored in a folder on your device. You can move or back up this folder at any time.</p>
-      <button class="l-btn" onclick="selectFolder()">📁 Choose Folder</button>
-      <button class="l-btn" onclick="scanForWorkspaces()">🔍 Find Existing Workspaces</button>
-      <div class="scan-progress" id="scanMsg"></div>
-    `;
-  } else {
-    content.innerHTML = `
-      <h2>Welcome to Alkembic Ace</h2>
-      <p>Running in browser storage mode (works on all devices). Your data stays in this browser.</p>
-      <button class="l-btn" onclick="createIndexedDBWorkspace()">Create New Workspace</button>
-      <button class="l-btn" onclick="importWorkspace()">Import Existing Workspace</button>
-    `;
-  }
-}
+    // --- Navigation & Rendering ---
+    function switchView(view) { document.querySelectorAll('.view').forEach(v => v.classList.remove('active')); const target = document.getElementById('view-' + view); if (target) target.classList.add('active'); document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.view===view)); document.querySelectorAll('.mtab').forEach(t => t.classList.toggle('active', t.dataset.view===view)); document.querySelectorAll('.sidebar-item').forEach(t => t.classList.toggle('active', t.dataset.view===view)); if (view === 'dashboard') renderDashboard(); if (view === 'board') renderKanban(); if (view === 'timeline') renderTimeline(); if (view === 'analytics') renderDashboards(); if (view === 'trash') renderTrash(); updateFooterStats(); }
+    function navTo(view) { switchView(view); toggleSidebar(); }
+    function renderAllViews() { renderDashboard(); renderKanban(); renderTimeline(); renderTrash(); renderDashboards(); }
+    function toggleSidebar() { const s = document.getElementById('sidebar'), o = document.getElementById('sidebarOverlay'); s.classList.toggle('open'); o.classList.toggle('show'); }
+    function updateFooterStats() { const cards = workspace.cards; const set = (id,v) => { const el = document.getElementById(id); if (el) el.textContent = v; }; set('fCards', cards.length); set('fDone', cards.filter(c=>c.column==='done').length); set('fImports', workspace.importedData.length); set('statCards', cards.length); set('statDone', cards.filter(c=>c.column==='done').length); set('statEvents', workspace.events.length); set('statImports', workspace.importedData.length); set('statTrash', trashItems.length); }
+    function renderActivityFeed() { const el = document.getElementById('activityFeed'); if (!el) return; const iconMap = { login:'🔓', card:'📋', delete:'🗑', move:'↕', import:'📥', setting:'⚙️', export:'📤' }; if (!activityLog.length) { el.innerHTML = '<div style="color:var(--mu);text-align:center;padding:16px;">No activity yet</div>'; return; } el.innerHTML = activityLog.slice(0,10).map(a=>`<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd);"><div style="width:28px;height:28px;border-radius:50%;background:var(--card2);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:0.82rem;flex-shrink:0;">${iconMap[a.type]||'•'}</div><div><div style="font-size:0.82rem;color:var(--tx);">${escapeHTML(a.message)}</div><div style="font-size:0.66rem;color:var(--mu);font-family:'JetBrains Mono',monospace;">${timeAgo(a.time)}</div></div></div>`).join(''); }
+    function timeAgo(iso) { const diff = Date.now() - new Date(iso).getTime(); const m = Math.floor(diff/60000); if (m<1) return 'just now'; if (m<60) return `${m}m ago`; const h = Math.floor(m/60); if (h<24) return `${h}h ago`; return new Date(iso).toLocaleDateString(); }
+    function escapeHTML(s) { return (s||'').toString().replace(/[&<>\"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c])); }
 
-/* ── FOLDER WORKSPACE FUNCTIONS ── */
-async function selectFolder() {
-  try {
-    workspaceHandle = await window.showDirectoryPicker({ mode: 'readwrite' });
-    // Store handle in IndexedDB for persistence
-    await saveHandleToDB(workspaceHandle);
-    // Check if workspace.json exists
-    let exists = false;
-    try { await workspaceHandle.getFileHandle('workspace.json'); exists = true; } catch(e) {}
-    if (!exists) {
-      // Create new workspace
-      await workspaceHandle.getFileHandle('workspace.json', { create: true });
-      // Initialize with empty data
-      await writeJSON('workspace.json', { version: '1.0.0', created: new Date().toISOString() });
-      await writeJSON('profiles/manifest.json', { profiles: [] });
-    }
-    // Now proceed to profile selection/creation
-    await loadWorkspace();
-  } catch (e) {
-    alert('Folder selection cancelled or not supported.');
-  }
-}
+    // --- Dashboard & Imported Data ---
+    function renderDashboard() { updateFooterStats(); if (chartInstance) chartInstance.destroy(); const canvas = document.getElementById('overviewChart'); if (canvas) { const ctx = canvas.getContext('2d'); const data = workspace.importedData.length ? workspace.importedData : [{label:'TODO',value:workspace.cards.filter(c=>c.column==='todo').length},{label:'IN PROGRESS',value:workspace.cards.filter(c=>c.column==='in-progress').length},{label:'DONE',value:workspace.cards.filter(c=>c.column==='done').length}]; chartInstance = new Chart(ctx, { type: 'bar', data: { labels: data.map(d=>d.label), datasets: [{ data: data.map(d=>d.value), backgroundColor:'#f0a500', borderRadius:6 }] }, options: { plugins:{legend:{display:false}}, scales:{ x:{ticks:{color:'#7a8fa8'}}, y:{ticks:{color:'#7a8fa8'}} } } }); } const tbody = document.getElementById('importedTable').querySelector('tbody'); tbody.innerHTML = workspace.importedData.map((item,i)=>`<tr><td contenteditable="true" onblur="updateImported(${i},'label',this.textContent)">${item.label||''}</td><td contenteditable="true" onblur="updateImported(${i},'value',this.textContent)">${item.value||''}</td></tr>`).join('') || '<tr><td colspan="2" style="color:var(--mu);text-align:center;">No data — click Import</td></tr>'; renderActivityFeed(); }
+    function updateImported(idx, field, val) { if (field==='value') workspace.importedData[idx].value = parseFloat(val)||0; else workspace.importedData[idx].label = val; saveAllData(); }
+    function handleFileImport(e) { const file = e.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = function(ev) { let data = []; if (/\.(xlsx|xls)$/i.test(file.name)) { const wb = XLSX.read(ev.target.result, {type:'binary'}); const sheet = wb.Sheets[wb.SheetNames[0]]; data = XLSX.utils.sheet_to_json(sheet, {header:1}).slice(1).filter(r=>r.length).map(r=>({label:r[0]?.toString()||'', value:parseFloat(r[1])||0})); } else { const lines = ev.target.result.split('\n').filter(l=>l.trim()); data = lines.map((line,idx)=>{ const parts = line.split(/[,	]/); return { label:parts[0]?.trim()||`Row${idx+1}`, value:parseFloat(parts[1])||0 }; }); } workspace.importedData = data; logActivity('import', `Imported ${data.length} rows from ${file.name}`); renderDashboard(); saveAllData(); showToast(`Imported ${data.length} rows`); }; if (/\.(xlsx|xls)$/i.test(file.name)) reader.readAsBinaryString(file); else reader.readAsText(file); e.target.value = ''; }
+    function saveEditableTable() { saveAllData(); renderDashboard(); showToast('Saved'); }
+    function exportTilesTable() { let csv = 'ID,Subject,Priority,People,Labels,Start,End,Status,Progress,StoryPoints\n'; workspace.cards.forEach(c => { csv += `${c.id},"${(c.subject||'').replace(/"/g,'""')}",${c.priority},"${(c.people||[]).map(p=>p.name+'('+p.role+')').join(';')}","${(c.labels||[]).join(';')}",${c.startDate||''},${c.endDate||''},${c.column},${c.progress||0},${c.storyPoints||1}\n`; }); const blob = new Blob([csv],{type:'text/csv'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'alkembic-cards.csv'; a.click(); showToast('CSV exported'); }
 
-async function scanForWorkspaces() {
-  // Use the recursive scan logic (same as earlier design)
-  alert('Scanner: Please select a root folder to search (e.g., C:\\ or /home/user).');
-  // (Implementation would use showDirectoryPicker and recursive scan)
-  // For brevity in this response, I'll note that the full scanner is implemented in the actual code.)
-}
+    // --- Kanban Board ---
+    function setFilter(el) { document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active')); el.classList.add('active'); activeFilter = el.dataset.filter; renderKanban(); }
+    function resetCardForm() { document.getElementById('cardSubject').value = ''; document.getElementById('cardDesc').value = ''; document.getElementById('cardPeople').value = ''; document.getElementById('cardLabels').value = ''; document.getElementById('cardPoints').value = 3; document.getElementById('cardProgress').value = 0; document.getElementById('cardStart').value = ''; document.getElementById('cardEnd').value = ''; document.getElementById('cardStatus').value = 'todo'; document.getElementById('cardPriority').value = 'medium'; }
+    function openCreateCard() { editingCardId = null; resetCardForm(); document.getElementById('cardModalTitle').textContent = 'New Card'; document.getElementById('cardSaveBtn').textContent = 'Create'; document.getElementById('createCardModal').classList.remove('hidden'); setTimeout(()=>document.getElementById('cardSubject').focus(),60); }
+    function closeCreateCard() { document.getElementById('createCardModal').classList.add('hidden'); editingCardId = null; }
+    function openCreateCardInColumn(col) { openCreateCard(); setTimeout(()=>{ document.getElementById('cardStatus').value = col; },60); }
+    function openEditCard(id) { const card = workspace.cards.find(c=>c.id===id); if (!card) return; editingCardId = id; document.getElementById('cardModalTitle').textContent = 'Edit Card'; document.getElementById('cardSaveBtn').textContent = 'Save'; document.getElementById('cardSubject').value = card.subject||''; document.getElementById('cardDesc').value = card.description||''; document.getElementById('cardPeople').value = (card.people||[]).map(p=>`${p.name} ${p.role||''}`.trim()).join(', '); document.getElementById('cardLabels').value = (card.labels||[]).join(', '); document.getElementById('cardPoints').value = card.storyPoints||3; document.getElementById('cardProgress').value = card.progress||0; document.getElementById('cardStart').value = card.startDate||''; document.getElementById('cardEnd').value = card.endDate||''; document.getElementById('cardStatus').value = card.column||'todo'; document.getElementById('cardPriority').value = card.priority||'medium'; document.getElementById('createCardModal').classList.remove('hidden'); }
+    function saveKanbanCard() { const subject = document.getElementById('cardSubject').value.trim(); if (!subject) return alert('Subject required'); const desc = document.getElementById('cardDesc').value; const peopleRaw = document.getElementById('cardPeople').value; const labelsRaw = document.getElementById('cardLabels').value; const storyPoints = parseInt(document.getElementById('cardPoints').value)||3; const progress = parseInt(document.getElementById('cardProgress').value)||0; const start = document.getElementById('cardStart').value; const end = document.getElementById('cardEnd').value; const status = document.getElementById('cardStatus').value; const priority = document.getElementById('cardPriority').value; const people = peopleRaw.split(',').map(p=>p.trim()).filter(Boolean).map(p=>{ const parts = p.split(/\s+/); return parts.length>=2 ? {name:parts[0], role:parts.slice(1).join(' ')} : {name:parts[0], role:'Member'}; }); const labels = labelsRaw.split(',').map(l=>l.trim()).filter(Boolean); if (editingCardId) { const card = workspace.cards.find(c=>c.id===editingCardId); if (card) { Object.assign(card, { subject, description:desc, people, labels, storyPoints, progress, startDate:start, endDate:end, column:status, priority }); logActivity('card', `Edited card: "${subject}"`); showToast('Card updated'); } } else { workspace.cards.push({ id: Date.now() + Math.floor(Math.random()*1000), subject, description:desc, people, labels, storyPoints, progress, startDate:start, endDate:end, column:status, priority, comments:[] }); logActivity('card', `Created card: "${subject}"`); showToast('Card created'); } closeCreateCard(); renderKanban(); renderDashboard(); saveAllData(); }
+    function cloneCard(id) { const card = workspace.cards.find(c=>c.id===id); if (!card) return; const copy = JSON.parse(JSON.stringify(card)); copy.id = Date.now() + Math.floor(Math.random()*1000); copy.subject = card.subject + ' (Copy)'; copy.comments = []; workspace.cards.push(copy); logActivity('card', `Cloned card: "${card.subject}"`); showToast('Card cloned'); renderKanban(); renderDashboard(); saveAllData(); }
+    function renderKanban() { const search = (document.getElementById('kanbanSearch')?.value||'').toLowerCase(); const sortBy = document.getElementById('sortBy')?.value || 'priority'; const columns = [{ key:'todo', label:'TO DO', cls:'col-todo' },{ key:'in-progress', label:'IN PROGRESS', cls:'col-inprogress' },{ key:'done', label:'DONE', cls:'col-done' }]; const board = document.getElementById('kanbanBoard'); board.innerHTML = columns.map(col => { let cards = workspace.cards.filter(c => c.column === col.key); if (activeFilter !== 'all') cards = cards.filter(c => c.priority === activeFilter); if (search) cards = cards.filter(c => (c.subject||'').toLowerCase().includes(search) || (c.description||'').toLowerCase().includes(search) || (c.labels||[]).some(l=>l.toLowerCase().includes(search)) || (c.people||[]).some(p=>`${p.name} ${p.role}`.toLowerCase().includes(search))); const priorityOrder = { critical:0, high:1, medium:2, low:3 }; if (sortBy === 'priority') cards.sort((a,b)=>(priorityOrder[a.priority]||2)-(priorityOrder[b.priority]||2)); else if (sortBy === 'date') cards.sort((a,b)=>(a.endDate||'').localeCompare(b.endDate||'')); else if (sortBy === 'alpha') cards.sort((a,b)=>(a.subject||'').localeCompare(b.subject||'')); const emptyZone = cards.length===0 ? `<div class="drop-zone-empty" onclick="openCreateCardInColumn('${col.key}')"><div class="dz-icon">⊕</div><div class="dz-text">Drop here or click to create</div></div>` : ''; const cardHTML = cards.map(card => { const pColors = {critical:'var(--rd)',high:'var(--or)',medium:'var(--am)',low:'var(--gr)'}; const pColor = pColors[card.priority]||'var(--am)'; const labelsHTML = (card.labels||[]).map((l,i)=>`<span class="label-tag color-${i%6}">${l}</span>`).join(' '); const peopleHTML = (card.people||[]).map(p=>`<span class="people-tag">${p.name}<span class="role"> ·${p.role}</span></span>`).join(' '); const progress = card.progress || 0; const sp = card.storyPoints || 1; const pIcon = {critical:'🔴',high:'🟠',medium:'🟡',low:'🟢'}[card.priority]||'⚪'; const daysLeft = card.endDate ? Math.ceil((new Date(card.endDate)-new Date())/86400000) : null; const daysLabel = daysLeft!==null ? (daysLeft<0?`<span style="color:var(--rd)">⚠ ${Math.abs(daysLeft)}d overdue</span>`:daysLeft===0?`<span style="color:var(--or)">Due today</span>`:`<span>${daysLeft}d left</span>`) : ''; return `<div class="kanban-card" draggable="true" data-priority="${card.priority}" ondragstart="dragCard(event,${card.id})" ondblclick="openCardView(${card.id})"><div style="display:flex;align-items:flex-start;justify-content:space-between;gap:6px;margin-bottom:8px;"><div style="font-weight:700;font-size:0.92rem;color:var(--hd);flex:1;line-height:1.35;">${escapeHTML(card.subject)}</div><span style="font-family:'JetBrains Mono',monospace;font-size:0.66rem;padding:2px 6px;border-radius:4px;background:rgba(0,0,0,0.2);border:1px solid ${pColor};color:${pColor};white-space:nowrap;">${pIcon} ${(card.priority||'').toUpperCase()}</span></div>${card.description ? `<div style="font-size:0.78rem;color:var(--tx);margin-bottom:8px;line-height:1.5;max-height:44px;overflow:hidden;">${escapeHTML(card.description)}</div>` : ''}${labelsHTML ? `<div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:6px;">${labelsHTML}</div>` : ''}${peopleHTML ? `<div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:6px;">${peopleHTML}</div>` : ''}<div style="margin-top:8px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;"><span style="font-size:0.66rem;color:var(--mu);font-family:'JetBrains Mono',monospace;">${progress}%</span><span style="font-family:'JetBrains Mono',monospace;font-size:0.66rem;padding:1px 6px;border-radius:4px;background:var(--card);border:1px solid var(--bd);color:var(--mu);">SP: ${sp}</span></div><div style="height:3px;background:var(--bd);border-radius:2px;overflow:hidden;"><div style="height:100%;width:${progress}%;background:${progress>=100?'var(--gr)':progress>50?'var(--am)':'var(--bl)'};border-radius:2px;"></div></div></div><div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding-top:8px;border-top:1px solid var(--bd);gap:4px;"><div style="font-size:0.68rem;color:var(--mu);font-family:'JetBrains Mono',monospace;">${daysLabel}</div><div style="display:flex;gap:4px;"><button class="card-action-btn" onclick="event.stopPropagation();openCardView(${card.id})" title="View">👁</button><button class="card-action-btn" onclick="event.stopPropagation();openEditCard(${card.id})" title="Edit">✏️</button><button class="card-action-btn" onclick="event.stopPropagation();cloneCard(${card.id})" title="Clone">📋</button><button class="card-action-btn" onclick="event.stopPropagation();quickMoveCard(${card.id})" title="Move">↕</button><button class="card-action-btn" onclick="event.stopPropagation();deleteCard(${card.id})" title="Delete">🗑</button></div></div></div>`; }).join(''); return `<div class="kanban-col ${col.cls}" data-col="${col.key}" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="dropCard(event,'${col.key}');this.classList.remove('drag-over')"><div class="col-header"><div class="col-title"><div class="col-dot"></div> ${col.label}</div><span class="col-count">${cards.length}</span></div>${emptyZone}${cardHTML}</div>`; }).join(''); }
+    function quickMoveCard(id) { const card = workspace.cards.find(c=>c.id===id); if (!card) return; const next = { todo:'in-progress', 'in-progress':'done', done:'todo' }; card.column = next[card.column]; logActivity('move', `Moved "${card.subject}" → ${card.column}`); renderKanban(); updateFooterStats(); saveAllData(); }
+    function dragCard(e,id) { draggedCardId = id; }
+    function dropCard(e,newCol) { e.preventDefault(); const card = workspace.cards.find(c=>c.id==draggedCardId); if (card) { card.column = newCol; renderKanban(); saveAllData(); } }
+    function deleteCard(id) { const card = workspace.cards.find(c=>c.id===id); if (!card) return; if (!confirm(`Delete "${card.subject}"? It will move to Trash.`)) return; trashItems.push({ type:'card', content:card, deletedAt: new Date().toISOString() }); workspace.cards = workspace.cards.filter(c=>c.id!==id); logActivity('delete', `Deleted card: "${card.subject}"`); renderKanban(); renderDashboard(); renderTrash(); saveAllData(); }
 
-/* ── INDEXEDDB WORKSPACE FALLBACK ── */
-async function createIndexedDBWorkspace() {
-  // Use the existing localStorage-based engine from v0.6.0, but wrapped as a "workspace"
-  // For simplicity, we'll just reuse the old storage keys
-  // (In the real code, we'd migrate to IndexedDB for larger storage)
-  workspaceMode = 'indexeddb';
-  // Create default profile
-  profileId = 'profile_' + Date.now();
-  currentUserProfile = { profileId, name: 'User', empId: '', avatar: '👤' };
-  // Store in localStorage
-  localStorage.setItem('alk_profile', JSON.stringify(currentUserProfile));
-  // Hide setup, show app
-  finishSetup();
-}
+    // --- Card View & Comments ---
+    function openCardView(id) { const card = workspace.cards.find(c=>c.id===id); if (!card) return; viewingCardId = id; document.getElementById('viewCardTitle').textContent = card.subject; const pColors = {critical:'var(--rd)',high:'var(--or)',medium:'var(--am)',low:'var(--gr)'}; const pColor = pColors[card.priority]||'var(--am)'; document.getElementById('viewCardContent').innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;"><span style="padding:3px 10px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.72rem;font-weight:700;background:rgba(0,0,0,0.2);border:1px solid ${pColor};color:${pColor};">${(card.priority||'').toUpperCase()}</span><span style="padding:3px 10px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.72rem;background:var(--card2);border:1px solid var(--bd);color:var(--tx);">${(card.column||'').replace('-',' ').toUpperCase()}</span>${(card.labels||[]).map((l,i)=>`<span class="label-tag color-${i%6}">${escapeHTML(l)}</span>`).join('')}</div><p style="color:var(--tx);line-height:1.7;margin-bottom:14px;">${card.description?escapeHTML(card.description):'<em style="color:var(--mu)">No description</em>'}</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;font-size:0.82rem;"><div style="background:var(--card2);padding:10px;border-radius:8px;border:1px solid var(--bd);"><div style="color:var(--mu);font-size:0.68rem;margin-bottom:4px;font-family:'JetBrains Mono',monospace;">START</div><div style="color:var(--hd);font-weight:600;">${card.startDate||'—'}</div></div><div style="background:var(--card2);padding:10px;border-radius:8px;border:1px solid var(--bd);"><div style="color:var(--mu);font-size:0.68rem;margin-bottom:4px;font-family:'JetBrains Mono',monospace;">END</div><div style="color:var(--hd);font-weight:600;">${card.endDate||'—'}</div></div><div style="background:var(--card2);padding:10px;border-radius:8px;border:1px solid var(--bd);"><div style="color:var(--mu);font-size:0.68rem;margin-bottom:4px;font-family:'JetBrains Mono',monospace;">STORY POINTS</div><div style="color:var(--am);font-weight:700;font-size:1.1rem;">${card.storyPoints||1}</div></div><div style="background:var(--card2);padding:10px;border-radius:8px;border:1px solid var(--bd);"><div style="color:var(--mu);font-size:0.68rem;margin-bottom:4px;font-family:'JetBrains Mono',monospace;">PROGRESS</div><div style="color:var(--bl);font-weight:700;font-size:1.1rem;">${card.progress||0}%</div></div></div><div style="margin-bottom:12px;display:flex;flex-wrap:wrap;gap:4px;">${(card.people||[]).map(p=>`<span class="people-tag">${escapeHTML(p.name)} <span class="role">·${escapeHTML(p.role||'')}</span></span>`).join('')}</div><div style="background:var(--card2);border-radius:8px;padding:10px;border:1px solid var(--bd);"><div style="font-size:0.68rem;color:var(--mu);margin-bottom:6px;font-family:'JetBrains Mono',monospace;">PROGRESS BAR</div><div style="height:6px;background:var(--bd);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${card.progress||0}%;background:${(card.progress||0)>=100?'var(--gr)':(card.progress||0)>50?'var(--am)':'var(--bl)'};border-radius:3px;"></div></div></div>`; renderComments(id); document.getElementById('viewEditBtn').onclick = () => { closeViewCard(); openEditCard(id); }; document.getElementById('viewCloneBtn').onclick = () => { cloneCard(id); closeViewCard(); }; document.getElementById('viewDeleteBtn').onclick = () => { closeViewCard(); deleteCard(id); }; document.getElementById('viewCardModal').classList.remove('hidden'); }
+    function closeViewCard() { document.getElementById('viewCardModal').classList.add('hidden'); viewingCardId = null; }
+    function addComment() { if (!viewingCardId) return; const input = document.getElementById('commentInput'); const text = input.value.trim(); if (!text) return; const card = workspace.cards.find(c=>c.id===viewingCardId); if (!card) return; if (!card.comments) card.comments = []; card.comments.push({ text, time: new Date().toISOString(), author: currentUser }); input.value = ''; renderComments(viewingCardId); saveAllData(); }
+    function renderComments(cardId) { const card = workspace.cards.find(c=>c.id===cardId); if (!card) return; const list = document.getElementById('commentsList'); const comments = card.comments || []; list.innerHTML = comments.length ? comments.map(c=>`<div style="padding:8px 12px;background:var(--card2);border-radius:8px;border:1px solid var(--bd);margin-bottom:6px;"><div style="font-size:0.82rem;color:var(--tx);">${escapeHTML(c.text)}</div><div style="font-size:0.66rem;color:var(--mu);margin-top:4px;font-family:'JetBrains Mono',monospace;">${escapeHTML(c.author||'')} · ${new Date(c.time).toLocaleString()}</div></div>`).join('') : '<div style="color:var(--mu);font-size:0.8rem;text-align:center;padding:12px;">No comments yet</div>'; }
 
-/* ── PROFILE MANAGEMENT ── */
-async function loadWorkspace() {
-  if (workspaceMode === 'folder') {
-    const manifest = await readJSON('profiles/manifest.json');
-    if (manifest.profiles.length === 0) {
-      // Create first user
-      renderProfileCreation();
-    } else {
-      renderProfilePicker(manifest.profiles);
-    }
-  } else {
-    // IndexedDB mode: single user, just show login token
-    showTokenLogin();
-  }
-}
+    // --- Trash ---
+    function renderTrash() { const el = document.getElementById('trashContent'); if (!el) return; if (!trashItems.length) { el.innerHTML = `<div style="text-align:center;padding:60px 20px;color:var(--mu);"><div style="font-size:3rem;margin-bottom:12px;">🗑</div><div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--hd);margin-bottom:6px;">Trash is empty</div><div style="font-size:0.82rem;">Deleted cards will appear here</div></div>`; return; } el.innerHTML = `<div style="overflow-x:auto;background:var(--card);border:1px solid var(--bd);border-radius:10px;"><thead><tr><th>Type</th><th>Subject</th><th>Priority</th><th>Deleted</th><th>Actions</th></tr></thead><tbody>${trashItems.map((item,idx)=>{ const subject = typeof item.content==='object' ? (item.content.subject||'Unknown') : item.content; const priority = typeof item.content==='object' ? (item.content.priority||'—') : '—'; const pColors = {critical:'var(--rd)',high:'var(--or)',medium:'var(--am)',low:'var(--gr)'}; const pColor = pColors[priority]||'var(--mu)'; return `<tr><td><span style="font-family:'JetBrains Mono',monospace;font-size:0.74rem;color:var(--mu);">${item.type}</span></td><td style="color:var(--hd);font-weight:600;">${escapeHTML(subject)}</td><td><span style="color:${pColor};font-size:0.74rem;font-family:'JetBrains Mono',monospace;font-weight:700;">${(priority||'').toUpperCase()}</span></td><td style="font-size:0.74rem;color:var(--mu);font-family:'JetBrains Mono',monospace;">${new Date(item.deletedAt).toLocaleString()}</td><td><div style="display:flex;gap:4px;"><button class="btn btn-sm btn-outline" onclick="restoreTrashItem(${idx})">↩</button><button class="btn btn-sm btn-danger" onclick="permanentDelete(${idx})">✕</button></div></td></tr>`; }).join('')}</tbody></div>`; }
+    function restoreTrashItem(idx) { const item = trashItems[idx]; if (item.type==='card') workspace.cards.push(item.content); trashItems.splice(idx,1); renderTrash(); renderKanban(); renderDashboard(); saveAllData(); showToast('Restored'); }
+    function permanentDelete(idx) { if (!confirm('Permanently delete? This cannot be undone.')) return; trashItems.splice(idx,1); renderTrash(); updateFooterStats(); saveAllData(); }
+    function emptyTrash() { if (confirm('Permanently delete all trash?')) { trashItems = []; renderTrash(); updateFooterStats(); saveAllData(); showToast('Trash emptied'); } }
+    function restoreAllTrash() { trashItems.forEach(item=>{ if (item.type==='card') workspace.cards.push(item.content); }); trashItems = []; renderTrash(); renderKanban(); renderDashboard(); saveAllData(); showToast('All restored'); }
 
-function renderProfileCreation() {
-  // Show form with name, empId, password, token prefs, avatar
-  // On submit, generate profileId, encrypt if needed, save profile, proceed
-}
+    // --- Enhanced Timeline Functions (Integrated) ---
+    function changeTimelineMonth(delta) { timelineMonth += delta; if (timelineMonth < 0) { timelineMonth = 11; timelineYear--; } else if (timelineMonth > 11) { timelineMonth = 0; timelineYear++; } renderTimeline(); }
+    function clearDateRange() { rangeStart = null; const hint = document.getElementById('rangeHint'); if (hint) hint.classList.add('hidden'); renderTimeline(); }
+    function handleDayClick(dateStr) { if (!rangeStart) { rangeStart = dateStr; const hint = document.getElementById('rangeHint'); if (hint) { hint.classList.remove('hidden'); hint.textContent = `📍 Range started: ${dateStr} — click end date to create a card`; } renderTimeline(); } else { const start = rangeStart < dateStr ? rangeStart : dateStr; const end = rangeStart < dateStr ? dateStr : rangeStart; clearDateRange(); openCreateCardWithDates(start, end); } }
+    function openCreateCardWithDates(start, end) { openCreateCard(); setTimeout(()=>{ document.getElementById('cardStart').value = start; document.getElementById('cardEnd').value = end; }, 60); }
+    function getPriorityColor(pri) { const map = { critical: '#ff3860', high: '#ff6d00', medium: '#f0a500', low: '#00e676' }; return map[pri] || '#f0a500'; }
+    function renderTimeline() { const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"]; const monthLabel = document.getElementById('timelineMonth'); if (monthLabel) monthLabel.textContent = `${monthNames[timelineMonth]} ${timelineYear}`; const filter = (document.getElementById('timelineFilter')?.value || '').toLowerCase(); const firstDay = new Date(timelineYear, timelineMonth, 1).getDay(); const daysInMonth = new Date(timelineYear, timelineMonth+1, 0).getDate(); const today = new Date().toISOString().slice(0,10); let html = ''; ['SUN','MON','TUE','WED','THU','FRI','SAT'].forEach(d=>html+=`<div class="cal-header">${d}</div>`); for (let i=0; i<firstDay; i++) html += '<div class="cal-day empty"></div>'; for (let d=1; d<=daysInMonth; d++) { const dateStr = `${timelineYear}-${String(timelineMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`; const isToday = dateStr === today; const isRangeStart = dateStr === rangeStart; let cls = 'cal-day'; if (isToday) cls += ' today'; if (isRangeStart) cls += ' range-start'; const dayCards = workspace.cards.filter(c => { if (!c.startDate || !c.endDate) return false; if (filter && !(c.subject||'').toLowerCase().includes(filter)) return false; return dateStr >= c.startDate && dateStr <= c.endDate; }); const ribbons = dayCards.slice(0,4).map(c => { const color = getPriorityColor(c.priority); const isStart = dateStr === c.startDate; return `<div class="day-ribbon" style="background:${color};opacity:0.85;" title="${c.subject}" onclick="event.stopPropagation();openCardView(${c.id})"></div>${isStart ? `<div class="day-ribbon-label" style="color:${color};" onclick="event.stopPropagation();openCardView(${c.id})">${escapeHTML(c.subject.slice(0,12))}</div>` : ''}`; }).join(''); const more = dayCards.length > 4 ? `<div style="font-size:0.6rem;color:var(--mu);">+${dayCards.length-4}</div>` : ''; html += `<div class="${cls}" onclick="handleDayClick('${dateStr}')"><div class="day-num">${d}</div><div class="ribbon-wrap">${ribbons}${more}</div></div>`; } document.getElementById('timelineCalendar').innerHTML = html; renderGantt(); }
+    function renderGantt() { const el = document.getElementById('ganttView'); if (!el) return; const year = timelineYear, month = timelineMonth, daysInMonth = new Date(year, month+1, 0).getDate(); const mStart = new Date(year, month, 1), mEnd = new Date(year, month, daysInMonth); const mStartStr = mStart.toISOString().slice(0,10), mEndStr = mEnd.toISOString().slice(0,10); const filter = (document.getElementById('timelineFilter')?.value || '').toLowerCase(); const cards = workspace.cards.filter(c => c.startDate && c.endDate && c.startDate <= mEndStr && c.endDate >= mStartStr && (!filter || (c.subject||'').toLowerCase().includes(filter))); if (!cards.length) { el.innerHTML = '<div style="color:var(--mu);text-align:center;padding:24px;">No cards with dates this month</div>'; return; } let html = '<div style="display:grid;grid-template-columns:150px 1fr;gap:8px;margin-bottom:6px;"><div></div><div style="display:flex;">'; for (let d=1; d<=daysInMonth; d++) html += `<div style="flex:0 0 ${(100/daysInMonth).toFixed(2)}%;text-align:center;font-size:0.58rem;color:var(--mu);">${d}</div>`; html += '</div></div>'; html += cards.map(card => { const cStart = new Date(Math.max(new Date(card.startDate), mStart)); const cEnd = new Date(Math.min(new Date(card.endDate), mEnd)); const startDay = Math.floor((cStart - mStart) / 86400000); const duration = Math.floor((cEnd - cStart) / 86400000) + 1; const leftPct = ((startDay / daysInMonth) * 100).toFixed(2); const widthPct = Math.max((duration / daysInMonth) * 100, 1.5).toFixed(2); const color = getPriorityColor(card.priority); return `<div style="display:grid;grid-template-columns:150px 1fr;gap:8px;align-items:center;margin-bottom:5px;"><div style="font-size:0.78rem;color:var(--tx);text-align:right;overflow:hidden;text-overflow:ellipsis;padding-right:6px;" title="${card.subject}">${escapeHTML(card.subject)}</div><div style="height:22px;background:var(--card);border-radius:4px;position:relative;border:1px solid var(--bd);"><div style="position:absolute;top:2px;bottom:2px;left:${leftPct}%;width:${widthPct}%;background:${color};border-radius:3px;cursor:pointer;min-width:4px;opacity:0.85;" onclick="openCardView(${card.id})" title="${card.subject}: ${card.startDate} → ${card.endDate}"></div></div></div>`; }).join(''); el.innerHTML = html; }
+    function exportICS() { const cards = workspace.cards.filter(c => c.startDate && c.endDate); if (!cards.length) { alert('No cards with dates to export'); return; } let ics = 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Alkembic//EN\r\n'; cards.forEach(c => { const start = c.startDate.replace(/-/g, ''); const endDate = new Date(c.endDate); endDate.setDate(endDate.getDate()+1); const end = endDate.toISOString().slice(0,10).replace(/-/g, ''); ics += `BEGIN:VEVENT\r\nUID:${c.id}@alkembic\r\nDTSTART;VALUE=DATE:${start}\r\nDTEND;VALUE=DATE:${end}\r\nSUMMARY:${c.subject.replace(/\n/g,' ')}\r\nEND:VEVENT\r\n`; }); ics += 'END:VCALENDAR'; const blob = new Blob([ics], {type:'text/calendar'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `alkembic-${timelineYear}-${String(timelineMonth+1).padStart(2,'0')}.ics`; a.click(); showToast('ICS exported'); }
 
-function renderProfilePicker(profiles) {
-  // Show list of profiles, on click ask password, then verify and proceed
-}
+    // --- Analytics ---
+    function renderDashboards() { const container = document.getElementById('dashChartsContainer'); container.innerHTML = ''; dashChartInstances.forEach(ch=>ch.destroy()); dashChartInstances = []; if (!workspace.dashDatasets.length) { container.innerHTML = '<div style="color:var(--mu);text-align:center;padding:60px 20px;"><div style="font-size:2.4rem;margin-bottom:10px;">📈</div>Import a CSV/XLSX to add charts</div>'; return; } workspace.dashDatasets.forEach((ds,i)=>{ const div = document.createElement('div'); div.className = 'section-card'; div.style.marginBottom = '14px'; div.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-family:'Syne',sans-serif;font-weight:700;color:var(--hd);">${escapeHTML(ds.name)}</div><div style="display:flex;gap:6px;"><select onchange="changeDashType(${i},this.value)" style="padding:5px;background:var(--ibg);border:1px solid var(--bd);color:var(--hd);border-radius:6px;font-size:0.78rem;"><option value="bar" ${ds.type==='bar'?'selected':''}>Bar</option><option value="line" ${ds.type==='line'?'selected':''}>Line</option><option value="pie" ${ds.type==='pie'?'selected':''}>Pie</option><option value="doughnut" ${ds.type==='doughnut'?'selected':''}>Doughnut</option></select><button class="btn btn-sm btn-danger" onclick="deleteDashDataset(${i})">🗑</button></div></div><canvas id="dashChart${i}" height="100"></canvas>`; container.appendChild(div); const ctx = document.getElementById(`dashChart${i}`).getContext('2d'); dashChartInstances.push(new Chart(ctx, { type: ds.type||'bar', data: { labels: ds.data.map(d=>d.label), datasets: [{ data: ds.data.map(d=>d.value), backgroundColor:['#f0a500','#00e676','#448aff','#ff3860','#d050ff','#00e5ff','#ff6d00'], borderRadius:6 }] }, options: { plugins:{legend:{display:['pie','doughnut'].includes(ds.type)}}, scales: ['pie','doughnut'].includes(ds.type)?{}:{x:{ticks:{color:'#7a8fa8'}},y:{ticks:{color:'#7a8fa8'}}} } })); }); }
+    function changeDashType(idx, t) { workspace.dashDatasets[idx].type = t; renderDashboards(); saveAllData(); }
+    function handleDashImport(e) { const file = e.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = function(ev) { let data = []; if (/\.(xlsx|xls)$/i.test(file.name)) { const wb = XLSX.read(ev.target.result, {type:'binary'}); const sheet = wb.Sheets[wb.SheetNames[0]]; data = XLSX.utils.sheet_to_json(sheet, {header:1}).slice(1).filter(r=>r.length).map(r=>({label:r[0]?.toString()||'', value:parseFloat(r[1])||0})); } else { const lines = ev.target.result.split('\n').filter(l=>l.trim()); data = lines.map((line,idx)=>{ const parts = line.split(/[,	]/); return {label:parts[0]?.trim()||`Row${idx+1}`, value:parseFloat(parts[1])||0}; }); } workspace.dashDatasets.push({ name: file.name.replace(/\.[^/.]+$/,''), type:'bar', data }); renderDashboards(); saveAllData(); }; if (/\.(xlsx|xls)$/i.test(file.name)) reader.readAsBinaryString(file); else reader.readAsText(file); e.target.value = ''; }
+    function applyChartTypeToLast() { if (workspace.dashDatasets.length) { workspace.dashDatasets[workspace.dashDatasets.length-1].type = document.getElementById('chartType').value; renderDashboards(); saveAllData(); } }
+    function deleteDashDataset(idx) { workspace.dashDatasets.splice(idx,1); renderDashboards(); saveAllData(); }
 
-function showTokenLogin() {
-  // Existing token verification (same as v0.6.0)
-}
+    // --- Settings & Console ---
+    function openSettings() { const s = workspace.settings; const modal = document.createElement('div'); modal.className = 'modal-overlay'; modal.id = 'settingsModal'; modal.innerHTML = `<div class="modal-content"><div style="display:flex;justify-content:space-between;"><div style="font-family:'Syne';font-size:1.2rem;font-weight:700;color:var(--am);">⚙️ Settings</div><button onclick="document.getElementById('settingsModal').remove()">×</button></div><div class="settings-section-title">Appearance</div><div class="settings-row"><span>🌓 Theme</span><label class="toggle-switch"><input type="checkbox" id="themeToggle" ${s.theme==='light'?'checked':''} onchange="toggleTheme()"><span class="toggle-track"></span></label></div><div class="settings-row"><span>🔤 Font Family</span><select id="fontSelect" onchange="updateFont()"><option value="Inter" ${s.font==='Inter'?'selected':''}>Inter</option><option value="Syne" ${s.font==='Syne'?'selected':''}>Syne</option><option value="JetBrains Mono" ${s.font==='JetBrains Mono'?'selected':''}>JetBrains Mono</option></select></div><div class="settings-row"><span>🎨 Accent Color</span><input type="color" id="accentColor" value="${s.accentColor||'#f0a500'}" onchange="updateAccentColor()"></div><div class="settings-row"><span>🖌️ Text Color</span><input type="color" id="fontColor" value="${s.fontColor||'#b8c7da'}" onchange="updateFontColor()"></div><div class="settings-row"><span>🖼️ Background Color</span><input type="color" id="bgColor" value="${s.bgColor||'#06080f'}" onchange="updateBgColor()"></div><div class="settings-row"><span>🌐 Background Image URL</span><input type="text" id="bgImage" value="${s.bgImage||''}" placeholder="https://..." onchange="updateBgImage()" style="width:220px;"></div><div class="settings-section-title">System</div><div class="settings-row"><span>🔑 Token Login</span><label class="toggle-switch"><input type="checkbox" id="tokenEnabled" ${s.tokenEnabled?'checked':''} onchange="workspace.settings.tokenEnabled=this.checked;saveAllData();"><span class="toggle-track"></span></label></div><div class="settings-row"><span>💾 Auto-save (every 8s)</span><label class="toggle-switch"><input type="checkbox" id="autosaveToggle" ${s.autosave?'checked':''} onchange="toggleAutosave()"><span class="toggle-track"></span></label></div><div class="settings-row"><span>🔒 Change Password</span><div><input type="password" id="newPasswordInput" placeholder="Min 6 chars" style="width:160px;"><button class="btn btn-sm" onclick="changePassword()">Update</button></div></div><div class="settings-section-title">Workspace</div><div style="background:var(--card2);border:1px solid var(--bd);border-radius:8px;padding:12px;"><div>Name: <strong>${escapeHTML(workspace.name)}</strong></div><div>Token: <strong>${workspace.token}</strong></div><div>Mode: <strong>${workspaceMode==='folder'?'📁 Folder':'💻 Browser'}</strong></div></div><div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px;"><button class="btn btn-sm btn-ghost" onclick="exportWorkspace()">💾 Backup JSON</button><button class="btn btn-sm" onclick="document.getElementById('settingsModal').remove()">Done</button></div></div>`; document.body.appendChild(modal); }
+    function updateAccentColor() { const v = document.getElementById('accentColor').value; document.documentElement.style.setProperty('--am',v); workspace.settings.accentColor=v; saveAllData(); }
+    function applySettings() { document.documentElement.setAttribute('data-theme', workspace.settings.theme||'dark'); document.body.style.fontFamily = workspace.settings.font||'Inter'; if (workspace.settings.fontColor) document.documentElement.style.setProperty('--tx', workspace.settings.fontColor); if (workspace.settings.accentColor) document.documentElement.style.setProperty('--am', workspace.settings.accentColor); if (workspace.settings.bgImage) document.body.style.background = `url(${workspace.settings.bgImage}) center/cover fixed`; else if (workspace.settings.bgColor) { document.body.style.background = workspace.settings.bgColor; document.documentElement.style.setProperty('--bg', workspace.settings.bgColor); } }
+    function toggleTheme() { workspace.settings.theme = workspace.settings.theme==='dark'?'light':'dark'; applySettings(); saveAllData(); }
+    function updateFont() { workspace.settings.font = document.getElementById('fontSelect').value; applySettings(); saveAllData(); }
+    function updateFontColor() { workspace.settings.fontColor = document.getElementById('fontColor').value; applySettings(); saveAllData(); }
+    function updateBgColor() { workspace.settings.bgColor = document.getElementById('bgColor').value; applySettings(); saveAllData(); }
+    function updateBgImage() { workspace.settings.bgImage = document.getElementById('bgImage').value.trim(); applySettings(); saveAllData(); }
+    function changePassword() { const p = document.getElementById('newPasswordInput').value; if (p.length<6) return alert('Min 6 chars'); workspace.password = p; saveAllData(); showToast('Password updated'); }
+    function toggleAutosave() { if (document.getElementById('autosaveToggle').checked) startAutosave(); else stopAutosave(); saveAllData(); }
+    function exportWorkspace() { const blob = new Blob([JSON.stringify({workspace,trashItems,activityLog},null,2)],{type:'application/json'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${slug(workspace.name)}-backup.json`; a.click(); showToast('Backup exported'); logActivity('export','Workspace backup exported'); }
+    function startFooterClock() { function tick() { const now = new Date(); const t = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`; const el = document.getElementById('footerClock'); if (el) el.textContent = t; } tick(); setInterval(tick, 1000); }
+    function handleConsoleKey(e) { if (e.key === 'Enter') { runConsole(); historyIdx = -1; } else if (e.key === 'ArrowUp') { e.preventDefault(); if (historyIdx < consoleHistory.length-1) { historyIdx++; document.getElementById('consoleInput').value = consoleHistory[historyIdx]; } } else if (e.key === 'ArrowDown') { e.preventDefault(); if (historyIdx > 0) { historyIdx--; document.getElementById('consoleInput').value = consoleHistory[historyIdx]; } else { historyIdx = -1; document.getElementById('consoleInput').value = ''; } } else if (e.key === 'Escape') { document.getElementById('consoleInput').value = ''; clearDateRange(); } }
+    function toggleConsoleLog() { consoleLogVisible = !consoleLogVisible; document.getElementById('consoleBar').classList.toggle('has-log', consoleLogVisible); }
+    function addConsoleLog(msg, type='info') { const log = document.getElementById('consoleLog'); if (!log) return; const line = document.createElement('div'); line.className = `log-line ${type}`; line.textContent = `› ${msg}`; log.appendChild(line); log.scrollTop = log.scrollHeight; if (!consoleLogVisible) { consoleLogVisible = true; document.getElementById('consoleBar').classList.add('has-log'); } }
+    function runConsole() { const input = document.getElementById('consoleInput'); const raw = (input?.value||'').trim(); if (!raw) return; if (consoleHistory[0] !== raw) consoleHistory.unshift(raw); if (consoleHistory.length > 50) consoleHistory.pop(); historyIdx = -1; const cmd = raw.toLowerCase(); if (cmd === 'help') { ['── CSS PROPS ──','color:<val>','bg:<val>','accent:<val>','theme:dark|light','font:<name>','── COMMANDS ──','clear | reset | stats | export | dark | light'].forEach(m=>addConsoleLog(m,'info')); input.value=''; return; } if (cmd==='clear') { document.getElementById('consoleLog').innerHTML=''; input.value=''; return; } if (cmd==='reset') { document.documentElement.removeAttribute('style'); applySettings(); addConsoleLog('✓ Reset','success'); input.value=''; return; } if (cmd==='dark'||cmd==='light') { workspace.settings.theme=cmd; document.documentElement.setAttribute('data-theme',cmd); applySettings(); addConsoleLog(`✓ Theme → ${cmd}`,'success'); saveAllData(); input.value=''; return; } if (cmd==='stats') { addConsoleLog(`Cards: ${workspace.cards.length}`,'info'); addConsoleLog(`Done: ${workspace.cards.filter(c=>c.column==='done').length}`,'info'); addConsoleLog(`Data: ${workspace.importedData.length}`,'info'); addConsoleLog(`Trash: ${trashItems.length}`,'info'); input.value=''; return; } if (cmd==='export') { exportWorkspace(); addConsoleLog('✓ Exported','success'); input.value=''; return; } const propMap = { 'color':'--tx','font-color':'--tx','text-color':'--tx','bg':'--bg','background':'--bg','accent':'--am','green':'--gr','red':'--rd','blue':'--bl','cyan':'--cy' }; const declarations = raw.split(';').map(s=>s.trim()).filter(Boolean); let anyParsed = false; declarations.forEach(decl=>{ const colonIdx = decl.indexOf(':'); if (colonIdx === -1) { addConsoleLog(`✗ Unknown: "${decl}"`,'error'); return; } const prop = decl.slice(0,colonIdx).trim().toLowerCase(); const val = decl.slice(colonIdx+1).trim(); if (prop==='theme') { workspace.settings.theme=val; document.documentElement.setAttribute('data-theme',val); applySettings(); addConsoleLog(`✓ theme → ${val}`,'success'); anyParsed=true; return; } if (prop==='font') { document.body.style.fontFamily=val; workspace.settings.font=val; addConsoleLog(`✓ font → ${val}`,'success'); anyParsed=true; return; } const cssVar = propMap[prop]; if (cssVar) { document.documentElement.style.setProperty(cssVar,val); if (cssVar==='--bg') workspace.settings.bgColor=val; if (cssVar==='--tx') workspace.settings.fontColor=val; if (cssVar==='--am') workspace.settings.accentColor=val; addConsoleLog(`✓ ${prop} → ${val}`,'success'); anyParsed=true; } else { const rawVar = prop.startsWith('--')?prop:`--${prop}`; document.documentElement.style.setProperty(rawVar,val); addConsoleLog(`✓ ${rawVar} → ${val}`,'success'); anyParsed=true; } }); if (anyParsed) saveAllData(); input.value=''; }
 
-function finishSetup() {
-  document.getElementById('setupScreen').style.display = 'none';
-  document.getElementById('appContainer').style.display = 'flex';
-  // Initialize main app (load data, render initial view)
-  ld(); // load from appropriate storage
-  applyTheme(sets.theme||'dark');
-  document.getElementById('ubadge').textContent = currentUserProfile?.name || 'User';
-  switchView('kanban');
-}
-
-/* ── DATA STORAGE (Folder vs IndexedDB) ── */
-async function readJSON(filename) {
-  if (workspaceMode === 'folder' && workspaceHandle) {
-    const fileHandle = await workspaceHandle.getFileHandle(filename);
-    const file = await fileHandle.getFile();
-    const text = await file.text();
-    return JSON.parse(text);
-  } else {
-    // Fallback: localStorage
-    return JSON.parse(localStorage.getItem(filename) || '{}');
-  }
-}
-
-async function writeJSON(filename, data) {
-  if (workspaceMode === 'folder' && workspaceHandle) {
-    const fileHandle = await workspaceHandle.getFileHandle(filename, { create: true });
-    const writable = await fileHandle.createWritable();
-    await writable.write(JSON.stringify(data, null, 2));
-    await writable.close();
-  } else {
-    localStorage.setItem(filename, JSON.stringify(data));
-  }
-}
-
-/* ── ALL EXISTING FEATURES (kanban, dashboard, chart studio, calendar, etc.) ── */
-// (They are integrated and use readJSON/writeJSON for persistence)
-// The functions from v0.6.0 are adapted to call readJSON/writeJSON instead of direct localStorage.
-
-/* ── CALENDAR RIBBON VIEW ── */
-function renderCalendarView() {
-  // Build a month grid with tile ribbons
-}
-
-/* ── MULTIPLE DASHBOARDS ── */
-// A dashboard manager that stores dashCharts inside a 'dashboards.json' array, each with a name and widgets.
-
-/* ── BOOT ── */
-initApp();
-</script>
+    // --- Init ---
+    document.addEventListener('keydown', function(e) { if (['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)) { if (e.key === 'Escape') { closeCreateCard(); closeViewCard(); clearDateRange(); const sm = document.getElementById('settingsModal'); if (sm) sm.remove(); } return; } if (e.key==='Escape') { closeCreateCard(); closeViewCard(); clearDateRange(); const sm = document.getElementById('settingsModal'); if (sm) sm.remove(); } if (e.key==='/' && !e.ctrlKey) { e.preventDefault(); const s = document.getElementById('kanbanSearch'); if (s) s.focus(); } });
+    document.getElementById('sidebarOverlay').addEventListener('click', toggleSidebar);
+    renderSetupScreen();
+  </script>
 </body>
 </html>
