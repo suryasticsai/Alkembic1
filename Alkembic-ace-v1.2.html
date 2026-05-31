@@ -1,15 +1,10 @@
-<!--
-════════════════════════════════════════════════════════════
-⚗ Alkembic Ace Edition v1.2.0
-Leadership Intelligence Platform
-Zero‑Cloud | Offline‑First | Folder or IndexedDB
-════════════════════════════════════════════════════════════
+<!-- Alkembic Ace v1.2-->
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-  <title>⚗ Alkembic Ace v1.2</title>
+  <title>⚗ Alkembic Ace v1.2.0</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
@@ -378,7 +373,7 @@ Zero‑Cloud | Offline‑First | Folder or IndexedDB
   <div id="appContainer" style="display:none; flex-direction:column; height:100%;">
     <div class="topbar">
       <button class="hamburger" onclick="toggleSidebar()">☰</button>
-      <div class="logo" onclick="switchView('dashboard')">⚗ Alkembic <small style="font-size:0.62rem;color:var(--mu);margin-left:4px;">v1.0</small></div>
+      <div class="logo" onclick="switchView('dashboard')">⚗ Alkembic <small style="font-size:0.62rem;color:var(--mu);margin-left:4px;">v2.1</small></div>
       <div class="desktop-tabs" id="desktopNav">
         <div class="tab active" data-view="dashboard" onclick="switchView('dashboard')">📊 Dashboard</div>
         <div class="tab" data-view="board" onclick="switchView('board')">📋 Board</div>
@@ -569,7 +564,7 @@ Zero‑Cloud | Offline‑First | Folder or IndexedDB
   </div>
 
   <script>
-    // ============================== FULL ALKEMBIC V1.0===============================
+    // ============================== FULL ALKEMBIC v2.1 WITH ENHANCED TIMELINE ==============================
     // --- Core State ---
     function defaultSettings() { return { theme:'dark', font:'Inter', fontColor:'', bgColor:'', bgImage:'', tokenEnabled:true, autosave:true, accentColor:'#f0a500' }; }
     function blankWorkspace() { return { name:'', password:'', token:'', cards:[], events:[], importedData:[], dashDatasets:[], settings: defaultSettings() }; }
