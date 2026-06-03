@@ -2,195 +2,57 @@
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>⚗ Alkembic Ace v1.2 – Leadership Intelligence Platform</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+  <title>⚗ Alkembic Ace v2.1 – Super Console Edition</title>
+  <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
-  <style>
-/*! Alkembic Ace v1.2 – Complete CSS */
-:root{--tr:all 0.2s ease;--radius:12px;--fc-bg:#0a0f19;--fc-header:#101827;--fc-bd:#1c2a3e;--fc-input:#06080f;--fc-text:#b8c7da;--fc-accent:#f0a500}
-[data-theme="dark"]{--bg:#06080f;--sf:#0c1220;--card:#101827;--card2:#141f30;--bd:#1c2a3e;--bd2:#243448;--am:#f0a500;--gr:#00e676;--rd:#ff3860;--bl:#448aff;--pu:#d050ff;--cy:#00e5ff;--or:#ff6d00;--tx:#b8c7da;--hd:#dce8f8;--mu:#6a7d94;--ibg:#080e18;--neon-am:0 0 16px rgba(240,165,0,0.5);--neon-gr:0 0 16px rgba(0,230,118,0.4);--neon-rd:0 0 16px rgba(255,56,96,0.4);--neon-bl:0 0 16px rgba(68,138,255,0.4);--neon-cy:0 0 16px rgba(0,229,255,0.4);--amd:rgba(240,165,0,0.12)}
-[data-theme="light"]{--bg:#f1f5f9;--sf:#ffffff;--card:#ffffff;--card2:#f8fafc;--bd:#e2e8f0;--bd2:#cbd5e1;--am:#d4870a;--gr:#059669;--rd:#dc2626;--bl:#2563eb;--pu:#7c3aed;--cy:#06b6d4;--or:#ea580c;--tx:#334155;--hd:#0f172a;--mu:#94a3b8;--ibg:#e2e8f0;--neon-am:0 0 12px rgba(212,135,10,0.4);--neon-gr:0 0 12px rgba(5,150,105,0.4);--neon-rd:0 0 12px rgba(220,38,38,0.4);--neon-bl:0 0 12px rgba(37,99,235,0.4);--neon-cy:0 0 12px rgba(6,182,212,0.4);--amd:rgba(212,135,10,0.08)}
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;font-family:'Inter',sans-serif;font-size:14px}
-body{background:var(--bg);color:var(--tx);display:flex;flex-direction:column;overflow:hidden;transition:background 0.3s,color 0.3s}
-::-webkit-scrollbar{width:6px;height:6px}
-::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:3px}
-input,button,select,textarea{font-family:inherit}
-a{color:var(--am);cursor:pointer}
-table{width:100%;border-collapse:collapse}
-th,td{padding:8px 10px;border-bottom:1px solid var(--bd);font-size:0.85rem}
-th{color:var(--am);font-family:'JetBrains Mono',monospace;font-size:0.75rem;text-transform:uppercase}
-.topbar{display:flex;align-items:center;gap:10px;padding:0 16px;height:56px;background:var(--sf);border-bottom:1px solid var(--bd);flex-shrink:0;z-index:10}
-.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;color:var(--am);text-shadow:var(--neon-am);cursor:pointer}
-.desktop-tabs{display:flex;gap:4px;flex:1;overflow-x:auto}
-.tab{padding:8px 16px;border-radius:8px;font-weight:600;color:var(--tx);cursor:pointer}
-.tab.active{background:var(--amd);color:var(--am)}
-.user-badge{padding:4px 12px;background:var(--card);border:1px solid var(--bd);border-radius:20px;display:flex;align-items:center;gap:6px;cursor:pointer}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-weight:600;background:var(--am);color:#06080f;border:none;cursor:pointer;transition:var(--tr)}
-.btn-outline{background:transparent;border:1px solid var(--am);color:var(--am)}
-.btn-ghost{background:transparent;color:var(--mu);border:1px solid var(--bd)}
-.btn-danger{background:var(--rd);color:#fff}
-.btn-sm{padding:5px 10px;font-size:0.78rem}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9998;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
-.modal-content{background:var(--sf);border:1px solid var(--bd2);border-radius:16px;padding:24px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto}
-.setup-card{background:var(--sf);border-radius:24px;padding:32px;width:100%;max-width:480px;box-shadow:0 0 30px rgba(0,0,0,0.5);border:1px solid var(--bd2);position:relative;overflow:hidden}
-.setup-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--am),var(--cy),var(--pu),var(--am));background-size:200% 100%;animation:shimmer 3s linear infinite}
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:0 0}}
-.section-card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:20px;margin-bottom:16px}
-.stat-card{background:var(--card);border:1px solid var(--bd2);border-radius:12px;padding:18px;position:relative}
-.stat-card h3{color:var(--hd);font-size:1.8rem;font-family:'Syne',sans-serif}
-.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
-.stat-card.am::before{background:var(--am)}.stat-card.gr::before{background:var(--gr)}.stat-card.bl::before{background:var(--bl)}.stat-card.pu::before{background:var(--pu)}.stat-card.cy::before{background:var(--cy)}
-.toggle-switch{position:relative;display:inline-block;width:46px;height:24px}
-.toggle-switch input{opacity:0;width:0;height:0}
-.toggle-track{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:var(--bd2);border-radius:24px;transition:0.3s}
-.toggle-track::after{content:"";position:absolute;height:18px;width:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:0.3s}
-.toggle-switch input:checked+.toggle-track{background:var(--am);box-shadow:var(--neon-am)}
-.toggle-switch input:checked+.toggle-track::after{transform:translateX(22px);background:#06080f}
-.kanban-board{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px}
-.kanban-col{flex:1;min-width:280px;background:var(--card);border-radius:12px;padding:12px}
-.kanban-card{background:var(--card2);border:1px solid var(--bd);border-radius:10px;padding:12px;margin-bottom:10px;cursor:grab;position:relative}
-.kanban-card[data-priority="critical"]{border-left:3px solid var(--rd);animation:pulse-border-rd 2s infinite}
-@keyframes pulse-border-rd{0%,100%{border-left-color:var(--rd)}50%{border-left-color:transparent}}
-.kanban-card[data-priority="high"]{border-left:3px solid var(--or)}
-.kanban-card[data-priority="medium"]{border-left:3px solid var(--am)}
-.kanban-card[data-priority="low"]{border-left:3px solid var(--gr)}
-.card-checkbox{position:absolute;top:8px;left:8px;width:18px;height:18px;accent-color:var(--am);cursor:pointer;z-index:2}
-.kanban-card.multi-select-active{padding-left:30px}
-.bulk-move-panel{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--am);border-radius:12px;padding:10px 16px;margin-bottom:12px}
-.drop-zone-empty{border:2px dashed var(--bd);border-radius:10px;padding:24px 12px;text-align:center;color:var(--mu);cursor:pointer}
-.drop-zone-empty:hover{border-color:var(--am);color:var(--am);background:var(--amd)}
-.app-footer{position:fixed;bottom:0;left:0;right:0;height:36px;background:var(--ibg);border-top:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:40}
-.footer-brand{font-family:'Syne',sans-serif;font-size:0.85rem;color:var(--am);font-weight:700}
-.footer-stats{display:flex;gap:16px;font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--mu)}
-.footer-clock{font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--am);font-weight:600}
-.autosave-dot{width:6px;height:6px;border-radius:50%;background:var(--gr);animation:pulse 2s infinite}
-.main-area{flex:1;overflow-y:auto;padding:16px;padding-bottom:60px}
-.view{display:none}
-.view.active{display:block;animation:fadeIn 0.3s}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-@keyframes pulse{0%{opacity:1}50%{opacity:0.5}100%{opacity:1}}
-.filter-chip{padding:5px 12px;border-radius:20px;border:1px solid var(--bd);cursor:pointer}
-.filter-chip.active{background:var(--amd);border-color:var(--am);color:var(--am)}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
-.cal-header{font-weight:700;padding:6px;color:var(--am);font-size:0.75rem;text-align:center;font-family:'JetBrains Mono',monospace}
-.cal-day{min-height:74px;background:var(--card);border-radius:6px;padding:6px;cursor:pointer;border:1px solid transparent}
-.cal-day.today{border:1px solid var(--am);box-shadow:var(--neon-am)}
-.cal-day.range-start{outline:2px solid var(--cy);outline-offset:-2px;background:var(--amd)}
-.cal-day.empty{background:transparent;cursor:default}
-.day-num{font-size:0.78rem;font-weight:600;color:var(--hd);margin-bottom:4px}
-.day-ribbon{height:4px;border-radius:2px;margin:2px 0}
-.range-hint{padding:10px 16px;background:var(--card2);border:1px solid var(--cy);border-radius:10px;color:var(--cy);font-family:'JetBrains Mono',monospace;font-size:0.8rem;margin-bottom:12px;animation:pulse-border 1.5s infinite}
-@keyframes pulse-border{0%,100%{border-color:var(--cy)}50%{border-color:transparent}}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.form-grid-full{grid-column:1/-1}
-.form-field{display:flex;flex-direction:column;gap:4px}
-.form-field label{font-size:0.74rem;color:var(--mu);font-family:'JetBrains Mono',monospace;text-transform:uppercase}
-.form-input{padding:8px 10px;background:var(--ibg);border:1px solid var(--bd);color:var(--hd);border-radius:6px;font-size:0.88rem}
-.form-input:focus{outline:none;border-color:var(--am);box-shadow:0 0 0 2px var(--amd)}
-.settings-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;gap:12px;border-bottom:1px solid var(--bd)}
-.settings-row:last-child{border-bottom:none}
-.settings-row>span:first-child{color:var(--hd);font-size:0.88rem;flex:1}
-.settings-section-title{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--am);text-transform:uppercase;margin:16px 0 8px}
-.hidden{display:none!important}
-.sidebar{position:fixed;top:0;left:0;width:280px;height:100%;background:var(--sf);border-right:1px solid var(--bd);z-index:101;transform:translateX(-100%);transition:0.3s;padding:20px;overflow-y:auto}
-.sidebar.open{transform:translateX(0)}
-.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:100;display:none;backdrop-filter:blur(2px)}
-.sidebar-overlay.show{display:block}
-.sidebar h3{font-family:'Syne',sans-serif;color:var(--am);margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--bd)}
-.sidebar-item{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:8px;cursor:pointer;transition:var(--tr);color:var(--tx);font-weight:600;margin-bottom:4px;background:transparent;width:100%;text-align:left;border:none}
-.sidebar-item:hover{background:var(--card);color:var(--am)}
-.sidebar-item.active{background:var(--amd);color:var(--am)}
-.hamburger{display:none;font-size:1.6rem;background:none;border:none;color:var(--am);cursor:pointer;padding:4px 8px}
-.mobile-tabbar{display:none;position:fixed;bottom:36px;left:0;right:0;background:var(--sf);border-top:1px solid var(--bd);z-index:55;padding:4px 0}
-.mobile-tabbar-inner{display:flex;justify-content:space-around}
-.mtab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 4px;cursor:pointer;color:var(--mu);background:none;border:none}
-.mtab.active{color:var(--am)}
-.card-action-btn{width:26px;height:26px;border:none;background:var(--card);color:var(--mu);border-radius:5px;cursor:pointer}
-.card-action-btn:hover{background:var(--am);color:#000}
-.floating-console{position:fixed;z-index:10000;width:400px;min-height:200px;background:var(--fc-bg);border:1px solid var(--fc-bd);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);display:flex;flex-direction:column;resize:both;overflow:hidden}
-.fc-header{cursor:move;display:flex;align-items:center;padding:8px 12px;background:var(--fc-header);border-bottom:1px solid var(--fc-bd)}
-.fc-title{font-family:'Syne',sans-serif;font-weight:700;color:var(--fc-accent);flex:1}
-.fc-log{flex:1;overflow-y:auto;padding:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--fc-text)}
-.fc-input{display:flex;padding:8px;border-top:1px solid var(--fc-bd)}
-.fc-input input{flex:1;background:var(--fc-input);border:1px solid var(--fc-bd);color:var(--fc-text);padding:6px 10px;border-radius:6px}
-.floating-console.minimized{height:40px;resize:none}
-.floating-console.minimized .fc-log,.floating-console.minimized .fc-input{display:none}
-.console-reopen{position:fixed;bottom:100px;right:20px;z-index:10001;background:var(--am);color:#000;border:none;border-radius:50%;width:44px;height:44px;font-size:1.2rem;cursor:pointer;box-shadow:var(--neon-am);display:none;align-items:center;justify-content:center}
-.console-reopen.show{display:flex}
-.token-preview{font-family:'JetBrains Mono',monospace;font-size:1.1rem;color:var(--am);letter-spacing:3px;background:var(--card2);padding:6px 12px;border-radius:8px;display:inline-block}
-.token-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd)}
-.comment-item{background:var(--card2);border:1px solid var(--bd);border-radius:8px;padding:8px 12px;margin-bottom:6px}
-.comment-item .comment-author{font-weight:600;font-size:0.78rem;color:var(--am)}
-.comment-item .comment-time{font-size:0.66rem;color:var(--mu);font-family:'JetBrains Mono',monospace}
-.comment-input-group{display:flex;gap:8px;margin-top:8px}
-.draggable-fab{position:fixed;bottom:80px;right:20px;width:52px;height:52px;border-radius:26px;background:var(--am);color:#000;display:flex;align-items:center;justify-content:center;font-size:24px;cursor:grab;z-index:60;box-shadow:0 4px 16px rgba(0,0,0,0.3)}
-.draggable-fab:active{cursor:grabbing}
-@media (max-width:768px){
-  .hamburger{display:block}
-  .desktop-tabs{display:none}
-  .kanban-board{flex-direction:column}
-  .kanban-col{max-width:none}
-  .mobile-tabbar{display:block}
-  .main-area{padding-bottom:calc(36px + 56px + 60px)}
-  .modal-content{padding:16px}
-  .form-grid{grid-template-columns:1fr}
-  .topbar{padding:0 10px;gap:6px}
-  .logo{font-size:1.15rem}
-  .user-badge{padding:3px 8px;font-size:0.78rem}
-  .floating-console{width:90vw;height:50vh;bottom:70px;right:5vw;left:5vw}
-}
-</style>
+  <script src="utils.js"></script>
+  <script src="app.js"></script>
+  <script src="console.js"></script>
+</head>
 <body>
-  <!-- Setup Screen -->
+  <!-- Setup screen -->
   <div id="setupScreen" class="modal-overlay">
     <div class="setup-card" id="setupContent"></div>
   </div>
 
-  <!-- Hidden file inputs -->
-  <input type="file" id="importFileInput" accept=".json" style="display:none">
-  <input type="file" id="fileImport" accept=".txt,.csv,.xlsx,.xls" style="display:none">
-  <input type="file" id="dashImport" accept=".txt,.csv,.xlsx,.xls" style="display:none">
-  <input type="file" id="importCardsInput" accept=".json" style="display:none">
+  <!-- Hidden file input for import -->
+  <input type="file" id="importFileInput" accept=".json" style="display:none" onchange="importWorkspaceFile(event)">
 
-  <!-- Sidebar -->
+  <!-- Mobile sidebar -->
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
   <div class="sidebar" id="sidebar">
-    <h3>⚗ Alkembic Ace</h3>
+    <h3>⚗ Alkembic</h3>
     <button class="sidebar-item" data-view="dashboard" onclick="switchView('dashboard')"><span class="icon">📊</span>Dashboard</button>
     <button class="sidebar-item" data-view="board" onclick="switchView('board')"><span class="icon">📋</span>Board</button>
     <button class="sidebar-item" data-view="timeline" onclick="switchView('timeline')"><span class="icon">📅</span>Timeline</button>
     <button class="sidebar-item" data-view="analytics" onclick="switchView('analytics')"><span class="icon">📈</span>Analytics</button>
     <button class="sidebar-item" data-view="trash" onclick="switchView('trash')"><span class="icon">🗑</span>Trash</button>
-    <hr>
-    <button class="sidebar-item" onclick="openSettings()"><span class="icon">⚙️</span>Settings</button>
+    <div style="height:1px;background:var(--bd);margin:12px 0;"></div>
+    <button class="sidebar-item" onclick="openSettings();toggleSidebar();"><span class="icon">⚙️</span>Settings</button>
     <button class="sidebar-item" onclick="logout()"><span class="icon">🚪</span>Logout</button>
   </div>
 
-  <!-- Main App Container -->
+  <!-- Main app -->
   <div id="appContainer" style="display:none; flex-direction:column; height:100%;">
-    <!-- Top Bar -->
     <div class="topbar">
       <button class="hamburger" onclick="toggleSidebar()">☰</button>
-      <div class="logo" onclick="switchView('dashboard')">⚗ Alkembic <small>v1.2</small></div>
-      <div class="desktop-tabs">
+      <div class="logo" onclick="switchView('dashboard')">⚗ Alkembic <small style="font-size:0.62rem;color:var(--mu);margin-left:4px;">v2.1</small></div>
+      <div class="desktop-tabs" id="desktopNav">
         <div class="tab active" data-view="dashboard" onclick="switchView('dashboard')">📊 Dashboard</div>
         <div class="tab" data-view="board" onclick="switchView('board')">📋 Board</div>
         <div class="tab" data-view="timeline" onclick="switchView('timeline')">📅 Timeline</div>
         <div class="tab" data-view="analytics" onclick="switchView('analytics')">📈 Analytics</div>
         <div class="tab" data-view="trash" onclick="switchView('trash')">🗑 Trash</div>
       </div>
-      <button class="btn btn-sm btn-ghost console-btn" onclick="openFloatingConsole()">📟</button>
-      <button class="btn btn-sm btn-ghost" onclick="toggleTheme()">🌓</button>
       <button class="btn btn-sm btn-ghost" onclick="openSettings()">⚙️</button>
-      <div class="user-badge" id="ubadge">👤 <span id="userNameDisplay"></span></div>
+      <div class="user-badge" id="ubadge" onclick="logout()" title="Click to logout">👤 <span id="userNameDisplay"></span></div>
     </div>
 
-    <!-- Main Views -->
     <div class="main-area">
-      <!-- DASHBOARD VIEW -->
+      <!-- Dashboard view -->
       <div id="view-dashboard" class="view active">
         <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:12px; margin-bottom:16px;">
           <div class="stat-card am"><h3 id="statCards">0</h3>Cards</div>
@@ -199,82 +61,82 @@ th{color:var(--am);font-family:'JetBrains Mono',monospace;font-size:0.75rem;text
           <div class="stat-card pu"><h3 id="statImports">0</h3>Imports</div>
           <div class="stat-card cy"><h3 id="statTrash">0</h3>Trash</div>
         </div>
-        <div class="section-card">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-            <h3>📊 Imported Data (Editable)</h3>
-            <button class="btn btn-sm btn-outline" id="toggleTableLockBtn" onclick="toggleTableLock()">🔒 Lock Edits</button>
-          </div>
+        <div style="display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap;">
+          <input type="file" id="fileImport" accept=".txt,.csv,.xlsx,.xls" onchange="handleFileImport(event)" hidden>
+          <button class="btn" onclick="document.getElementById('fileImport').click()">📄 Import Data</button>
+          <button class="btn btn-outline" onclick="exportTilesTable()">📋 Export CSV</button>
+        </div>
+        <div class="section-card" style="margin-bottom:16px;">
+          <h3 style="font-family:'Syne',sans-serif;font-size:1rem;margin-bottom:12px;">Data Overview</h3>
+          <canvas id="overviewChart" height="100"></canvas>
+        </div>
+        <div class="section-card" style="margin-bottom:16px;">
+          <h3 style="font-family:'Syne',sans-serif;font-size:1rem;margin-bottom:12px;">Imported Data (editable)</h3>
           <div style="overflow-x:auto;"><table id="importedTable"><thead><tr><th>Label</th><th>Value</th></tr></thead><tbody></tbody></table></div>
-          <button class="btn btn-sm" onclick="saveEditableTable()" style="margin-top:8px;">💾 Save Changes</button>
-          <button class="btn btn-sm btn-ghost" onclick="document.getElementById('fileImport').click()" style="margin-top:8px; margin-left:8px;">📄 Import</button>
+          <button class="btn btn-sm" onclick="saveEditableTable()" style="margin-top:8px;">💾 Save</button>
         </div>
         <div class="section-card">
-          <h3>📜 Activity Feed</h3>
+          <h3 style="font-family:'JetBrains Mono',monospace; font-size:0.8rem; color:var(--mu); margin-bottom:12px;">📜 Activity Feed</h3>
           <div id="activityFeed"></div>
-          <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
-            <button class="btn btn-sm btn-ghost" onclick="exportActivityLog()">📎 Export</button>
-            <button class="btn btn-sm btn-danger" onclick="clearActivityLog()">🗑 Clear All</button>
-            <button class="btn btn-sm btn-outline" onclick="recoverLastActivity()">↩ Recover Last</button>
-          </div>
         </div>
       </div>
 
-      <!-- BOARD VIEW -->
+      <!-- Board view -->
       <div id="view-board" class="view">
-        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;">
+        <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:16px;">
           <button class="btn" onclick="openCreateCard()">⊕ New Card</button>
-          <button class="btn btn-outline btn-sm" id="multiSelectToggle" onclick="toggleMultiSelect()">☐ Multi‑Select</button>
-          <input type="text" id="kanbanSearch" placeholder="🔍 Search..." oninput="renderKanban()" class="form-input" style="width:180px;">
+          <input type="text" id="kanbanSearch" placeholder="🔍 Search..." oninput="renderKanban()" style="padding:8px 14px;border:1px solid var(--bd);border-radius:20px;background:var(--ibg);color:var(--hd);font-size:0.85rem;min-width:160px;">
           <span class="filter-chip active" data-filter="all" onclick="setFilter(this)">ALL</span>
           <span class="filter-chip" data-filter="critical" onclick="setFilter(this)">🔴 CRIT</span>
           <span class="filter-chip" data-filter="high" onclick="setFilter(this)">🟠 HIGH</span>
           <span class="filter-chip" data-filter="medium" onclick="setFilter(this)">🟡 MED</span>
           <span class="filter-chip" data-filter="low" onclick="setFilter(this)">🟢 LOW</span>
-          <select id="sortBy" onchange="renderKanban()" class="form-input"><option value="priority">Priority</option><option value="date">Due Date</option><option value="alpha">A-Z</option></select>
-        </div>
-        <div id="bulkMovePanel" class="bulk-move-panel hidden">
-          <span class="selected-count">0 selected</span>
-          <select id="bulkMoveTarget"><option value="todo">To Do</option><option value="in-progress">In Progress</option><option value="done">Done</option></select>
-          <button class="btn btn-sm" onclick="bulkMoveCards()">Move</button>
-          <button class="btn btn-sm btn-ghost" onclick="exportSelectedJSON()">📤 JSON</button>
-          <button class="btn btn-sm btn-ghost" onclick="exportSelectedICS()">📅 ICS</button>
-          <button class="btn btn-sm btn-danger" onclick="bulkDeleteSelected()">Delete</button>
+          <select id="sortBy" onchange="renderKanban()" style="padding:7px 10px;border:1px solid var(--bd);border-radius:8px;background:var(--ibg);color:var(--hd);font-size:0.8rem;">
+            <option value="priority">Priority</option>
+            <option value="date">Due Date</option>
+            <option value="alpha">A → Z</option>
+          </select>
         </div>
         <div class="kanban-board" id="kanbanBoard"></div>
       </div>
 
-      <!-- TIMELINE VIEW -->
+      <!-- Enhanced Timeline view -->
       <div id="view-timeline" class="view">
-        <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:16px;">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
           <button class="btn btn-sm btn-outline" onclick="changeTimelineMonth(-1)">◀</button>
-          <span id="timelineMonth" style="font-weight:700; flex:1; text-align:center;"></span>
+          <span id="timelineMonth" style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:var(--hd);flex:1;text-align:center;"></span>
           <button class="btn btn-sm btn-outline" onclick="changeTimelineMonth(1)">▶</button>
-          <input type="text" id="timelineFilter" placeholder="Filter..." oninput="renderTimeline()" class="form-input" style="width:140px;">
+          <input type="text" id="timelineFilter" placeholder="Filter..." oninput="renderTimeline()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:20px;background:var(--ibg);color:var(--hd);font-size:0.82rem;width:140px;">
           <button class="btn btn-sm btn-ghost" onclick="clearDateRange()">✕ Range</button>
           <button class="btn btn-sm" onclick="exportICS()">📅 ICS</button>
         </div>
-        <div id="rangeHint" class="range-hint hidden">📍 Click end date to create a ribbon card. Press Esc to cancel.</div>
+        <div id="rangeHint" class="hidden" style="padding:10px 16px;background:var(--card2);border:1px solid var(--cy);border-radius:10px;color:var(--cy);font-family:'JetBrains Mono',monospace;font-size:0.8rem;margin-bottom:12px;">📍 Click end date to create a ribbon card. Press Esc to cancel.</div>
         <div class="cal-grid" id="timelineCalendar"></div>
-        <div class="section-card" style="margin-top:20px;"><div style="font-weight:600; margin-bottom:16px;">📊 Gantt View</div><div id="ganttView"></div></div>
+        <div class="section-card" style="margin-top:20px;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:600;color:var(--mu);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;">Gantt View</div>
+          <div id="ganttView"></div>
+        </div>
       </div>
 
-      <!-- ANALYTICS VIEW -->
+      <!-- Analytics view -->
       <div id="view-analytics" class="view">
-        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;">
-          <button class="btn" onclick="document.getElementById('dashImport').click()">📄 Import Excel/CSV</button>
-          <select id="chartType" class="form-input"><option value="bar">Bar</option><option value="line">Line</option><option value="pie">Pie</option><option value="doughnut">Doughnut</option></select>
-          <select id="xAxisColumn" class="form-input"><option value="">X-Axis Column</option></select>
-          <select id="yAxisColumns" class="form-input" multiple size="1"><option value="">Y-Axis Columns (Ctrl+click)</option></select>
-          <button class="btn btn-outline" onclick="applyChartConfig()">📊 Generate Chart</button>
-          <button class="btn btn-sm btn-ghost" onclick="resetAnalytics()">Reset</button>
+        <div style="display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap;">
+          <input type="file" id="dashImport" accept=".txt,.csv,.xlsx,.xls" onchange="handleDashImport(event)" hidden>
+          <button class="btn" onclick="document.getElementById('dashImport').click()">📄 Import</button>
+          <select id="chartType" style="padding:8px;background:var(--ibg);border:1px solid var(--bd);color:var(--hd);border-radius:6px;">
+            <option value="bar">Bar</option>
+            <option value="line">Line</option>
+            <option value="pie">Pie</option>
+            <option value="doughnut">Doughnut</option>
+          </select>
+          <button class="btn btn-outline" onclick="applyChartTypeToLast()">🔧 Apply Type</button>
         </div>
         <div id="dashChartsContainer"></div>
-        <div class="section-card" style="margin-top:16px;"><h4>📈 Quick Insights</h4><div id="quickInsights"></div></div>
       </div>
 
-      <!-- TRASH VIEW -->
+      <!-- Trash view -->
       <div id="view-trash" class="view">
-        <div style="display:flex; gap:8px; margin-bottom:12px;">
+        <div style="display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap;">
           <button class="btn btn-danger" onclick="emptyTrash()">🗑 Empty All</button>
           <button class="btn btn-outline" onclick="restoreAllTrash()">↩ Restore All</button>
         </div>
@@ -282,10 +144,10 @@ th{color:var(--am);font-family:'JetBrains Mono',monospace;font-size:0.75rem;text
       </div>
     </div>
 
-    <!-- Mobile Bottom Bar -->
+    <!-- Mobile bottom tab bar -->
     <div class="mobile-tabbar">
       <div class="mobile-tabbar-inner">
-        <button class="mtab" data-view="dashboard" onclick="switchView('dashboard')"><span class="mt-icon">📊</span><span class="mt-label">Dash</span></button>
+        <button class="mtab active" data-view="dashboard" onclick="switchView('dashboard')"><span class="mt-icon">📊</span><span class="mt-label">Dash</span></button>
         <button class="mtab" data-view="board" onclick="switchView('board')"><span class="mt-icon">📋</span><span class="mt-label">Board</span></button>
         <button class="mtab" data-view="timeline" onclick="switchView('timeline')"><span class="mt-icon">📅</span><span class="mt-label">Time</span></button>
         <button class="mtab" data-view="analytics" onclick="switchView('analytics')"><span class="mt-icon">📈</span><span class="mt-label">Stats</span></button>
@@ -296,872 +158,99 @@ th{color:var(--am);font-family:'JetBrains Mono',monospace;font-size:0.75rem;text
     <!-- Footer -->
     <footer class="app-footer">
       <div class="footer-brand">⚗ Alkembic</div>
-      <button class="btn btn-sm btn-ghost" onclick="document.getElementById('shortcutsModal').classList.remove('hidden')">⌨</button>
-      <div class="footer-stats"><span>📋 <span id="fCards">0</span></span><span>✅ <span id="fDone">0</span></span><span>📊 <span id="fImports">0</span></span></div>
-      <div id="autosaveIndicator" style="display:flex; align-items:center; gap:4px;"><div class="autosave-dot"></div> AUTO</div>
-      <div class="footer-clock" id="footerClock">--:--:--</div>
+      <div class="footer-stats">
+        <div>📋 <span id="fCards">0</span></div>
+        <div>✅ <span id="fDone">0</span></div>
+        <div>📊 <span id="fImports">0</span></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div id="autosaveIndicator" style="display:flex;align-items:center;gap:4px;font-family:'JetBrains Mono',monospace;font-size:0.66rem;color:var(--gr);">
+          <div class="autosave-dot"></div> AUTO
+        </div>
+        <div class="footer-clock" id="footerClock">--:--:--</div>
+      </div>
     </footer>
 
-    <!-- Console Reopen Button -->
-    <button class="console-reopen" id="consoleReopen" onclick="openFloatingConsole()" style="display:none;">📟</button>
+    <!-- Console bar -->
+    <div class="console-bar" id="consoleBar">
+      <div class="console-main">
+        <span style="font-family:'JetBrains Mono',monospace;color:var(--am);font-size:0.82rem;flex-shrink:0;">⚗ $</span>
+        <input type="text" class="console-input" id="consoleInput" placeholder="color:red; bg:#0a0f19; accent:#00e5ff; theme:light | help" onkeydown="handleConsoleKey(event)">
+        <button class="btn btn-sm" onclick="runConsole()">▶</button>
+        <button class="btn btn-sm btn-ghost" onclick="toggleConsoleLog()">LOG</button>
+      </div>
+      <div class="console-log" id="consoleLog"></div>
+    </div>
   </div>
 
-  <!-- Modals -->
+  <!-- Create/Edit Card Modal -->
   <div id="createCardModal" class="modal-overlay hidden">
     <div class="modal-content">
-      <div style="display:flex; justify-content:space-between; margin-bottom:16px;"><h3 id="cardModalTitle">New Card</h3><button onclick="closeCreateCard()">×</button></div>
-      <div class="form-grid">
-        <div class="form-grid-full"><input type="text" id="cardSubject" placeholder="Subject *" class="form-input"></div>
-        <div class="form-grid-full"><textarea id="cardDesc" placeholder="Description" rows="2" class="form-input"></textarea></div>
-        <input type="text" id="cardPeople" placeholder="People (Name Role, comma)" class="form-input">
-        <input type="text" id="cardLabels" placeholder="Labels (comma)" class="form-input">
-        <input type="number" id="cardPoints" placeholder="Story Points" class="form-input" value="3">
-        <input type="number" id="cardProgress" placeholder="Progress %" class="form-input" value="0">
-        <input type="date" id="cardStart" class="form-input">
-        <input type="date" id="cardEnd" class="form-input">
-        <select id="cardStatus" class="form-input"><option value="todo">To Do</option><option value="in-progress">In Progress</option><option value="done">Done</option></select>
-        <select id="cardPriority" class="form-input"><option value="low">🟢 Low</option><option value="medium" selected>🟡 Medium</option><option value="high">🟠 High</option><option value="critical">🔴 Critical</option></select>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <h3 style="color:var(--am); margin:0;" id="cardModalTitle">New Card</h3>
+        <button onclick="closeCreateCard()" style="background:none;border:none;color:var(--mu);font-size:1.5rem;cursor:pointer;line-height:1;">×</button>
       </div>
-      <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;"><button class="btn btn-ghost" onclick="closeCreateCard()">Cancel</button><button class="btn" id="cardSaveBtn" onclick="saveKanbanCard()">Create</button></div>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div class="form-field form-grid-full"><label>Subject *</label><input type="text" id="cardSubject" class="form-input"></div>
+        <div class="form-field form-grid-full"><label>Description</label><textarea id="cardDesc" rows="2" class="form-input"></textarea></div>
+        <div class="form-field form-grid-full"><label>People (Name Role, comma)</label><input type="text" id="cardPeople" class="form-input" placeholder="Alice Dev, Bob PM"></div>
+        <div class="form-field form-grid-full"><label>Labels (comma)</label><input type="text" id="cardLabels" class="form-input" placeholder="backend, urgent"></div>
+        <div class="form-grid">
+          <div class="form-field"><label>Story Points</label><input type="number" id="cardPoints" min="1" max="21" class="form-input"></div>
+          <div class="form-field"><label>Progress %</label><input type="number" id="cardProgress" min="0" max="100" class="form-input"></div>
+          <div class="form-field"><label>Start Date</label><input type="date" id="cardStart" class="form-input"></div>
+          <div class="form-field"><label>End Date</label><input type="date" id="cardEnd" class="form-input"></div>
+          <div class="form-field"><label>Status</label><select id="cardStatus" class="form-input"><option value="todo">To Do</option><option value="in-progress">In Progress</option><option value="done">Done</option></select></div>
+          <div class="form-field"><label>Priority</label><select id="cardPriority" class="form-input"><option value="low">🟢 Low</option><option value="medium" selected>🟡 Medium</option><option value="high">🟠 High</option><option value="critical">🔴 Critical</option></select></div>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:8px;">
+          <button class="btn btn-ghost" onclick="closeCreateCard()">Cancel</button>
+          <button class="btn" id="cardSaveBtn" onclick="saveKanbanCard()">Create</button>
+        </div>
+      </div>
     </div>
   </div>
 
+  <!-- View Card Modal -->
   <div id="viewCardModal" class="modal-overlay hidden">
     <div class="modal-content">
-      <div style="display:flex; justify-content:space-between; margin-bottom:16px;"><div style="font-size:1.1rem; font-weight:700; color:var(--am);" id="viewCardTitle">Card</div><button onclick="closeViewCard()">×</button></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <div style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:var(--am);" id="viewCardTitle">Card</div>
+        <button onclick="closeViewCard()" style="background:none;border:none;color:var(--mu);font-size:1.5rem;cursor:pointer;line-height:1;">×</button>
+      </div>
       <div id="viewCardContent"></div>
-      <hr style="margin:16px 0;">
-      <div><label>Add Comment</label><div class="comment-input-group"><input type="text" id="commentInput" placeholder="Write a comment..." class="form-input"><button class="btn btn-sm" onclick="addComment()">Post</button></div></div>
+      <hr style="border:none;border-top:1px solid var(--bd);margin:16px 0;">
+      <div><label style="font-size:0.74rem;color:var(--mu);font-family:'JetBrains Mono',monospace;">Add Comment</label><div style="display:flex;gap:8px; margin-top:6px;"><input type="text" id="commentInput" placeholder="Write a comment..." class="form-input" style="flex:1;"><button class="btn btn-sm" onclick="addComment()">Post</button></div></div>
       <div id="commentsList" style="margin-top:12px;"></div>
-      <div style="display:flex; justify-content:space-between; gap:8px; margin-top:16px;">
-        <div><button class="btn btn-sm" id="viewEditBtn">✏️ Edit</button><button class="btn btn-sm btn-outline" id="viewCloneBtn">📋 Clone</button></div>
-        <div><button class="btn btn-sm btn-ghost" onclick="closeViewCard()">Close</button><button class="btn btn-sm btn-danger" id="viewDeleteBtn">🗑 Delete</button></div>
+      <div style="display:flex;justify-content:space-between;gap:8px;margin-top:16px;flex-wrap:wrap;">
+        <div style="display:flex;gap:8px;"><button class="btn btn-sm" id="viewEditBtn">✏️ Edit</button><button class="btn btn-sm btn-outline" id="viewCloneBtn">📋 Clone</button></div>
+        <div style="display:flex;gap:8px;"><button class="btn btn-sm btn-ghost" onclick="closeViewCard()">Close</button><button class="btn btn-sm btn-danger" id="viewDeleteBtn">🗑 Delete</button></div>
       </div>
     </div>
   </div>
 
+  <!-- Settings Modal -->
   <div id="settingsModal" class="modal-overlay hidden"><div class="modal-content" id="settingsContent"></div></div>
 
-  <div id="tokenOffsetModal" class="modal-overlay hidden">
-    <div class="modal-content">
-      <div style="display:flex; justify-content:space-between; margin-bottom:16px;"><h3>🕐 Token Offset</h3><button onclick="closeTokenOffset()">×</button></div>
-      <p>Add a fixed number of minutes to the current time when generating or verifying your token.</p>
-      <div class="form-field"><label>Offset (minutes)</label><input type="number" id="tokenOffsetValue" class="form-input" min="-120" max="120" value="0"></div>
-      <div class="token-preview">Current token: <strong id="tokenPreviewDisplay">----</strong></div>
-      <div class="token-note">Token = HHMM (12h) + offset</div>
-      <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;"><button class="btn btn-ghost" onclick="closeTokenOffset()">Cancel</button><button class="btn" onclick="saveTokenOffset()">Save</button></div>
-    </div>
-  </div>
-
+  <!-- Keyboard Shortcuts Modal -->
   <div id="shortcutsModal" class="modal-overlay hidden">
-    <div class="modal-content" style="max-width:380px;">
-      <div style="display:flex; justify-content:space-between; margin-bottom:12px;"><h3>⌨ Shortcuts</h3><button onclick="document.getElementById('shortcutsModal').classList.add('hidden')">×</button></div>
-      <table style="width:100%; font-family:'JetBrains Mono',monospace; font-size:0.8rem;">
-        <tr><td style="color:var(--am);">/</td><td>Focus search</td></tr>
-        <tr><td style="color:var(--am);">Esc</td><td>Close modal / cancel range</td></tr>
-        <tr><td style="color:var(--am);">Ctrl+S</td><td>Save workspace</td></tr>
-        <tr><td style="color:var(--am);">N</td><td>New card (when not in input)</td></tr>
-      </table>
-      <button class="btn btn-sm btn-ghost" onclick="document.getElementById('shortcutsModal').classList.add('hidden')" style="margin-top:12px;">Close</button>
+    <div class="modal-content">
+      <h3>⌨️ Keyboard Shortcuts</h3>
+      <table style="width:100%"><tr><td style="color:var(--am);">/</td><td>Focus search</td></tr><tr><td style="color:var(--am);">Esc</td><td>Close modal / cancel range</td></tr><tr><td style="color:var(--am);">Ctrl+S</td><td>Save workspace</td></tr><tr><td style="color:var(--am);">N</td><td>New card (when not in input)</td></tr><tr><td style="color:var(--am);">Ctrl+F</td><td>Open Super Console</td></tr></table>
+      <button class="btn btn-sm" onclick="closeModal('shortcutsModal')">Close</button>
     </div>
   </div>
 
-  <!-- Draggable FAB -->
-  <div class="draggable-fab" id="addCardFab" onclick="openCreateCard()">+</div>
-
-  <!-- Loading overlay -->
-  <div id="loadingOverlay" class="modal-overlay hidden" style="background:rgba(0,0,0,0.5); backdrop-filter:blur(2px); z-index:10003;"><div style="background:var(--sf); padding:20px; border-radius:12px; display:flex; gap:12px;"><div class="autosave-dot" style="width:12px; height:12px;"></div><span>Loading...</span></div></div>
-
-  <!-- Toast container -->
+  <!-- Toast container (for dynamic notifications) -->
   <div id="toastContainer" style="position:fixed; bottom:80px; right:20px; z-index:10002;"></div>
 
   <script>
-    // ============================== ALKEMBIC ACE v1.2 – FULL SCRIPT ==============================
-// All features: token time fix, editable table lock, multi‑column analytics, floating console (CSS/JS), drag & drop, timeline ribbons, etc.
-
-// ----- UTILITIES -----
-const IDB_NAME = 'alkembic_handles', IDB_STORE = 'handles';
-function defaultSettings() { return { theme:'dark', font:'Inter', tokenEnabled:true, tokenOffset:0, autosave:true, accentColor:'#f0a500', tableLocked:false }; }
-function blankWorkspace() { return { name:'', password:'', token:'', cards:[], events:[], importedData:[], dashDatasets:[], settings:defaultSettings() }; }
-function slug(s) { return (s||'').toLowerCase().replace(/[^a-z0-9]+/g,'_'); }
-function escapeHTML(s) { return String(s||'').replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m] || m)); }
-function showToast(msg, type='success') {
-  let container = document.getElementById('toastContainer') || document.body;
-  let t = document.createElement('div');
-  t.textContent = msg;
-  t.style.cssText = `margin-top:8px; background:${type==='error'?'var(--rd)':'var(--am)'}; color:#000; padding:8px 16px; border-radius:8px; font-weight:600; box-shadow:0 2px 8px rgba(0,0,0,0.2); animation:slideInRight 0.3s ease-out;`;
-  container.appendChild(t);
-  setTimeout(() => t.remove(), 2500);
-}
-async function showConfirm(msg) {
-  return new Promise(resolve => {
-    let d = document.createElement('div');
-    d.className = 'modal-overlay';
-    d.innerHTML = `<div class="modal-content"><p>${escapeHTML(msg)}</p><div style="display:flex;gap:8px;margin-top:12px;"><button class="btn" id="cfYes">Yes</button><button class="btn btn-ghost" id="cfNo">No</button></div></div>`;
-    document.body.appendChild(d);
-    d.querySelector('#cfYes').onclick = () => { d.remove(); resolve(true); };
-    d.querySelector('#cfNo').onclick = () => { d.remove(); resolve(false); };
-  });
-}
-function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
-
-// ----- INDEXEDDB & STORAGE -----
-function openIDB() { return new Promise((res,rej) => { let req = indexedDB.open(IDB_NAME,1); req.onupgradeneeded = () => req.result.createObjectStore(IDB_STORE); req.onsuccess = () => res(req.result); req.onerror = () => rej(req.error); }); }
-async function idbPut(k,v) { let db = await openIDB(); return new Promise((res,rej) => { let tx = db.transaction(IDB_STORE,'readwrite'); tx.objectStore(IDB_STORE).put(v,k); tx.oncomplete = res; tx.onerror = () => rej(tx.error); }); }
-async function idbGet(k) { let db = await openIDB(); return new Promise((res,rej) => { let tx = db.transaction(IDB_STORE,'readonly'); let req = tx.objectStore(IDB_STORE).get(k); req.onsuccess = () => res(req.result); req.onerror = () => rej(req.error); }); }
-async function writeJSON(fn,data) { localStorage.setItem(fn,JSON.stringify(data)); }
-async function readJSON(fn) { let d = localStorage.getItem(fn); return d ? JSON.parse(d) : null; }
-
-// ----- GLOBAL STATE -----
-let workspace = blankWorkspace(), trashItems = [], activityLog = [], currentUser = null, workspaceMode = 'indexeddb';
-let timelineMonth = new Date().getMonth(), timelineYear = new Date().getFullYear(), rangeStart = null;
-let dashboardChart = null, dashChartInstances = [], autosaveInterval = null, editingCardId = null, viewingCardId = null;
-let activeFilter = 'all', multiSelectMode = false, selectedCardIds = new Set();
-let floatingConsole = null, consoleHistory = [], historyIdx = -1, tableLocked = false;
-let currentMultiSheetData = null, currentSheetColumns = [];
-
-// ----- Helper functions -----
-function updateFooterStats() {
-  let cards = workspace.cards;
-  document.getElementById('fCards').innerText = cards.length;
-  document.getElementById('fDone').innerText = cards.filter(c => c.column === 'done').length;
-  document.getElementById('fImports').innerText = workspace.importedData.length;
-  document.getElementById('statCards').innerText = cards.length;
-  document.getElementById('statDone').innerText = cards.filter(c => c.column === 'done').length;
-  document.getElementById('statTrash').innerText = trashItems.length;
-  document.getElementById('statImports').innerText = workspace.importedData.length;
-}
-function logActivity(type, msg) {
-  activityLog.unshift({ type, msg, time: new Date().toISOString() });
-  if (activityLog.length > 100) activityLog.pop();
-  saveAllData();
-  renderActivityFeed();
-}
-async function saveAllData() {
-  let payload = { ...workspace, trashItems, activityLog, savedAt: new Date().toISOString() };
-  await writeJSON(workspace.name ? `${slug(workspace.name)}_profile.json` : 'workspace_data', payload);
-}
-async function loadWorkspaceData() {
-  let data = await readJSON(workspace.name ? `${slug(workspace.name)}_profile.json` : 'workspace_data');
-  if (data) {
-    workspace = { ...blankWorkspace(), ...data };
-    trashItems = data.trashItems || [];
-    activityLog = data.activityLog || [];
-    workspace.settings = { ...defaultSettings(), ...(workspace.settings || {}) };
-    tableLocked = workspace.settings.tableLocked || false;
-  }
-  if (workspace.settings.autosave) startAutosave();
-}
-function startAutosave() { if (autosaveInterval) clearInterval(autosaveInterval); autosaveInterval = setInterval(saveAllData, 10000); }
-function stopAutosave() { if (autosaveInterval) clearInterval(autosaveInterval); autosaveInterval = null; }
-
-// ----- Token time fix -----
-function getCurrentToken(offset = 0) {
-  let now = new Date();
-  let tokenTime = new Date(now.getTime() + offset * 60000);
-  let hours = tokenTime.getHours() % 12 || 12;
-  let mins = tokenTime.getMinutes();
-  return `${String(hours).padStart(2,'0')}${String(mins).padStart(2,'0')}`;
-}
-
-// ----- Setup & Auth -----
-async function renderSetupScreen() {
-  let c = document.getElementById('setupContent');
-  if (!c) return;
-  c.innerHTML = `
-    <h2>⚗ Alkembic Ace</h2>
-    <p>Secure workspace with token offset</p>
-    <input id="newName" placeholder="Workspace Name" class="form-input">
-    <input type="password" id="newPassword" placeholder="Password (min 6)" class="form-input">
-    <button class="btn" onclick="createWorkspace()">Create</button>
-    <hr>
-    <input id="loginName" placeholder="Workspace Name" class="form-input">
-    <input type="password" id="loginPassword" placeholder="Password" class="form-input">
-    <button class="btn btn-outline" onclick="loginWithPassword()">Login</button>
-    <div style="margin:12px 0;">— or token —</div>
-    <input id="tokenInput" placeholder="HHMM Token" maxlength="4" class="form-input" style="text-align:center;letter-spacing:4px;">
-    <button class="btn btn-outline" onclick="loginWithToken()">🔐 Token</button>
-    <button class="btn btn-ghost" onclick="document.getElementById('importFileInput').click()">📥 Import Workspace</button>
-    <div style="margin-top:12px;"><button class="btn btn-sm btn-ghost" onclick="selectFolderWorkspace()">📁 Select Folder Workspace</button></div>
-  `;
-}
-async function createWorkspace() {
-  let name = document.getElementById('newName').value.trim();
-  let pwd = document.getElementById('newPassword').value;
-  if (!name || pwd.length < 6) { showToast('Invalid name/password','error'); return; }
-  let offset = workspace.settings.tokenOffset || 0;
-  let token = getCurrentToken(offset);
-  workspace = { ...blankWorkspace(), name, password: pwd, token, settings: { ...defaultSettings() } };
-  trashItems = [];
-  activityLog = [];
-  await saveAllData();
-  currentUser = name;
-  finishSetup();
-}
-async function loginWithPassword() {
-  let name = document.getElementById('loginName').value.trim();
-  let pwd = document.getElementById('loginPassword').value;
-  if (!name || !pwd) return;
-  workspace.name = name;
-  await loadWorkspaceData();
-  if (workspace.password === pwd) { currentUser = name; finishSetup(); }
-  else { showToast('Wrong password','error'); }
-}
-async function loginWithToken() {
-  let token = document.getElementById('tokenInput').value.trim();
-  let name = document.getElementById('loginName').value.trim();
-  if (name) workspace.name = name;
-  await loadWorkspaceData();
-  let expected = getCurrentToken(workspace.settings.tokenOffset || 0);
-  if (token === workspace.token || token === expected) { currentUser = workspace.name; finishSetup(); }
-  else { showToast('Invalid token','error'); }
-}
-async function importWorkspaceFile(e) {
-  let file = e.target.files[0];
-  if (!file) return;
-  let reader = new FileReader();
-  reader.onload = async (ev) => {
-    try {
-      let imp = JSON.parse(ev.target.result);
-      let ws = imp.workspace || imp;
-      if (!ws.name || !ws.password) throw new Error();
-      workspace = { ...blankWorkspace(), ...ws };
-      trashItems = imp.trashItems || [];
-      activityLog = imp.activityLog || [];
-      await saveAllData();
-      finishSetup();
-      showToast('Imported');
-    } catch(e) { showToast('Invalid file','error'); }
-  };
-  reader.readAsText(file);
-}
-async function selectFolderWorkspace() {
-  try {
-    let handle = await window.showDirectoryPicker({ mode:'readwrite' });
-    showToast('Folder selected – feature partially implemented');
-  } catch(e) { showToast('Folder selection failed','error'); }
-}
-function finishSetup() {
-  document.getElementById('setupScreen').style.display = 'none';
-  document.getElementById('appContainer').style.display = 'flex';
-  document.getElementById('userNameDisplay').innerText = currentUser;
-  applySettings();
-  switchView('dashboard');
-  renderAllViews();
-  startFooterClock();
-  updateFooterStats();
-  logActivity('login','Logged in');
-}
-async function logout() {
-  await saveAllData();
-  stopAutosave();
-  document.getElementById('appContainer').style.display = 'none';
-  document.getElementById('setupScreen').style.display = 'flex';
-  workspace = blankWorkspace();
-  trashItems = [];
-  activityLog = [];
-  currentUser = null;
-  renderSetupScreen();
-}
-
-// ----- Settings & Theme -----
-function applySettings() {
-  document.documentElement.setAttribute('data-theme', workspace.settings.theme || 'dark');
-  document.body.style.fontFamily = workspace.settings.font || 'Inter';
-  document.documentElement.style.setProperty('--am', workspace.settings.accentColor || '#f0a500');
-}
-function toggleTheme() {
-  workspace.settings.theme = workspace.settings.theme === 'dark' ? 'light' : 'dark';
-  applySettings();
-  saveAllData();
-}
-function openSettings() {
-  let s = workspace.settings;
-  let modal = document.getElementById('settingsModal');
-  let content = document.getElementById('settingsContent');
-  content.innerHTML = `
-    <div class="settings-section-title">🎨 Appearance</div>
-    <div class="settings-row"><span>Theme</span><label class="toggle-switch"><input type="checkbox" id="themeToggle" ${s.theme === 'light' ? 'checked' : ''} onchange="toggleTheme()"><span class="toggle-track"></span></label></div>
-    <div class="settings-row"><span>Accent Color</span><input type="color" id="accentColor" value="${s.accentColor || '#f0a500'}" onchange="workspace.settings.accentColor=this.value;applySettings();saveAllData()"></div>
-    <div class="settings-row"><span>Font Family</span><select id="fontSelect" onchange="workspace.settings.font=this.value;applySettings();saveAllData()"><option ${s.font === 'Inter' ? 'selected' : ''}>Inter</option><option ${s.font === 'Syne' ? 'selected' : ''}>Syne</option><option ${s.font === 'JetBrains Mono' ? 'selected' : ''}>JetBrains Mono</option></select></div>
-    <div class="settings-section-title">🔐 Security & Token</div>
-    <div class="token-row"><span>Token Offset (minutes)</span><input type="number" id="tokenOffsetVal" class="token-offset-input" value="${s.tokenOffset || 0}" min="-120" max="120" onchange="updateTokenOffset()"><button class="btn btn-sm" onclick="updateTokenOffset()">💾 Save</button></div>
-    <div class="token-preview">Current token: <strong id="tokenPreviewDisplay">${getCurrentToken(s.tokenOffset || 0)}</strong></div>
-    <div class="settings-row"><span>Change Password</span><div><input type="password" id="newPasswordInput" placeholder="Min 6 chars" style="width:160px;"><button class="btn btn-sm" onclick="changePassword()">Update</button></div></div>
-    <div class="settings-section-title">💾 System</div>
-    <div class="settings-row"><span>Auto-save</span><label class="toggle-switch"><input type="checkbox" id="autosaveToggle" ${s.autosave ? 'checked' : ''} onchange="toggleAutosave()"><span class="toggle-track"></span></label></div>
-    <div class="settings-section-title">📤 Export / Backup</div>
-    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
-      <button class="btn btn-sm" onclick="exportWorkspace()">💾 Backup JSON</button>
-      <button class="btn btn-sm btn-outline" onclick="exportWorkspaceCSV()">📊 Export CSV</button>
-      <button class="btn btn-sm btn-outline" onclick="exportAllCardsJSON()">📋 All Cards JSON</button>
-    </div>
-    <div class="settings-section-title">ℹ️ Workspace Info</div>
-    <div style="background:var(--card2); border-radius:8px; padding:12px; margin-top:8px;">
-      <div>Name: <strong>${escapeHTML(workspace.name)}</strong></div>
-      <div>Cards: ${workspace.cards.length}</div>
-      <div>Storage: ${workspaceMode === 'folder' ? '📁 Folder' : '💻 Browser'}</div>
-    </div>
-    <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
-      <button class="btn btn-sm btn-ghost" onclick="closeModal('settingsModal')">Close</button>
-      <button class="btn btn-sm" onclick="logout()">🚪 Logout</button>
-    </div>`;
-  modal.classList.remove('hidden');
-  document.getElementById('tokenPreviewDisplay').innerText = getCurrentToken(s.tokenOffset || 0);
-}
-function updateTokenOffset() {
-  let val = parseInt(document.getElementById('tokenOffsetVal').value) || 0;
-  workspace.settings.tokenOffset = val;
-  workspace.token = getCurrentToken(val);
-  saveAllData();
-  document.getElementById('tokenPreviewDisplay').innerText = workspace.token;
-  showToast('Token offset saved');
-}
-async function changePassword() {
-  let newPwd = document.getElementById('newPasswordInput').value;
-  if (newPwd.length < 6) { showToast('Minimum 6 characters','error'); return; }
-  workspace.password = newPwd;
-  await saveAllData();
-  showToast('Password updated');
-  document.getElementById('newPasswordInput').value = '';
-}
-function toggleAutosave() {
-  workspace.settings.autosave = !workspace.settings.autosave;
-  if (workspace.settings.autosave) startAutosave();
-  else stopAutosave();
-  saveAllData();
-}
-function exportWorkspace() {
-  let data = { workspace, trashItems, activityLog };
-  let blob = new Blob([JSON.stringify(data,null,2)], { type:'application/json' });
-  let a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `${slug(workspace.name)}-backup.json`;
-  a.click();
-  showToast('Backup exported');
-}
-function exportWorkspaceCSV() {
-  let csv = 'id,subject,description,labels,people,storyPoints,progress,startDate,endDate,column,priority\n';
-  workspace.cards.forEach(c => {
-    let labels = (c.labels || []).join(';');
-    let people = (c.people || []).map(p => `${p.name}:${p.role}`).join(';');
-    csv += `${c.id},"${(c.subject || '').replace(/"/g,'""')}","${(c.description || '').replace(/"/g,'""')}","${labels}","${people}",${c.storyPoints || 1},${c.progress || 0},${c.startDate || ''},${c.endDate || ''},${c.column},${c.priority}\n`;
-  });
-  let blob = new Blob([csv], { type:'text/csv' });
-  let a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'workspace-export.csv';
-  a.click();
-  showToast('CSV exported');
-}
-function exportAllCardsJSON() {
-  let blob = new Blob([JSON.stringify(workspace.cards,null,2)], { type:'application/json' });
-  let a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'all-cards.json';
-  a.click();
-  showToast('All cards exported');
-}
-
-// ----- Views -----
-function switchView(view) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.getElementById(`view-${view}`).classList.add('active');
-  if (view === 'dashboard') renderDashboard();
-  if (view === 'board') renderKanban();
-  if (view === 'timeline') renderTimeline();
-  if (view === 'analytics') renderAnalytics();
-  if (view === 'trash') renderTrash();
-  updateFooterStats();
-}
-function renderAllViews() { renderDashboard(); renderKanban(); renderTimeline(); renderTrash(); renderAnalytics(); }
-function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('sidebarOverlay').classList.toggle('show'); }
-
-// ----- Dashboard -----
-function renderDashboard() { updateFooterStats(); renderImportedTable(); renderActivityFeed(); }
-function renderImportedTable() {
-  let tbody = document.querySelector('#importedTable tbody');
-  if (!tbody) return;
-  tbody.innerHTML = workspace.importedData.map((item,i) => `
-    <tr><td ${!tableLocked ? 'contenteditable="true"' : ''} onblur="updateImported(${i},'label',this.innerText)">${escapeHTML(item.label)}</td>
-    <td><td ${!tableLocked ? 'contenteditable="true"' : ''} onblur="updateImported(${i},'value',this.innerText)">${item.value}</td></tr>`).join('') || '<tr><td colspan="2">No data</td></tr>';
-  let lockBtn = document.getElementById('toggleTableLockBtn');
-  if (lockBtn) lockBtn.innerText = tableLocked ? '🔓 Unlock Edits' : '🔒 Lock Edits';
-}
-function toggleTableLock() { tableLocked = !tableLocked; workspace.settings.tableLocked = tableLocked; renderImportedTable(); saveAllData(); }
-function updateImported(idx,field,val) {
-  if (tableLocked) return;
-  if (field === 'value') workspace.importedData[idx].value = parseFloat(val) || 0;
-  else workspace.importedData[idx].label = val;
-  saveAllData();
-  renderDashboard();
-}
-function saveEditableTable() { saveAllData(); showToast('Table saved'); }
-function refreshImportedTable() { renderImportedTable(); }
-function exportImportedDataCSV() {
-  let csv = 'Label,Value\n' + workspace.importedData.map(d => `"${d.label}",${d.value}`).join('\n');
-  let blob = new Blob([csv], { type:'text/csv' });
-  let a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'imported-data.csv';
-  a.click();
-}
-function handleFileImport(e) {
-  let file = e.target.files[0];
-  if (!file) return;
-  let reader = new FileReader();
-  reader.onload = (ev) => {
-    let data = [];
-    if (file.name.match(/\.xlsx?$/i)) {
-      let wb = XLSX.read(ev.target.result, { type:'binary' });
-      let sheet = wb.Sheets[wb.SheetNames[0]];
-      data = XLSX.utils.sheet_to_json(sheet, { header:1 }).slice(1).filter(r => r.length).map(r => ({ label: r[0]?.toString() || '', value: parseFloat(r[1]) || 0 }));
-    } else {
-      let lines = ev.target.result.split('\n');
-      data = lines.map(l => { let p = l.split(/[,\t]/); return { label: p[0]?.trim() || '', value: parseFloat(p[1]) || 0 }; }).filter(d => d.label);
-    }
-    workspace.importedData = data;
-    saveAllData();
-    renderDashboard();
-    showToast(`Imported ${data.length} rows`);
-  };
-  if (file.name.match(/\.xlsx?$/i)) reader.readAsBinaryString(file);
-  else reader.readAsText(file);
-}
-function renderActivityFeed() {
-  let feed = document.getElementById('activityFeed');
-  if (!feed) return;
-  if (!activityLog.length) { feed.innerHTML = '<div style="color:var(--mu); text-align:center;">No activity yet</div>'; return; }
-  feed.innerHTML = activityLog.slice(0,20).map(a => `<div style="border-bottom:1px solid var(--bd); padding:6px 0; display:flex; justify-content:space-between;"><span><small>${new Date(a.time).toLocaleString()}</small> — ${escapeHTML(a.msg)}</span><button class="btn btn-sm btn-ghost" onclick="recoverSpecificActivity('${a.time}')" style="padding:2px 6px;">↩</button></div>`).join('');
-}
-function recoverSpecificActivity(timestamp) {
-  let entry = activityLog.find(a => a.time === timestamp);
-  if (!entry) return;
-  showToast(`Last action: ${entry.msg}`, 'info');
-}
-function recoverLastActivity() { if (activityLog.length) showToast(`Last action: ${activityLog[0].msg}`, 'info'); }
-function clearActivityLog() { if (confirm('Clear all activity log?')) { activityLog = []; renderActivityFeed(); saveAllData(); showToast('Activity cleared'); } }
-function exportActivityLog() {
-  let blob = new Blob([JSON.stringify(activityLog,null,2)], { type:'application/json' });
-  let a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'activity-log.json';
-  a.click();
-}
-
-// ----- Kanban Board -----
-function renderKanban() {
-  let search = document.getElementById('kanbanSearch').value.toLowerCase();
-  let sortBy = document.getElementById('sortBy')?.value || 'priority';
-  let columns = ['todo','in-progress','done'];
-  let board = document.getElementById('kanbanBoard');
-  board.innerHTML = columns.map(col => {
-    let cards = workspace.cards.filter(c => c.column === col);
-    if (activeFilter !== 'all') cards = cards.filter(c => c.priority === activeFilter);
-    if (search) cards = cards.filter(c => c.subject.toLowerCase().includes(search) || (c.description || '').toLowerCase().includes(search));
-    const priorityOrder = { critical:0, high:1, medium:2, low:3 };
-    if (sortBy === 'priority') cards.sort((a,b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
-    else if (sortBy === 'date') cards.sort((a,b) => (a.endDate || '').localeCompare(b.endDate || ''));
-    else if (sortBy === 'alpha') cards.sort((a,b) => a.subject.localeCompare(b.subject));
-    return `<div class="kanban-col" data-col="${col}" ondragover="event.preventDefault();" ondrop="dropCard(event,'${col}')">
-      <div class="col-header"><span class="col-title"><div class="col-dot"></div> ${col.toUpperCase()}</span><span class="col-count">${cards.length}</span></div>
-      ${cards.length === 0 ? `<div class="drop-zone-empty" onclick="openCreateCardInColumn('${col}')">+ Drop or click</div>` : ''}
-      ${cards.map(card => `
-        <div class="kanban-card ${multiSelectMode ? 'multi-select-active' : ''}" draggable="true" data-priority="${card.priority}" ondragstart="dragCard(event,${card.id})" ondblclick="openCardView(${card.id})">
-          ${multiSelectMode ? `<input type="checkbox" class="card-checkbox" ${selectedCardIds.has(card.id) ? 'checked' : ''} onclick="event.stopPropagation();toggleCardSelection(${card.id})">` : ''}
-          <div style="font-weight:700; margin-bottom:4px;">${escapeHTML(card.subject)}</div>
-          <div style="font-size:0.7rem;">${card.endDate ? `📅 ${card.endDate}` : ''}</div>
-          <div style="margin-top:6px;"><span style="font-size:0.65rem; background:var(--card); padding:2px 6px; border-radius:10px;">${card.priority}</span></div>
-          <div style="margin-top:8px; display:flex; gap:4px;">
-            <button class="card-action-btn" onclick="event.stopPropagation();openEditCard(${card.id})">✏️</button>
-            <button class="card-action-btn" onclick="event.stopPropagation();cloneCard(${card.id})">📋</button>
-            <button class="card-action-btn" onclick="event.stopPropagation();deleteCard(${card.id})">🗑</button>
-          </div>
-        </div>`).join('')}
-    </div>`;
-  }).join('');
-  updateBulkPanel();
-}
-function dragCard(e,id) { e.dataTransfer.setData('text/plain',id); }
-function dropCard(e,newCol) {
-  let id = parseInt(e.dataTransfer.getData('text/plain'));
-  let card = workspace.cards.find(c => c.id === id);
-  if (card) { card.column = newCol; saveAllData(); renderKanban(); logActivity('move',`Moved "${card.subject}" to ${newCol}`); }
-}
-function openCreateCardInColumn(col) { openCreateCard(); setTimeout(() => document.getElementById('cardStatus').value = col, 60); }
-function openCreateCard() { editingCardId = null; resetCardForm(); document.getElementById('cardModalTitle').innerText = 'New Card'; document.getElementById('cardSaveBtn').innerText = 'Create'; document.getElementById('createCardModal').classList.remove('hidden'); setTimeout(() => document.getElementById('cardSubject').focus(), 60); }
-function closeCreateCard() { document.getElementById('createCardModal').classList.add('hidden'); }
-function resetCardForm() {
-  document.getElementById('cardSubject').value = '';
-  document.getElementById('cardDesc').value = '';
-  document.getElementById('cardPeople').value = '';
-  document.getElementById('cardLabels').value = '';
-  document.getElementById('cardPoints').value = 3;
-  document.getElementById('cardProgress').value = 0;
-  document.getElementById('cardStart').value = '';
-  document.getElementById('cardEnd').value = '';
-  document.getElementById('cardStatus').value = 'todo';
-  document.getElementById('cardPriority').value = 'medium';
-}
-function openEditCard(id) {
-  let card = workspace.cards.find(c => c.id === id);
-  if (!card) return;
-  editingCardId = id;
-  document.getElementById('cardSubject').value = card.subject;
-  document.getElementById('cardDesc').value = card.description || '';
-  document.getElementById('cardPeople').value = (card.people || []).map(p => `${p.name} ${p.role}`).join(', ');
-  document.getElementById('cardLabels').value = (card.labels || []).join(', ');
-  document.getElementById('cardPoints').value = card.storyPoints || 3;
-  document.getElementById('cardProgress').value = card.progress || 0;
-  document.getElementById('cardStart').value = card.startDate || '';
-  document.getElementById('cardEnd').value = card.endDate || '';
-  document.getElementById('cardStatus').value = card.column;
-  document.getElementById('cardPriority').value = card.priority;
-  document.getElementById('cardModalTitle').innerText = 'Edit Card';
-  document.getElementById('createCardModal').classList.remove('hidden');
-}
-function saveKanbanCard() {
-  let subject = document.getElementById('cardSubject').value.trim();
-  if (!subject) { showToast('Subject required','error'); return; }
-  let desc = document.getElementById('cardDesc').value;
-  let peopleRaw = document.getElementById('cardPeople').value;
-  let labelsRaw = document.getElementById('cardLabels').value;
-  let storyPoints = parseInt(document.getElementById('cardPoints').value) || 3;
-  let progress = parseInt(document.getElementById('cardProgress').value) || 0;
-  let start = document.getElementById('cardStart').value;
-  let end = document.getElementById('cardEnd').value;
-  let status = document.getElementById('cardStatus').value;
-  let priority = document.getElementById('cardPriority').value;
-  let people = peopleRaw.split(',').map(p => p.trim()).filter(Boolean).map(p => { let parts = p.split(/\s+/); return parts.length >= 2 ? { name: parts[0], role: parts.slice(1).join(' ') } : { name: parts[0], role: 'Member' }; });
-  let labels = labelsRaw.split(',').map(l => l.trim()).filter(Boolean);
-  if (editingCardId) {
-    let card = workspace.cards.find(c => c.id === editingCardId);
-    if (card) { Object.assign(card, { subject, description: desc, people, labels, storyPoints, progress, startDate: start, endDate: end, column: status, priority }); logActivity('card',`Edited "${subject}"`); showToast('Card updated'); }
-  } else {
-    workspace.cards.push({ id: Date.now() + Math.floor(Math.random() * 1000), subject, description: desc, people, labels, storyPoints, progress, startDate: start, endDate: end, column: status, priority, comments: [] });
-    logActivity('card',`Created "${subject}"`); showToast('Card created');
-  }
-  closeCreateCard(); renderKanban(); saveAllData();
-}
-function cloneCard(id) {
-  let card = workspace.cards.find(c => c.id === id);
-  if (!card) return;
-  let copy = JSON.parse(JSON.stringify(card));
-  copy.id = Date.now() + Math.floor(Math.random() * 1000);
-  copy.subject = card.subject + ' (Copy)';
-  copy.comments = [];
-  workspace.cards.push(copy);
-  logActivity('card',`Cloned "${card.subject}"`);
-  showToast('Card cloned');
-  renderKanban(); saveAllData();
-}
-async function deleteCard(id) {
-  let card = workspace.cards.find(c => c.id === id);
-  if (!card) return;
-  if (await showConfirm(`Move "${card.subject}" to trash?`)) {
-    trashItems.push({ type:'card', content:card, deletedAt:new Date().toISOString() });
-    workspace.cards = workspace.cards.filter(c => c.id !== id);
-    renderKanban(); renderTrash(); saveAllData();
-    logActivity('delete',`Deleted "${card.subject}"`);
-  }
-}
-function setFilter(el) {
-  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  activeFilter = el.dataset.filter;
-  renderKanban();
-}
-function toggleMultiSelect() { multiSelectMode = !multiSelectMode; if (!multiSelectMode) selectedCardIds.clear(); renderKanban(); document.getElementById('multiSelectToggle').innerText = multiSelectMode ? '✓ Multi-Select ON' : '☐ Multi-Select'; }
-function toggleCardSelection(id) { if (selectedCardIds.has(id)) selectedCardIds.delete(id); else selectedCardIds.add(id); renderKanban(); }
-function updateBulkPanel() {
-  let panel = document.getElementById('bulkMovePanel');
-  if (multiSelectMode && selectedCardIds.size > 0) { panel.classList.remove('hidden'); panel.querySelector('.selected-count').innerText = `${selectedCardIds.size} selected`; }
-  else { panel.classList.add('hidden'); }
-}
-function bulkMoveCards() {
-  let target = document.getElementById('bulkMoveTarget').value;
-  workspace.cards.forEach(c => { if (selectedCardIds.has(c.id)) c.column = target; });
-  selectedCardIds.clear(); renderKanban(); saveAllData(); showToast('Cards moved');
-}
-function exportSelectedJSON() {
-  let selected = workspace.cards.filter(c => selectedCardIds.has(c.id));
-  let blob = new Blob([JSON.stringify(selected,null,2)], { type:'application/json' });
-  let a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'selected-cards.json'; a.click();
-}
-function exportSelectedICS() {
-  let selected = workspace.cards.filter(c => selectedCardIds.has(c.id) && c.startDate && c.endDate);
-  if (!selected.length) { showToast('No cards with dates selected','error'); return; }
-  let ics = 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\n';
-  selected.forEach(c => { let start = c.startDate.replace(/-/g,''); let endDate = new Date(c.endDate); endDate.setDate(endDate.getDate()+1); let end = endDate.toISOString().slice(0,10).replace(/-/g,''); ics += `BEGIN:VEVENT\r\nSUMMARY:${c.subject}\r\nDTSTART;VALUE=DATE:${start}\r\nDTEND;VALUE=DATE:${end}\r\nEND:VEVENT\r\n`; });
-  ics += 'END:VCALENDAR';
-  let blob = new Blob([ics], { type:'text/calendar' });
-  let a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'selected-cards.ics'; a.click();
-}
-async function bulkDeleteSelected() {
-  if (await showConfirm(`Delete ${selectedCardIds.size} cards permanently?`)) {
-    workspace.cards = workspace.cards.filter(c => !selectedCardIds.has(c.id));
-    selectedCardIds.clear(); renderKanban(); saveAllData(); showToast('Deleted');
-  }
-}
-
-// ----- Card View & Comments -----
-function openCardView(id) {
-  let card = workspace.cards.find(c => c.id === id);
-  if (!card) return;
-  viewingCardId = id;
-  document.getElementById('viewCardTitle').innerText = card.subject;
-  document.getElementById('viewCardContent').innerHTML = `<div><strong>Priority:</strong> ${card.priority}</div><div><strong>Status:</strong> ${card.column}</div><div><strong>Dates:</strong> ${card.startDate || '-'} → ${card.endDate || '-'}</div><div><strong>Progress:</strong> ${card.progress || 0}%</div><div><strong>Labels:</strong> ${(card.labels || []).join(', ')}</div><div><strong>People:</strong> ${(card.people || []).map(p => `${p.name} (${p.role})`).join(', ')}</div><p>${escapeHTML(card.description || '')}</p>`;
-  renderComments(id);
-  document.getElementById('viewCardModal').classList.remove('hidden');
-  document.getElementById('viewEditBtn').onclick = () => { closeViewCard(); openEditCard(id); };
-  document.getElementById('viewCloneBtn').onclick = () => { cloneCard(id); closeViewCard(); };
-  document.getElementById('viewDeleteBtn').onclick = () => { closeViewCard(); deleteCard(id); };
-}
-function closeViewCard() { document.getElementById('viewCardModal').classList.add('hidden'); viewingCardId = null; }
-function addComment() {
-  if (!viewingCardId) return;
-  let text = document.getElementById('commentInput').value.trim();
-  if (!text) return;
-  let card = workspace.cards.find(c => c.id === viewingCardId);
-  if (!card) return;
-  if (!card.comments) card.comments = [];
-  card.comments.push({ text, time: new Date().toISOString(), author: currentUser });
-  saveAllData();
-  renderComments(viewingCardId);
-  document.getElementById('commentInput').value = '';
-  showToast('Comment added');
-}
-function renderComments(cardId) {
-  let card = workspace.cards.find(c => c.id === cardId);
-  let comments = card.comments || [];
-  document.getElementById('commentsList').innerHTML = comments.map(c => `<div class="comment-item"><div class="comment-author">${escapeHTML(c.author || 'User')}</div><div>${escapeHTML(c.text)}</div><div class="comment-time">${new Date(c.time).toLocaleString()}</div></div>`).join('') || '<div>No comments</div>';
-}
-
-// ----- Timeline -----
-function renderTimeline() {
-  let monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-  document.getElementById('timelineMonth').innerText = `${monthNames[timelineMonth]} ${timelineYear}`;
-  let filter = document.getElementById('timelineFilter')?.value.toLowerCase() || '';
-  let firstDay = new Date(timelineYear, timelineMonth, 1).getDay();
-  let daysInMonth = new Date(timelineYear, timelineMonth+1, 0).getDate();
-  let today = new Date().toISOString().slice(0,10);
-  let html = '';
-  ['SUN','MON','TUE','WED','THU','FRI','SAT'].forEach(d => html += `<div class="cal-header">${d}</div>`);
-  for (let i=0; i<firstDay; i++) html += '<div class="cal-day empty"></div>';
-  for (let d=1; d<=daysInMonth; d++) {
-    let dateStr = `${timelineYear}-${String(timelineMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    let dayCards = workspace.cards.filter(c => c.startDate && c.endDate && dateStr >= c.startDate && dateStr <= c.endDate);
-    if (filter) dayCards = dayCards.filter(c => c.subject.toLowerCase().includes(filter));
-    let cls = 'cal-day';
-    if (dateStr === today) cls += ' today';
-    if (rangeStart === dateStr) cls += ' range-start';
-    let ribbonColor = (priority) => { if (priority === 'critical') return 'var(--rd)'; if (priority === 'high') return 'var(--or)'; if (priority === 'medium') return 'var(--am)'; return 'var(--gr)'; };
-    html += `<div class="${cls}" onclick="handleDayClick('${dateStr}')"><div class="day-num">${d}</div>${dayCards.slice(0,3).map(c => `<div class="day-ribbon" style="background:${ribbonColor(c.priority)}" title="${c.subject}"></div>`).join('')}${dayCards.length > 3 ? `<div class="day-ribbon-label">+${dayCards.length-3}</div>` : ''}</div>`;
-  }
-  document.getElementById('timelineCalendar').innerHTML = html;
-  renderGantt();
-}
-function renderGantt() {
-  let ganttDiv = document.getElementById('ganttView');
-  let filter = document.getElementById('timelineFilter')?.value.toLowerCase() || '';
-  let cards = workspace.cards.filter(c => c.startDate && c.endDate && (!filter || c.subject.toLowerCase().includes(filter)));
-  if (!cards.length) { ganttDiv.innerHTML = '<div>No cards with dates</div>'; return; }
-  let daysInMonth = new Date(timelineYear, timelineMonth+1, 0).getDate();
-  let mStart = new Date(timelineYear, timelineMonth, 1);
-  let html = '<div style="display:grid; grid-template-columns:150px 1fr; gap:8px;">';
-  cards.forEach(card => {
-    let cStart = new Date(Math.max(new Date(card.startDate), mStart));
-    let cEnd = new Date(Math.min(new Date(card.endDate), new Date(timelineYear, timelineMonth, daysInMonth)));
-    let startDay = Math.floor((cStart - mStart) / 86400000);
-    let duration = Math.floor((cEnd - cStart) / 86400000) + 1;
-    let leftPct = (startDay / daysInMonth) * 100;
-    let widthPct = Math.max((duration / daysInMonth) * 100, 2);
-    let color = card.priority === 'critical' ? 'var(--rd)' : card.priority === 'high' ? 'var(--or)' : card.priority === 'medium' ? 'var(--am)' : 'var(--gr)';
-    html += `<div style="font-size:0.78rem;">${escapeHTML(card.subject)}</div><div style="background:var(--bd); border-radius:4px; position:relative; height:24px;"><div class="gantt-bar" style="position:absolute; left:${leftPct}%; width:${widthPct}%; background:${color}; height:100%; border-radius:4px; cursor:pointer;" onclick="openCardView(${card.id})" title="${card.startDate} → ${card.endDate}"></div></div>`;
-  });
-  html += '</div>';
-  ganttDiv.innerHTML = html;
-}
-function changeTimelineMonth(delta) { timelineMonth += delta; if (timelineMonth < 0) { timelineMonth = 11; timelineYear--; } else if (timelineMonth > 11) { timelineMonth = 0; timelineYear++; } renderTimeline(); }
-function clearDateRange() { rangeStart = null; document.getElementById('rangeHint').classList.add('hidden'); renderTimeline(); }
-function handleDayClick(dateStr) {
-  if (!rangeStart) { rangeStart = dateStr; document.getElementById('rangeHint').classList.remove('hidden'); document.getElementById('rangeHint').innerHTML = `📍 Range start: ${dateStr} — click end date to create card`; renderTimeline(); }
-  else { let start = rangeStart < dateStr ? rangeStart : dateStr; let end = rangeStart < dateStr ? dateStr : rangeStart; openCreateCardWithDates(start, end); clearDateRange(); }
-}
-function openCreateCardWithDates(s, e) { openCreateCard(); setTimeout(() => { document.getElementById('cardStart').value = s; document.getElementById('cardEnd').value = e; }, 100); }
-function exportICS() {
-  let cards = workspace.cards.filter(c => c.startDate && c.endDate);
-  if (!cards.length) { showToast('No cards with dates','error'); return; }
-  let ics = 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\n';
-  cards.forEach(c => { let start = c.startDate.replace(/-/g,''); let endDate = new Date(c.endDate); endDate.setDate(endDate.getDate()+1); let end = endDate.toISOString().slice(0,10).replace(/-/g,''); ics += `BEGIN:VEVENT\r\nSUMMARY:${c.subject}\r\nDTSTART;VALUE=DATE:${start}\r\nDTEND;VALUE=DATE:${end}\r\nEND:VEVENT\r\n`; });
-  ics += 'END:VCALENDAR';
-  let blob = new Blob([ics], { type:'text/calendar' });
-  let a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `alkembic-${timelineYear}-${String(timelineMonth+1).padStart(2,'0')}.ics`; a.click(); showToast('ICS exported');
-}
-
-// ----- Analytics with Multi-column support -----
-function renderAnalytics() {
-  let container = document.getElementById('dashChartsContainer');
-  if (!container) return;
-  container.innerHTML = '';
-  dashChartInstances.forEach(ch => ch.destroy());
-  dashChartInstances = [];
-  if (!workspace.dashDatasets.length) { container.innerHTML = '<div class="section-card">Import Excel/CSV to create charts</div>'; return; }
-  workspace.dashDatasets.forEach((ds, idx) => {
-    let div = document.createElement('div');
-    div.className = 'section-card';
-    div.innerHTML = `<div style="display:flex; justify-content:space-between;"><h4>${escapeHTML(ds.name)}</h4><button class="btn btn-sm btn-danger" onclick="deleteDashDataset(${idx})">🗑</button></div><canvas id="chart_${idx}" height="150"></canvas>`;
-    container.appendChild(div);
-    let ctx = document.getElementById(`chart_${idx}`).getContext('2d');
-    let chart = new Chart(ctx, { type: ds.type || 'bar', data: { labels: ds.data.map(d => d.label), datasets: [{ data: ds.data.map(d => d.value), backgroundColor: '#f0a500' }] } });
-    dashChartInstances.push(chart);
-  });
-}
-function handleDashImport(e) {
-  let file = e.target.files[0];
-  if (!file) return;
-  let reader = new FileReader();
-  reader.onload = (ev) => {
-    let wb = XLSX.read(ev.target.result, { type:'binary' });
-    let sheet = wb.Sheets[wb.SheetNames[0]];
-    let rows = XLSX.utils.sheet_to_json(sheet, { header:1 });
-    if (rows.length < 2) return;
-    let headers = rows[0];
-    let dataRows = rows.slice(1).filter(r => r.some(c => c));
-    currentSheetColumns = headers;
-    currentMultiSheetData = { headers, dataRows, fileName: file.name };
-    let selectX = document.getElementById('xAxisColumn');
-    let selectY = document.getElementById('yAxisColumns');
-    selectX.innerHTML = '<option value="">Select X-axis</option>';
-    selectY.innerHTML = '<option value="">Select Y-axis (multiple)</option>';
-    headers.forEach((h,i) => { selectX.innerHTML += `<option value="${i}">${h}</option>`; selectY.innerHTML += `<option value="${i}">${h}</option>`; });
-    showToast('Sheet loaded. Choose columns and click Generate Chart');
-  };
-  if (file.name.match(/\.xlsx?$/i)) reader.readAsBinaryString(file);
-  else reader.readAsText(file);
-}
-function applyChartConfig() {
-  if (!currentMultiSheetData) return;
-  let xIdx = document.getElementById('xAxisColumn').value;
-  let yIdxs = [...document.getElementById('yAxisColumns').selectedOptions].map(o => o.value).filter(v => v !== '');
-  if (xIdx === '' || yIdxs.length === 0) { showToast('Select X and at least one Y column','error'); return; }
-  let labels = currentMultiSheetData.dataRows.map(row => row[xIdx] || '');
-  let datasets = yIdxs.map(yIdx => ({ label: currentMultiSheetData.headers[yIdx], data: currentMultiSheetData.dataRows.map(row => parseFloat(row[yIdx]) || 0), backgroundColor: '#' + Math.floor(Math.random()*16777215).toString(16) }));
-  let chartData = labels.map((l,i) => ({ label: l, value: datasets[0].data[i] }));
-  let newDs = { name: currentMultiSheetData.fileName, type: document.getElementById('chartType').value, data: chartData };
-  workspace.dashDatasets.push(newDs);
-  saveAllData();
-  renderAnalytics();
-  showToast('Chart added');
-}
-function deleteDashDataset(idx) { workspace.dashDatasets.splice(idx,1); saveAllData(); renderAnalytics(); }
-function resetAnalytics() { workspace.dashDatasets = []; saveAllData(); renderAnalytics(); }
-
-// ----- Trash -----
-function renderTrash() {
-  let container = document.getElementById('trashContent');
-  if (!container) return;
-  if (!trashItems.length) { container.innerHTML = '<div class="section-card">Trash is empty</div>'; return; }
-  container.innerHTML = `<table><thead><tr><th>Type</th><th>Content</th><th>Deleted</th><th></th></tr></thead><tbody>${trashItems.map((item,i) => `<tr><td>${item.type}</td><td>${item.type === 'card' ? escapeHTML(item.content.subject) : 'Event'}</td><td>${new Date(item.deletedAt).toLocaleString()}</td><td><button class="btn btn-sm btn-outline" onclick="restoreTrashItem(${i})">Restore</button> <button class="btn btn-sm btn-danger" onclick="permanentDelete(${i})">Perm Delete</button></td></tr>`).join('')}</tbody></table>`;
-}
-function restoreTrashItem(idx) { let item = trashItems[idx]; if (item.type === 'card') workspace.cards.push(item.content); trashItems.splice(idx,1); saveAllData(); renderKanban(); renderTrash(); showToast('Restored'); }
-async function permanentDelete(idx) { if (await showConfirm('Permanently delete this item?')) { trashItems.splice(idx,1); saveAllData(); renderTrash(); } }
-async function emptyTrash() { if (await showConfirm('Empty all trash?')) { trashItems = []; saveAllData(); renderTrash(); } }
-async function restoreAllTrash() { if (await showConfirm('Restore all items?')) { trashItems.forEach(item => { if (item.type === 'card') workspace.cards.push(item.content); }); trashItems = []; saveAllData(); renderKanban(); renderTrash(); showToast('All restored'); } }
-
-// ----- Floating Console with dynamic CSS/JS -----
-function openFloatingConsole() {
-  if (floatingConsole) { floatingConsole.classList.toggle('hidden'); return; }
-  let div = document.createElement('div');
-  div.className = 'floating-console';
-  div.innerHTML = `<div class="fc-header"><span class="fc-title">⚗ Console (CSS/JS)</span><div><button class="fc-btn" onclick="minimizeConsole()">–</button><button class="fc-btn" onclick="closeFloatingConsole()">✕</button></div></div><div class="fc-log" id="fcLog"></div><div class="fc-input"><input type="text" id="fcInput" placeholder="help, css:.class{color:red}, js:alert('hi'), export, stats" onkeydown="handleConsoleKey(event)"><button class="btn btn-sm" onclick="runConsoleCommand()">▶</button></div>`;
-  document.body.appendChild(div);
-  floatingConsole = div;
-  makeDraggable(div, div.querySelector('.fc-header'));
-  addConsoleLog('Console ready. Type help','info');
-  document.getElementById('consoleReopen').style.display = 'none';
-}
-function closeFloatingConsole() { if (floatingConsole) { floatingConsole.remove(); floatingConsole = null; document.getElementById('consoleReopen').style.display = 'flex'; } }
-function minimizeConsole() { if (floatingConsole) floatingConsole.classList.toggle('minimized'); }
-function addConsoleLog(msg, type='info') {
-  let logDiv = document.getElementById('fcLog');
-  if (!logDiv) return;
-  let line = document.createElement('div');
-  line.className = `log-line ${type}`;
-  line.innerText = `› ${msg}`;
-  logDiv.appendChild(line);
-  logDiv.scrollTop = logDiv.scrollHeight;
-}
-function runConsoleCommand() {
-  let input = document.getElementById('fcInput');
-  let cmd = input.value.trim();
-  if (!cmd) return;
-  consoleHistory.unshift(cmd);
-  if (consoleHistory.length > 50) consoleHistory.pop();
-  historyIdx = -1;
-  input.value = '';
-  let lower = cmd.toLowerCase();
-  if (lower === 'help') {
-    addConsoleLog('Commands: css:.class{prop:val} | js:code | export | stats | clear | theme:dark/light | token | card:Title|Desc|priority','info');
-    addConsoleLog('trigger:<button-id> | search:<text> | backup | csv | column:add|remove','info');
-  } else if (lower === 'stats') {
-    addConsoleLog(`Cards:${workspace.cards.length} Done:${workspace.cards.filter(c => c.column === 'done').length} Trash:${trashItems.length} Imports:${workspace.importedData.length}`,'info');
-  } else if (lower === 'clear') { document.getElementById('fcLog').innerHTML = ''; }
-  else if (lower.startsWith('css:')) { let cssCode = cmd.slice(4); let style = document.createElement('style'); style.textContent = cssCode; document.head.appendChild(style); addConsoleLog('CSS applied','success'); }
-  else if (lower.startsWith('js:')) { try { let result = eval(cmd.slice(3)); addConsoleLog(`Executed: ${JSON.stringify(result)}`,'success'); } catch(e) { addConsoleLog(`Error: ${e.message}`,'error'); } }
-  else if (lower === 'export') { exportWorkspace(); addConsoleLog('Workspace exported','success'); }
-  else if (lower === 'csv') { exportWorkspaceCSV(); addConsoleLog('CSV exported','success'); }
-  else if (lower === 'backup') { exportWorkspace(); addConsoleLog('Backup created','success'); }
-  else if (lower.startsWith('theme:')) { let theme = cmd.split(':')[1]; if (theme === 'dark' || theme === 'light') { workspace.settings.theme = theme; applySettings(); saveAllData(); addConsoleLog(`Theme set to ${theme}`,'success'); } }
-  else if (lower === 'token') { addConsoleLog(`Current token: ${getCurrentToken(workspace.settings.tokenOffset || 0)}`,'info'); }
-  else if (lower.startsWith('card:')) { let parts = cmd.slice(5).split('|'); let subject = parts[0] || 'Console Card'; let desc = parts[1] || ''; let priority = parts[2] || 'medium'; workspace.cards.push({ id: Date.now() + Math.random(), subject, description: desc, labels: [], people: [], storyPoints: 3, progress: 0, startDate: '', endDate: '', column: 'todo', priority, comments: [] }); renderKanban(); saveAllData(); addConsoleLog(`Card "${subject}" created`,'success'); }
-  else if (lower.startsWith('trigger:')) { let btnId = cmd.split(':')[1]; let btn = document.getElementById(btnId); if (btn) { btn.click(); addConsoleLog(`Triggered ${btnId}`,'success'); } else addConsoleLog(`Button "${btnId}" not found`,'error'); }
-  else if (lower.startsWith('search:')) { let query = cmd.split(':')[1]; let res = { cards: workspace.cards.filter(c => c.subject.toLowerCase().includes(query)), events: [] }; addConsoleLog(`Found ${res.cards.length} cards`,'info'); console.table(res.cards.slice(0,5)); }
-  else { addConsoleLog(`Unknown: ${cmd}. Type help`,'error'); }
-}
-function handleConsoleKey(e) {
-  if (e.key === 'Enter') runConsoleCommand();
-  else if (e.key === 'ArrowUp') { e.preventDefault(); if (historyIdx < consoleHistory.length-1) { historyIdx++; document.getElementById('fcInput').value = consoleHistory[historyIdx]; } }
-  else if (e.key === 'ArrowDown') { e.preventDefault(); if (historyIdx > 0) { historyIdx--; document.getElementById('fcInput').value = consoleHistory[historyIdx]; } else { historyIdx = -1; document.getElementById('fcInput').value = ''; } }
-}
-function makeDraggable(el, handle) {
-  let offsetX, offsetY, down = false;
-  handle.style.cursor = 'move';
-  handle.addEventListener('mousedown', (e) => { down = true; offsetX = e.clientX - el.offsetLeft; offsetY = e.clientY - el.offsetTop; document.addEventListener('mousemove', onMove); document.addEventListener('mouseup', onUp); });
-  function onMove(e) { if (!down) return; el.style.left = (e.clientX - offsetX) + 'px'; el.style.top = (e.clientY - offsetY) + 'px'; el.style.position = 'fixed'; }
-  function onUp() { down = false; document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); }
-}
-
-// ----- Draggable FAB -----
-function makeDraggableFAB() {
-  let fab = document.getElementById('addCardFab');
-  if (!fab) return;
-  let offsetX, offsetY, down = false;
-  fab.addEventListener('mousedown', (e) => { if (e.target === fab || fab.contains(e.target)) { e.preventDefault(); down = true; offsetX = e.clientX - fab.offsetLeft; offsetY = e.clientY - fab.offsetTop; document.addEventListener('mousemove', onMove); document.addEventListener('mouseup', onUp); } });
-  function onMove(e) { if (!down) return; fab.style.left = (e.clientX - offsetX) + 'px'; fab.style.top = (e.clientY - offsetY) + 'px'; fab.style.position = 'fixed'; fab.style.bottom = 'auto'; fab.style.right = 'auto'; }
-  function onUp() { down = false; document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); }
-}
-
-// ----- Footer & Shortcuts -----
-function startFooterClock() { setInterval(() => { let d = new Date(); document.getElementById('footerClock').innerText = d.toLocaleTimeString(); }, 1000); }
-function showShortcuts() { document.getElementById('shortcutsModal').classList.remove('hidden'); }
-
-// ----- Global Event Listeners -----
-document.getElementById('importFileInput').addEventListener('change', importWorkspaceFile);
-document.getElementById('fileImport').addEventListener('change', handleFileImport);
-document.getElementById('dashImport').addEventListener('change', handleDashImport);
-document.getElementById('importCardsInput').addEventListener('change', (e) => { if (e.target.files[0]) { let reader = new FileReader(); reader.onload = (ev) => { let cards = JSON.parse(ev.target.result); if (Array.isArray(cards)) { workspace.cards.push(...cards); saveAllData(); renderKanban(); showToast(`Imported ${cards.length} cards`); } }; reader.readAsText(e.target.files[0]); } });
-document.addEventListener('keydown', function(e) {
-  if (e.ctrlKey && e.shiftKey && e.key === 'C') { e.preventDefault(); openFloatingConsole(); }
-  if (e.key === 'Escape') { closeCreateCard(); closeViewCard(); clearDateRange(); closeModal('settingsModal'); closeModal('shortcutsModal'); }
-  if (e.ctrlKey && e.key === 's') { e.preventDefault(); saveAllData(); showToast('Workspace saved'); }
-  if (e.key === '/' && !e.ctrlKey && document.getElementById('view-board').classList.contains('active')) { e.preventDefault(); document.getElementById('kanbanSearch').focus(); }
-});
-document.getElementById('sidebarOverlay').addEventListener('click', toggleSidebar);
-
-// ----- Initialization -----
-renderSetupScreen();
-makeDraggableFAB(); 
+    // Ensure all modules load correctly
+    window.addEventListener('DOMContentLoaded', () => {
+      // Initialize app
+      if (typeof renderSetupScreen === 'function') renderSetupScreen();
+      if (typeof initEnhancedConsole === 'function') initEnhancedConsole();
+    });
   </script>
 </body>
 </html>
