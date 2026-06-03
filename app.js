@@ -708,3 +708,20 @@ window.exportSelectedJSON = exportSelectedJSON;
 window.exportSelectedICS = exportSelectedICS;
 window.bulkDeleteSelected = bulkDeleteSelected;
 window.showShortcuts = showShortcuts;
+
+// Inside app.js, after all other functions, before the window exports:
+
+async function logout() {
+  await saveAllData();
+  stopAutosave();
+  document.getElementById('appContainer').style.display = 'none';
+  document.getElementById('setupScreen').style.display = 'flex';
+  workspace = blankWorkspace();
+  trashItems = [];
+  activityLog = [];
+  currentUser = null;
+  renderSetupScreen();
+}
+
+// Then at the very bottom of app.js:
+window.logout = logout;
