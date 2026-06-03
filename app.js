@@ -1,11 +1,7 @@
 // ============================== ALKEMBIC ACE v2.1 – APP LOGIC (FULL) ==============================
-// This file contains all core functions: Dashboard, Kanban, Timeline, Analytics, Trash, Card View, etc.
+// Part 1 of 2 – Core, Dashboard, Kanban, Card View, Comments
 
-// ----- Global State (already declared in utils.js, but we ensure it's accessible) -----
-// workspace, trashItems, activityLog, currentUser, workspaceMode, etc. are already defined in utils.js.
-// The following functions assume those globals exist.
-
-// ==================== HELPER FUNCTIONS (already in utils.js – but here for completeness) ====================
+// ----- Helper functions (rely on globals from utils.js) -----
 function updateFooterStats() {
   const cards = workspace.cards;
   document.getElementById('fCards').innerText = cards.length;
@@ -48,9 +44,8 @@ function renderImportedTable() {
   const tbody = document.querySelector('#importedTable tbody');
   if (!tbody) return;
   tbody.innerHTML = workspace.importedData.map((item, i) => `
-    <tr>
-      <td ${!tableLocked ? 'contenteditable="true"' : ''} onblur="updateImported(${i},'label',this.innerText)">${escapeHTML(item.label)}</td>
-      <td ${!tableLocked ? 'contenteditable="true"' : ''} onblur="updateImported(${i},'value',this.innerText)">${item.value}</td>
+    <td><td ${!tableLocked ? 'contenteditable="true"' : ''} onblur="updateImported(${i},'label',this.innerText)">${escapeHTML(item.label)}</td>
+    <td ${!tableLocked ? 'contenteditable="true"' : ''} onblur="updateImported(${i},'value',this.innerText)">${item.value}</td>
     </tr>`).join('') || '<tr><td colspan="2">No data</td></tr>';
   const lockBtn = document.getElementById('toggleTableLockBtn');
   if (lockBtn) lockBtn.innerText = tableLocked ? '🔓 Unlock Edits' : '🔒 Lock Edits';
@@ -365,6 +360,9 @@ function renderComments(cardId) {
   `).join('') || '<div>No comments</div>';
 }
 
+// ==================== TIMELINE & GANTT (Part 1 ends here; continue to Part 2) ====================
+// Part 2 will contain renderTimeline, renderGantt, changeTimelineMonth, handleDayClick, etc.
+
 // ==================== TIMELINE & GANTT ====================
 function renderTimeline() {
   const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -519,7 +517,7 @@ function renderTrash() {
   const container = document.getElementById('trashContent');
   if (!container) return;
   if (!trashItems.length) { container.innerHTML = '<div class="section-card">Trash is empty</div>'; return; }
-  container.innerHTML = `<tr><thead><tr><th>Type</th><th>Content</th><th>Deleted</th><th></th></tr></thead><tbody>${trashItems.map((item,i) => `
+  container.innerHTML = `<td><thead><tr><th>Type</th><th>Content</th><th>Deleted</th><th></th></tr></thead><tbody>${trashItems.map((item,i) => `
     <tr><td>${item.type}</td><td>${item.type === 'card' ? escapeHTML(item.content.subject) : 'Event'}</td><td>${new Date(item.deletedAt).toLocaleString()}</td>
     <td><button class="btn btn-sm btn-outline" onclick="restoreTrashItem(${i})">Restore</button> <button class="btn btn-sm btn-danger" onclick="permanentDelete(${i})">Perm Delete</button></td>
     </tr>`).join('')}</tbody></table>`;
@@ -558,6 +556,103 @@ async function restoreAllTrash() {
   }
 }
 
+// ==================== VIEWS & SETTINGS (already in app.js, but ensuring they're present) ====================
+function switchView(view) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById(`view-${view}`).classList.add('active');
+  if (view === 'dashboard') renderDashboard();
+  if (view === 'board') renderKanban();
+  if (view === 'timeline') renderTimeline();
+  if (view === 'analytics') renderAnalytics();
+  if (view === 'trash') renderTrash();
+  updateFooterStats();
+}
+function renderAllViews() { renderDashboard(); renderKanban(); renderTimeline(); renderTrash(); renderAnalytics(); }
+function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('sidebarOverlay').classList.toggle('show'); }
+
+// ==================== SETTINGS (Theme, Token, etc.) ====================
+function toggleTheme() {
+  workspace.settings.theme = workspace.settings.theme === 'dark' ? 'light' : 'dark';
+  applySettings();
+  saveAllData();
+}
+function openSettings() {
+  const s = workspace.settings;
+  const modal = document.getElementById('settingsModal');
+  const content = document.getElementById('settingsContent');
+  content.innerHTML = `
+    <div class="settings-section-title">🎨 Appearance</div>
+    <div class="settings-row"><span>Theme</span><label class="toggle-switch"><input type="checkbox" id="themeToggle" ${s.theme === 'light' ? 'checked' : ''} onchange="toggleTheme()"><span class="toggle-track"></span></label></div>
+    <div class="settings-row"><span>Accent Color</span><input type="color" id="accentColor" value="${s.accentColor || '#f0a500'}" onchange="workspace.settings.accentColor=this.value;applySettings();saveAllData()"></div>
+    <div class="settings-row"><span>Font Family</span><select id="fontSelect" onchange="workspace.settings.font=this.value;applySettings();saveAllData()"><option ${s.font === 'Inter' ? 'selected' : ''}>Inter</option><option ${s.font === 'Syne' ? 'selected' : ''}>Syne</option><option ${s.font === 'JetBrains Mono' ? 'selected' : ''}>JetBrains Mono</option></select></div>
+    <div class="settings-section-title">🔐 Security & Token</div>
+    <div class="settings-row"><span>Token Offset (minutes)</span><input type="number" id="tokenOffsetVal" class="token-offset-input" value="${s.tokenOffset || 0}" min="-120" max="120" onchange="updateTokenOffset()"><button class="btn btn-sm" onclick="updateTokenOffset()">💾 Save</button></div>
+    <div class="token-preview">Current token: <strong id="tokenPreviewDisplay">${getCurrentToken(s.tokenOffset || 0)}</strong></div>
+    <div class="settings-row"><span>Change Password</span><div><input type="password" id="newPasswordInput" placeholder="Min 6 chars" style="width:160px;"><button class="btn btn-sm" onclick="changePassword()">Update</button></div></div>
+    <div class="settings-section-title">💾 System</div>
+    <div class="settings-row"><span>Auto-save</span><label class="toggle-switch"><input type="checkbox" id="autosaveToggle" ${s.autosave ? 'checked' : ''} onchange="toggleAutosave()"><span class="toggle-track"></span></label></div>
+    <div class="settings-section-title">📤 Export / Backup</div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;"><button class="btn btn-sm" onclick="exportWorkspace()">💾 Backup JSON</button><button class="btn btn-sm btn-outline" onclick="exportWorkspaceCSV()">📊 Export CSV</button><button class="btn btn-sm btn-outline" onclick="exportAllCardsJSON()">📋 All Cards JSON</button></div>
+    <div class="settings-section-title">ℹ️ Workspace Info</div>
+    <div style="background:var(--card2); border-radius:8px; padding:12px; margin-top:8px;"><div>Name: <strong>${escapeHTML(workspace.name)}</strong></div><div>Cards: ${workspace.cards.length}</div><div>Storage: ${workspaceMode === 'folder' ? '📁 Folder' : '💻 Browser'}</div></div>
+    <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;"><button class="btn btn-sm btn-ghost" onclick="closeModal('settingsModal')">Close</button><button class="btn btn-sm" onclick="logout()">🚪 Logout</button></div>`;
+  modal.classList.remove('hidden');
+  document.getElementById('tokenPreviewDisplay').innerText = getCurrentToken(s.tokenOffset || 0);
+}
+function updateTokenOffset() {
+  const val = parseInt(document.getElementById('tokenOffsetVal').value) || 0;
+  workspace.settings.tokenOffset = val;
+  workspace.token = getCurrentToken(val);
+  saveAllData();
+  document.getElementById('tokenPreviewDisplay').innerText = workspace.token;
+  showToast('Token offset saved');
+}
+async function changePassword() {
+  const newPwd = document.getElementById('newPasswordInput').value;
+  if (newPwd.length < 6) { showToast('Minimum 6 characters', 'error'); return; }
+  workspace.password = newPwd;
+  await saveAllData();
+  showToast('Password updated');
+  document.getElementById('newPasswordInput').value = '';
+}
+function toggleAutosave() {
+  workspace.settings.autosave = !workspace.settings.autosave;
+  if (workspace.settings.autosave) startAutosave();
+  else stopAutosave();
+  saveAllData();
+}
+function exportWorkspace() {
+  const data = { workspace, trashItems, activityLog };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `${slug(workspace.name)}-backup.json`;
+  a.click();
+  showToast('Backup exported');
+}
+function exportWorkspaceCSV() {
+  let csv = 'id,subject,description,labels,people,storyPoints,progress,startDate,endDate,column,priority\n';
+  workspace.cards.forEach(c => {
+    const labels = (c.labels || []).join(';');
+    const people = (c.people || []).map(p => `${p.name}:${p.role}`).join(';');
+    csv += `${c.id},"${(c.subject || '').replace(/"/g, '""')}","${(c.description || '').replace(/"/g, '""')}","${labels}","${people}",${c.storyPoints || 1},${c.progress || 0},${c.startDate || ''},${c.endDate || ''},${c.column},${c.priority}\n`;
+  });
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'workspace-export.csv';
+  a.click();
+  showToast('CSV exported');
+}
+function exportAllCardsJSON() {
+  const blob = new Blob([JSON.stringify(workspace.cards, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'all-cards.json';
+  a.click();
+  showToast('All cards exported');
+}
+
 // ==================== MISCELLANEOUS ====================
 function startFooterClock() {
   setInterval(() => {
@@ -567,7 +662,7 @@ function startFooterClock() {
 }
 function showShortcuts() { document.getElementById('shortcutsModal').classList.remove('hidden'); }
 
-// Expose essential functions globally
+// ==================== EXPOSE GLOBALLY (CRITICAL FIX) ====================
 window.switchView = switchView;
 window.openCreateCard = openCreateCard;
 window.saveKanbanCard = saveKanbanCard;
