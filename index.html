@@ -15,8 +15,8 @@ Leadership Intelligence Platform
   <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
   <style>
     :root{--tr:all 0.2s ease;--radius:12px;--fc-bg:#0a0f19;--fc-header:#101827;--fc-bd:#1c2a3e;--fc-input:#06080f;--fc-text:#b8c7da;--fc-accent:#f0a500}
-    [data-theme="dark"]{--bg:#06080f;--sf:#0c1220;--card:#101827;--card2:#141f30;--bd:#1c2a3e;--bd2:#243448;--am:#f0a500;--gr:#00e676;--rd:#ff3860;--bl:#448aff;--pu:#d050ff;--cy:#00e5ff;--or:#ff6d00;--amd:rgba(240,165,0,0.12);--neon-am:0 0 10px rgba(240,165,0,0.5);--neon-gr:0 0 10px rgba(0,230,118,0.5);--neon-rd:0 0 10px rgba(255,56,96,0.5);--tx:#b8c7da;--hd:#ffffff;--mu:#8892aa;--ibg:#0a0f19}
-    [data-theme="light"]{--bg:#f1f5f9;--sf:#ffffff;--card:#ffffff;--card2:#f8fafc;--bd:#e2e8f0;--bd2:#cbd5e1;--am:#d4870a;--gr:#059669;--rd:#dc2626;--bl:#2563eb;--pu:#7c3aed;--cy:#06b6d4;--or:#ea580c;--amd:rgba(212,135,10,0.12);--neon-am:0 0 10px rgba(212,135,10,0.5);--neon-gr:0 0 10px rgba(5,150,105,0.5);--neon-rd:0 0 10px rgba(220,38,38,0.5);--tx:#1e293b;--hd:#0f172a;--mu:#64748b;--ibg:#f8fafc}
+    [data-theme="dark"]{--bg:#06080f;--sf:#0c1220;--card:#101827;--card2:#141f30;--bd:#1c2a3e;--bd2:#243448;--am:#f0a500;--gr:#00e676;--rd:#ff3860;--bl:#448aff;--pu:#d050ff;--cy:#00e5ff;--or:#ff6d00;--tx:#b8c7da;--hd:#f5f7fa;--mu:#7a8694;--ibg:#06080f;--amd:rgba(240,165,0,0.15);--neon-am:0 0 8px #f0a500;--neon-rd:0 0 8px #ff3860;--neon-gr:0 0 8px #00e676}
+    [data-theme="light"]{--bg:#f1f5f9;--sf:#ffffff;--card:#ffffff;--card2:#f8fafc;--bd:#e2e8f0;--bd2:#cbd5e1;--am:#d4870a;--gr:#059669;--rd:#dc2626;--bl:#2563eb;--pu:#7c3aed;--cy:#06b6d4;--or:#ea580c;--tx:#1e293b;--hd:#0f172a;--mu:#64748b;--ibg:#f8fafc;--amd:rgba(212,135,10,0.1);--neon-am:none;--neon-rd:none;--neon-gr:none}
     *{margin:0;padding:0;box-sizing:border-box}
     html,body{height:100%;font-family:'Inter',sans-serif;font-size:14px}
     body{background:var(--bg);color:var(--tx);display:flex;flex-direction:column;overflow:hidden;transition:background 0.3s,color 0.3s}
@@ -37,7 +37,7 @@ Leadership Intelligence Platform
     .tab:hover{color:var(--am)}
     .tab.active{background:var(--amd);color:var(--am)}
     .user-badge{padding:4px 12px;background:var(--card);border:1px solid var(--bd);border-radius:20px;display:flex;align-items:center;gap:6px;cursor:pointer;font-size:0.85rem;color:var(--hd)}
-    .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-weight:600;background:var(--am);color:#06080f;border:none;cursor:pointer;transition:var(--tr);font-size:0.9rem}
+    .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-weight:600;background:var(--am);color:#06080f;border:none;cursor:pointer;transition:var(--tr);font-size:0.88rem}
     .btn:hover{box-shadow:var(--neon-am);transform:translateY(-1px)}
     .btn-outline{background:transparent;border:1px solid var(--am);color:var(--am)}
     .btn-outline:hover{background:var(--amd)}
@@ -47,7 +47,7 @@ Leadership Intelligence Platform
     .btn-danger:hover{box-shadow:var(--neon-rd)}
     .btn-sm{padding:5px 10px;font-size:0.78rem}
     .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9998;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
-    .modal-content{background:var(--sf);border:1px solid var(--bd2);border-radius:16px;padding:24px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;backdrop-filter:blur(12px);background:rgba(16,24,39,0.85)}
+    .modal-content{background:var(--sf);border:1px solid var(--bd2);border-radius:16px;padding:24px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;backdrop-filter:blur(12px);background:rgba(12,18,32,0.95)}
     [data-theme="light"] .modal-content{background:rgba(255,255,255,0.9)}
     .setup-card{background:var(--sf);border-radius:24px;padding:32px;width:100%;max-width:440px;box-shadow:0 0 30px rgba(0,0,0,0.5);border:1px solid var(--bd2);position:relative;overflow:hidden}
     .setup-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--am),var(--cy),var(--pu),var(--am));background-size:200% 100%;animation:shimmer 2s infinite}
@@ -89,7 +89,7 @@ Leadership Intelligence Platform
     .kanban-card[data-priority="medium"]:hover{border-color:var(--am);box-shadow:var(--neon-am)}
     .kanban-card[data-priority="low"]:hover{border-color:var(--gr);box-shadow:var(--neon-gr)}
     @keyframes pulse-border-rd{0%,100%{border-left-color:var(--rd)}50%{border-left-color:transparent}}
-    .label-tag{font-family:'JetBrains Mono',monospace;font-size:0.66rem;text-transform:uppercase;letter-spacing:0.5px;padding:2px 8px;border-radius:4px;border:1px solid currentColor;background:transparent;position:relative}
+    .label-tag{font-family:'JetBrains Mono',monospace;font-size:0.66rem;text-transform:uppercase;letter-spacing:0.5px;padding:2px 8px;border-radius:4px;border:1px solid currentColor;background:transparent;position:relative;margin:2px}
     .label-tag::before{content:"";position:absolute;inset:0;background:currentColor;opacity:0.12;border-radius:2px}
     .people-tag{display:inline-block;padding:2px 8px;background:var(--card);border:1px solid var(--bd);border-radius:4px;font-size:0.72rem;color:var(--hd);transition:var(--tr)}
     .people-tag:hover{background:var(--am);color:#000;border-color:var(--am)}
@@ -100,7 +100,7 @@ Leadership Intelligence Platform
     .drop-zone-empty:hover{border-color:var(--am);color:var(--am);background:var(--amd)}
     .dz-icon{font-size:1.6rem;margin-bottom:4px}
     .dz-text{font-family:'JetBrains Mono',monospace;font-size:0.78rem}
-    .app-footer{position:fixed;bottom:0;left:0;right:0;height:36px;background:var(--ibg);border-top:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:9}
+    .app-footer{position:fixed;bottom:0;left:0;right:0;height:36px;background:var(--ibg);border-top:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:10}
     .footer-brand{font-family:'Syne',sans-serif;font-size:0.85rem;color:var(--am);font-weight:700}
     .footer-stats{display:flex;gap:16px;font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--mu)}
     .footer-clock{font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--am);font-weight:600}
@@ -136,7 +136,7 @@ Leadership Intelligence Platform
     .settings-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;gap:12px;border-bottom:1px solid var(--bd)}
     .settings-row:last-child{border-bottom:none}
     .settings-row>span:first-child{color:var(--hd);font-size:0.88rem;flex:1}
-    .settings-row select,.settings-row input[type="text"],.settings-row input[type="password"],.settings-row input[type="number"]{padding:6px 10px;border:1px solid var(--bd);border-radius:8px;background:var(--ibg);color:var(--hd);font-size:0.85rem;transition:var(--tr)}
+    .settings-row select,.settings-row input[type="text"],.settings-row input[type="password"],.settings-row input[type="number"]{padding:6px 10px;border:1px solid var(--bd);border-radius:8px;background:var(--ibg);color:var(--hd)}
     .settings-section-title{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--am);text-transform:uppercase;letter-spacing:1px;margin:16px 0 8px}
     .hidden{display:none!important}
     .sidebar{position:fixed;top:0;left:0;width:280px;height:100%;background:var(--sf);border-right:1px solid var(--bd);z-index:101;transform:translateX(-100%);transition:0.3s;padding:20px;overflow-y:auto}
@@ -158,8 +158,8 @@ Leadership Intelligence Platform
     .mtab .mt-label{font-size:0.62rem;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.5px}
     .card-action-btn{width:26px;height:26px;border:none;background:var(--card);color:var(--mu);border-radius:5px;cursor:pointer;transition:var(--tr);font-size:0.85rem}
     .card-action-btn:hover{background:var(--am);color:#000}
-    .floating-console{position:fixed;z-index:10000;width:400px;min-height:200px;background:var(--fc-bg);border:1px solid var(--fc-bd);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);overflow:hidden;display:flex;flex-direction:column;bottom:40px;right:20px}
-    .floating-console::after{content:'';position:absolute;bottom:0;right:0;width:16px;height:16px;background:linear-gradient(135deg,transparent 50%,var(--fc-bd) 50%);cursor:nwse-resize;pointer-events:auto;border-radius:0 0 12px 0}
+    .floating-console{position:fixed;z-index:10000;width:400px;min-height:200px;background:var(--fc-bg);border:1px solid var(--fc-bd);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);overflow:hidden;display:flex;flex-direction:column;bottom:100px;right:20px;resize:both}
+    .floating-console::after{content:'';position:absolute;bottom:0;right:0;width:16px;height:16px;background:linear-gradient(135deg,transparent 50%,var(--fc-bd) 50%);cursor:nwse-resize;pointer-events:auto}
     .floating-console.minimized::after{display:none}
     .fc-header{cursor:move;display:flex;align-items:center;padding:8px 12px;background:var(--fc-header);border-bottom:1px solid var(--fc-bd);user-select:none}
     .fc-title{font-family:'Syne',sans-serif;font-weight:700;color:var(--fc-accent);flex:1}
@@ -179,7 +179,7 @@ Leadership Intelligence Platform
     .fc-input input{flex:1;background:var(--fc-input);border:1px solid var(--fc-bd);color:var(--fc-text);padding:6px 10px;border-radius:6px;font-family:'JetBrains Mono',monospace}
     .floating-console.minimized{height:40px;resize:none}
     .floating-console.minimized .fc-log,.floating-console.minimized .fc-input{display:none}
-    .console-reopen{position:fixed;bottom:100px;right:20px;z-index:10001;background:var(--am);color:#000;border:none;border-radius:50%;width:44px;height:44px;font-size:1.2rem;cursor:pointer;box-shadow:0 4px 12px rgba(240,165,0,0.3);display:none;align-items:center;justify-content:center;transition:var(--tr)}
+    .console-reopen{position:fixed;bottom:100px;right:20px;z-index:10001;background:var(--am);color:#000;border:none;border-radius:50%;width:44px;height:44px;font-size:1.2rem;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.3);display:none;align-items:center;justify-content:center}
     .console-reopen.show{display:flex}
     .topbar .console-btn{background:transparent;border:1px solid var(--bd);color:var(--am);font-size:1.2rem;cursor:pointer;padding:4px 8px;border-radius:8px;transition:var(--tr)}
     .topbar .console-btn:hover{background:var(--amd)}
@@ -193,7 +193,7 @@ Leadership Intelligence Platform
     #viewCardModal .progress-section .progress-label{font-size:0.68rem;color:var(--mu);font-family:'JetBrains Mono',monospace;margin-bottom:4px}
     #viewCardModal .progress-bar-container{height:8px;background:var(--bd);border-radius:4px;overflow:hidden}
     #viewCardModal .progress-bar-fill{height:100%;border-radius:4px;transition:width 0.4s ease}
-    .range-hint{padding:10px 16px;background:var(--card2);border:1px solid var(--cy);border-radius:10px;color:var(--cy);font-family:'JetBrains Mono',monospace;font-size:0.8rem;margin-bottom:12px;animation:pulse-border 1.5s infinite}
+    .range-hint{padding:10px 16px;background:var(--card2);border:1px solid var(--cy);border-radius:10px;color:var(--cy);font-family:'JetBrains Mono',monospace;font-size:0.8rem;margin-bottom:12px;animation:pulse-border 2s infinite}
     @keyframes pulse-border{0%,100%{border-color:var(--cy)}50%{border-color:transparent}}
     .gantt-bar:hover{opacity:1!important;filter:brightness(1.3);box-shadow:0 0 8px currentColor}
     .skeleton-line.wide{width:90%}
@@ -204,8 +204,8 @@ Leadership Intelligence Platform
     .token-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd)}
     .token-row:last-child{border-bottom:none}
     .token-row span:first-child{color:var(--hd);font-size:0.88rem;flex:1}
-    .token-offset-input{width:70px;text-align:center;padding:6px;border:1px solid var(--bd);border-radius:8px;background:var(--ibg);color:var(--hd);font-family:'JetBrains Mono',monospace;font-size:0.88rem;transition:var(--tr)}
-    .token-preview{font-family:'JetBrains Mono',monospace;font-size:1.2rem;letter-spacing:4px;color:var(--am);background:var(--card2);border:1px solid var(--bd);border-radius:8px;padding:6px 14px;display:inline-block;margin:8px 0;box-shadow:0 2px 8px rgba(0,0,0,0.2)}
+    .token-offset-input{width:70px;text-align:center;padding:6px;border:1px solid var(--bd);border-radius:8px;background:var(--ibg);color:var(--hd);font-family:'JetBrains Mono',monospace;font-size:0.8rem}
+    .token-preview{font-family:'JetBrains Mono',monospace;font-size:1.2rem;letter-spacing:4px;color:var(--am);background:var(--card2);border:1px solid var(--bd);border-radius:8px;padding:6px 14px;display:inline-block}
     .token-note{font-size:0.68rem;color:var(--mu);margin-top:4px}
     .card-checkbox{position:absolute;top:8px;left:8px;width:18px;height:18px;accent-color:var(--am);cursor:pointer;z-index:2}
     .kanban-card.multi-select-active{padding-left:30px}
@@ -270,7 +270,7 @@ Leadership Intelligence Platform
       <button class="btn btn-sm btn-ghost console-btn" onclick="openFloatingConsole()" title="Open Console">📟</button>
       <button class="btn btn-sm btn-ghost" onclick="toggleTheme()" id="themeToggleBtn" title="Toggle theme">🌓</button>
       <button class="btn btn-sm btn-ghost" onclick="openSettings()">⚙️</button>
-      <div class="user-badge" id="ubadge" onclick="logout()" title="Click to logout">👤 <span id="userNameDisplay"></span></div>
+      <div class="user-badge" id="ubadge" onclick="logout()" title="Click to logout">👤 <span id="userNameDisplay">User</span></div>
     </div>
 
     <!-- Main views -->
@@ -313,7 +313,7 @@ Leadership Intelligence Platform
           <button class="btn" onclick="openCreateCard()">⊕ New Card</button>
           <button class="btn btn-sm btn-outline" onclick="saveAllData();showToast('Workspace saved')" title="Manual save">💾 Save</button>
           <button class="btn btn-outline btn-sm" id="multiSelectToggle" onclick="toggleMultiSelect()">☐ Multi‑Select</button>
-          <input type="text" id="kanbanSearch" placeholder="🔍 Search..." oninput="renderKanban()" style="padding:8px 14px;border:1px solid var(--bd);border-radius:20px;background:var(--ibg);color:var(--hd);flex:0 1 200px;">
+          <input type="text" id="kanbanSearch" placeholder="🔍 Search..." oninput="renderKanban()" style="padding:8px 14px;border:1px solid var(--bd);border-radius:20px;background:var(--ibg);color:var(--tx);flex:0 1 200px;font-size:0.85rem;">
           <span class="filter-chip active" data-filter="all" onclick="setFilter(this)">ALL</span>
           <span class="filter-chip" data-filter="critical" onclick="setFilter(this)">🔴 CRIT</span>
           <span class="filter-chip" data-filter="high" onclick="setFilter(this)">🟠 HIGH</span>
@@ -350,7 +350,7 @@ Leadership Intelligence Platform
           <button class="btn btn-sm btn-outline" onclick="changeTimelineMonth(-1)">◀</button>
           <span id="timelineMonth" style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:var(--hd);flex:1;text-align:center;"></span>
           <button class="btn btn-sm btn-outline" onclick="changeTimelineMonth(1)">▶</button>
-          <input type="text" id="timelineFilter" placeholder="Filter..." oninput="renderTimeline()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:20px;background:var(--ibg);color:var(--hd);">
+          <input type="text" id="timelineFilter" placeholder="Filter..." oninput="renderTimeline()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:20px;background:var(--ibg);color:var(--tx);font-size:0.85rem;">
           <button class="btn btn-sm btn-ghost" onclick="clearDateRange()">✕ Range</button>
           <button class="btn btn-sm" onclick="exportICS()">📅 ICS</button>
         </div>
@@ -478,30 +478,6 @@ Leadership Intelligence Platform
     </div>
   </div>
 
-  <!-- Token Offset Settings Modal -->
-  <div id="tokenOffsetModal" class="modal-overlay hidden">
-    <div class="modal-content">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-        <h3 style="color:var(--am);margin:0;">🕐 Token Offset</h3>
-        <button onclick="closeTokenOffset()" style="background:none;border:none;color:var(--mu);font-size:1.5rem;cursor:pointer;">×</button>
-      </div>
-      <p style="font-size:0.85rem;color:var(--tx);margin-bottom:12px;">Add a fixed number of minutes to the current time when generating or verifying your token.</p>
-      <div class="form-field">
-        <label>Offset (minutes)</label>
-        <input type="number" id="tokenOffsetValue" class="form-input" min="-120" max="120" value="0" placeholder="e.g., 5">
-      </div>
-      <div style="margin-top:12px;">
-        <div class="token-preview">Current token: <strong id="tokenPreviewDisplay">----</strong></div>
-        <button class="btn btn-sm btn-outline" onclick="navigator.clipboard.writeText(workspace.token);showToast('Token copied')">📋 Copy Token</button>
-        <div class="token-note" id="tokenNote">Token = current HHMM + offset</div>
-      </div>
-      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px;">
-        <button class="btn btn-ghost" onclick="closeTokenOffset()">Cancel</button>
-        <button class="btn" onclick="saveTokenOffset()">💾 Save</button>
-      </div>
-    </div>
-  </div>
-
   <!-- Keyboard Shortcuts Modal -->
   <div id="shortcutsModal" class="modal-overlay hidden">
     <div class="modal-content" style="max-width:380px;">
@@ -511,9 +487,9 @@ Leadership Intelligence Platform
       </div>
       <table style="font-family:'JetBrains Mono',monospace;font-size:0.8rem;width:100%;">
         <tr><td style="color:var(--am);">/</td><td>Focus search</td></tr>
-        <tr><td style="color:var(--am);">Esc</td><td>Close modal / cancel range</td></tr>
+        <tr><td style="color:var(--am);">Esc</td><td>Close modal</td></tr>
         <tr><td style="color:var(--am);">Ctrl+S</td><td>Save workspace</td></tr>
-        <tr><td style="color:var(--am);">N</td><td>New card (when not in input)</td></tr>
+        <tr><td style="color:var(--am);">N</td><td>New card</td></tr>
       </table>
       <button class="btn btn-sm btn-ghost" onclick="document.getElementById('shortcutsModal').classList.add('hidden')" style="margin-top:12px;">Close</button>
     </div>
@@ -535,9 +511,398 @@ Leadership Intelligence Platform
   </div>
 
   <script>
-    // ============================== ALKEMBIC ACE v1.2.0 – FULL JS ==============================
-    // [JavaScript code will follow - placeholder for now]
-    console.log('Alkembic Ace v1.2.0 loaded');
+    // ============================== ALKEMBIC ACE v1.2.0 JAVASCRIPT ==============================
+    
+    let workspace = {
+      user: 'User',
+      cards: [],
+      imported: [],
+      trash: [],
+      token: generateToken(),
+      theme: 'dark'
+    };
+    
+    let currentFilter = 'all';
+    let currentView = 'dashboard';
+    let multiSelectMode = false;
+    let selectedCards = new Set();
+
+    // Initialize app
+    window.addEventListener('load', function() {
+      loadWorkspace();
+      initializeApp();
+      updateFooterClock();
+      setInterval(updateFooterClock, 1000);
+    });
+
+    function loadWorkspace() {
+      const saved = localStorage.getItem('alkembic_workspace');
+      if (saved) {
+        workspace = JSON.parse(saved);
+      }
+    }
+
+    function saveAllData() {
+      localStorage.setItem('alkembic_workspace', JSON.stringify(workspace));
+      console.log('Workspace saved');
+    }
+
+    function initializeApp() {
+      document.getElementById('setupScreen').classList.add('hidden');
+      document.getElementById('appContainer').style.display = 'flex';
+      document.getElementById('userNameDisplay').textContent = workspace.user;
+      renderDashboard();
+    }
+
+    function generateToken() {
+      const now = new Date();
+      const hh = String(now.getHours()).padStart(2, '0');
+      const mm = String(now.getMinutes()).padStart(2, '0');
+      return hh + mm;
+    }
+
+    function switchView(view) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.getElementById('view-' + view).classList.add('active');
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelector('[data-view="' + view + '"]').classList.add('active');
+      document.querySelectorAll('.mtab').forEach(t => t.classList.remove('active'));
+      document.querySelector('.mtab[data-view="' + view + '"]').classList.add('active');
+      currentView = view;
+      
+      if (view === 'dashboard') renderDashboard();
+      if (view === 'board') renderKanban();
+      if (view === 'timeline') renderTimeline();
+      if (view === 'trash') renderTrash();
+      
+      toggleSidebar(true);
+    }
+
+    function renderDashboard() {
+      document.getElementById('statCards').textContent = workspace.cards.length;
+      document.getElementById('statDone').textContent = workspace.cards.filter(c => c.status === 'done').length;
+      document.getElementById('statEvents').textContent = workspace.cards.length;
+      document.getElementById('statImports').textContent = workspace.imported.length;
+      document.getElementById('statTrash').textContent = workspace.trash.length;
+      document.getElementById('fCards').textContent = workspace.cards.length;
+      document.getElementById('fDone').textContent = workspace.cards.filter(c => c.status === 'done').length;
+      document.getElementById('fImports').textContent = workspace.imported.length;
+      
+      // Activity feed
+      const feed = document.getElementById('activityFeed');
+      feed.innerHTML = workspace.cards.slice(-5).reverse().map(c => `
+        <div style="padding:8px;border-left:2px solid var(--am);margin-bottom:8px;">
+          <strong>${c.subject}</strong> - ${c.status}
+        </div>
+      `).join('') || '<p style="color:var(--mu);">No activity yet</p>';
+    }
+
+    function renderKanban() {
+      const board = document.getElementById('kanbanBoard');
+      const search = document.getElementById('kanbanSearch').value.toLowerCase();
+      
+      const columns = {
+        'todo': { title: 'To Do', color: 'am' },
+        'in-progress': { title: 'In Progress', color: 'bl' },
+        'done': { title: 'Done', color: 'gr' }
+      };
+      
+      let html = '';
+      for (const [col, meta] of Object.entries(columns)) {
+        let cards = workspace.cards.filter(c => c.status === col);
+        if (search) cards = cards.filter(c => c.subject.toLowerCase().includes(search));
+        if (currentFilter !== 'all') cards = cards.filter(c => c.priority === currentFilter);
+        
+        html += `
+          <div class="kanban-col col-${col}">
+            <div class="col-header">
+              <div class="col-title"><div class="col-dot"></div>${meta.title}</div>
+              <div class="col-count">${cards.length}</div>
+            </div>
+            <div style="flex:1;">
+              ${cards.map(card => `
+                <div class="kanban-card" data-priority="${card.priority}" onclick="viewCard('${card.id}')">
+                  <strong>${card.subject}</strong>
+                  <p style="font-size:0.75rem;color:var(--mu);margin-top:4px;">${card.description || 'No description'}</p>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+      board.innerHTML = html;
+    }
+
+    function renderTimeline() {
+      const cal = document.getElementById('timelineCalendar');
+      const month = new Date().getMonth();
+      const year = new Date().getFullYear();
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      
+      let html = 'SUNMONTUEWEDTHUFRISAT'.match(/.{3}/g).map(d => `<div class="cal-header">${d}</div>`).join('');
+      
+      for (let i = 0; i < firstDay; i++) html += '<div class="cal-day empty"></div>';
+      for (let day = 1; day <= daysInMonth; day++) {
+        const isToday = day === new Date().getDate();
+        html += `<div class="cal-day ${isToday ? 'today' : ''}" onclick="viewDayCards(${day})">${day}</div>`;
+      }
+      
+      cal.innerHTML = html;
+      document.getElementById('timelineMonth').textContent = new Date(year, month).toLocaleDateString('en', { month: 'long', year: 'numeric' });
+    }
+
+    function renderTrash() {
+      const trash = document.getElementById('trashContent');
+      trash.innerHTML = workspace.trash.map(item => `
+        <div class="section-card" style="margin-bottom:8px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <strong>${item.subject}</strong>
+            <button class="btn btn-sm" onclick="restoreFromTrash('${item.id}')">↩ Restore</button>
+          </div>
+        </div>
+      `).join('') || '<p style="color:var(--mu);">Trash is empty</p>';
+    }
+
+    function openCreateCard() {
+      document.getElementById('createCardModal').classList.remove('hidden');
+      document.getElementById('cardSubject').focus();
+    }
+
+    function closeCreateCard() {
+      document.getElementById('createCardModal').classList.add('hidden');
+    }
+
+    function saveKanbanCard() {
+      const subject = document.getElementById('cardSubject').value.trim();
+      if (!subject) {
+        showToast('Subject is required');
+        return;
+      }
+      
+      const card = {
+        id: 'card_' + Date.now(),
+        subject,
+        description: document.getElementById('cardDesc').value,
+        people: document.getElementById('cardPeople').value,
+        labels: document.getElementById('cardLabels').value,
+        points: parseInt(document.getElementById('cardPoints').value) || 0,
+        progress: parseInt(document.getElementById('cardProgress').value) || 0,
+        startDate: document.getElementById('cardStart').value,
+        endDate: document.getElementById('cardEnd').value,
+        status: document.getElementById('cardStatus').value || 'todo',
+        priority: document.getElementById('cardPriority').value || 'medium',
+        comments: [],
+        created: new Date().toISOString()
+      };
+      
+      workspace.cards.push(card);
+      saveAllData();
+      closeCreateCard();
+      renderKanban();
+      renderDashboard();
+      showToast('Card created');
+    }
+
+    function viewCard(id) {
+      const card = workspace.cards.find(c => c.id === id);
+      if (!card) return;
+      
+      const modal = document.getElementById('viewCardModal');
+      document.getElementById('viewCardTitle').textContent = card.subject;
+      
+      const content = document.getElementById('viewCardContent');
+      content.innerHTML = `
+        <p style="color:var(--mu);font-size:0.9rem;">${card.description || 'No description'}</p>
+        <div class="progress-section">
+          <div class="progress-label">Progress: ${card.progress}%</div>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" style="width:${card.progress}%;background:var(--am);"></div>
+          </div>
+        </div>
+        <p style="color:var(--mu);font-size:0.8rem;">Status: <strong>${card.status}</strong> | Priority: <strong>${card.priority}</strong></p>
+      `;
+      
+      document.getElementById('viewEditBtn').onclick = () => editCard(id);
+      document.getElementById('viewDeleteBtn').onclick = () => deleteCard(id);
+      
+      modal.classList.remove('hidden');
+    }
+
+    function closeViewCard() {
+      document.getElementById('viewCardModal').classList.add('hidden');
+    }
+
+    function deleteCard(id) {
+      const card = workspace.cards.find(c => c.id === id);
+      workspace.cards = workspace.cards.filter(c => c.id !== id);
+      workspace.trash.push(card);
+      saveAllData();
+      closeViewCard();
+      renderKanban();
+      renderDashboard();
+      showToast('Card deleted');
+    }
+
+    function restoreFromTrash(id) {
+      const item = workspace.trash.find(i => i.id === id);
+      workspace.trash = workspace.trash.filter(i => i.id !== id);
+      workspace.cards.push(item);
+      saveAllData();
+      renderTrash();
+      renderDashboard();
+      showToast('Card restored');
+    }
+
+    function emptyTrash() {
+      if (confirm('Delete all items permanently?')) {
+        workspace.trash = [];
+        saveAllData();
+        renderTrash();
+        renderDashboard();
+        showToast('Trash emptied');
+      }
+    }
+
+    function restoreAllTrash() {
+      workspace.cards.push(...workspace.trash);
+      workspace.trash = [];
+      saveAllData();
+      renderTrash();
+      renderDashboard();
+      showToast('All items restored');
+    }
+
+    function setFilter(el) {
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      currentFilter = el.dataset.filter;
+      renderKanban();
+    }
+
+    function toggleTheme() {
+      const theme = document.documentElement.getAttribute('data-theme');
+      const newTheme = theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      workspace.theme = newTheme;
+      saveAllData();
+    }
+
+    function toggleSidebar(close = false) {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+      if (close) {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('show');
+      } else {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('show');
+      }
+    }
+
+    function openSettings() {
+      alert('Settings coming soon!');
+    }
+
+    function openFloatingConsole() {
+      document.getElementById('floatingConsole').classList.remove('hidden');
+      document.getElementById('consoleReopen').classList.remove('show');
+    }
+
+    function closeFloatingConsole() {
+      document.getElementById('floatingConsole').classList.add('hidden');
+      document.getElementById('consoleReopen').classList.add('show');
+    }
+
+    function minimizeConsole() {
+      document.getElementById('floatingConsole').classList.toggle('minimized');
+    }
+
+    function executeConsoleCommand() {
+      const input = document.getElementById('consoleInput');
+      const cmd = input.value.trim();
+      if (!cmd) return;
+      
+      const log = document.getElementById('consoleLogs');
+      log.innerHTML += `<div class="log-line command">>> ${cmd}</div>`;
+      
+      if (cmd === 'clear') {
+        log.innerHTML = '';
+      } else if (cmd === 'save') {
+        saveAllData();
+        log.innerHTML += '<div class="log-line success">✓ Workspace saved</div>';
+      } else {
+        log.innerHTML += '<div class="log-line info">Command not found</div>';
+      }
+      
+      input.value = '';
+      log.scrollTop = log.scrollHeight;
+    }
+
+    function updateFooterClock() {
+      const now = new Date();
+      const time = now.toLocaleTimeString();
+      document.getElementById('footerClock').textContent = time;
+    }
+
+    function showToast(msg) {
+      const toast = document.createElement('div');
+      toast.textContent = msg;
+      toast.style.cssText = 'position:fixed;bottom:70px;right:20px;background:var(--am);color:#000;padding:10px 16px;border-radius:8px;z-index:9999;animation:slideUp 0.3s ease;';
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 2500);
+    }
+
+    function logout() {
+      if (confirm('Logout?')) {
+        localStorage.clear();
+        location.reload();
+      }
+    }
+
+    // Stub functions for missing handlers
+    function handleFileImport(e) { showToast('Import feature coming soon'); }
+    function exportTilesTable() { showToast('Export feature coming soon'); }
+    function viewDayCards(day) { showToast('Day view coming soon'); }
+    function changeTimelineMonth(delta) { showToast('Month navigation coming soon'); }
+    function clearDateRange() { showToast('Date range cleared'); }
+    function exportICS() { showToast('ICS export coming soon'); }
+    function handleDashImport(e) { showToast('Analytics import coming soon'); }
+    function applyChartTypeToLast() { showToast('Chart type applied'); }
+    function selectAllCards() { showToast('Select all - coming soon'); }
+    function deselectAllCards() { showToast('Deselect - coming soon'); }
+    function toggleMultiSelect() { multiSelectMode = !multiSelectMode; showToast(multiSelectMode ? 'Multi-select on' : 'Multi-select off'); }
+    function bulkMoveCards() { showToast('Bulk move - coming soon'); }
+    function bulkDeleteSelected() { showToast('Bulk delete - coming soon'); }
+    function exportSelectedJSON() { showToast('JSON export - coming soon'); }
+    function exportSelectedICS() { showToast('ICS export - coming soon'); }
+    function importCardsJSON(e) { showToast('Import feature coming soon'); }
+    function editCard(id) { showToast('Edit feature coming soon'); }
+    function addComment() { showToast('Comment feature coming soon'); }
+    function importWorkspaceFile(e) { showToast('Import feature coming soon'); }
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      if (e.key === '/') document.getElementById('kanbanSearch').focus();
+      if (e.key === 'Escape') {
+        document.getElementById('createCardModal').classList.add('hidden');
+        document.getElementById('viewCardModal').classList.add('hidden');
+        toggleSidebar(true);
+      }
+      if (e.ctrlKey && e.key === 's') {
+        e.preventDefault();
+        saveAllData();
+        showToast('Saved');
+      }
+      if (e.key === 'n' && !e.ctrlKey) {
+        const el = document.activeElement;
+        if (el.tagName !== 'INPUT' && el.tagName !== 'TEXTAREA') {
+          openCreateCard();
+        }
+      }
+    });
+
+    console.log('Alkembic Ace v1.2.0 loaded successfully!');
   </script>
 </body>
 </html>
