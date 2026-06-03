@@ -260,44 +260,328 @@ ConsoleCommands.register('delete', {
   }
 });
 
-// (Other commands like clone, find, query, filter, bulk, export, import, view, refresh, set, get, exec, macro, alias, unalias, history, date, echo, calc, trash, log, people, labels, chart, shortcuts, version, tutorial, and the shortcut aliases (ls, cd, rm, cp, mv, grep, cat) are included in Part 2.)
+ConsoleCommands.register('clone', {
+  description: 'Clone a card', usage: 'clone <id> [new_subject]',
+  args: [{ name: 'id', required: true }, { name: 'new_subject', optional: true }],
+  fn: (args, ctx) => {
+    const card = workspace.cards.find(c => c.id == args.id);
+    if (!card) return `❌ Card ID ${args.id} not found.`;
+    const copy = JSON.parse(JSON.stringify(card));
+    copy.id = Date.now() + Math.floor(Math.random() * 1000);
+    copy.subject = args.new_subject || card.subject + ' (Copy)';
+    copy.comments = [];
+    workspace.cards.push(copy);
+    ctx.saveWorkspace();
+    renderKanban();
+    return `✅ Cloned: "${copy.subject}" (ID: ${copy.id})`;
+  },
+  completions: (args) => args.length === 1 ? workspace.cards.map(c => c.id.toString()).filter(id => id.startsWith(args[0])) : []
+});
 
-// ========== CONTINUATION: Additional Commands ==========
-ConsoleCommands.register('clone', { /* full definition as in original */ });
-ConsoleCommands.register('find', { /* ... */ });
-ConsoleCommands.register('query', { /* ... */ });
-ConsoleCommands.register('filter', { /* ... */ });
-ConsoleCommands.register('bulk', { /* ... */ });
-ConsoleCommands.register('export', { /* ... */ });
-ConsoleCommands.register('import', { /* ... */ });
-ConsoleCommands.register('view', { /* ... */ });
-ConsoleCommands.register('refresh', { /* ... */ });
-ConsoleCommands.register('set', { /* ... */ });
-ConsoleCommands.register('get', { /* ... */ });
-ConsoleCommands.register('exec', { /* ... */ });
-ConsoleCommands.register('macro', { /* ... */ });
-ConsoleCommands.register('alias', { /* ... */ });
-ConsoleCommands.register('unalias', { /* ... */ });
-ConsoleCommands.register('history', { /* ... */ });
-ConsoleCommands.register('date', { /* ... */ });
-ConsoleCommands.register('echo', { /* ... */ });
-ConsoleCommands.register('calc', { /* ... */ });
-ConsoleCommands.register('trash', { /* ... */ });
-ConsoleCommands.register('log', { /* ... */ });
-ConsoleCommands.register('people', { /* ... */ });
-ConsoleCommands.register('labels', { /* ... */ });
-ConsoleCommands.register('chart', { /* ... */ });
-ConsoleCommands.register('shortcuts', { /* ... */ });
-ConsoleCommands.register('version', { aliases: ['ver','v'], fn: () => '⚗ Alkembic Ace v2.1 - Super Console Edition' });
-ConsoleCommands.register('tutorial', { fn: () => { showConsoleTutorial(); return ''; } });
-// Shortcut aliases
-ConsoleCommands.register('ls', { description: 'List cards', fn: (args) => ConsoleCommands.getCommand('query').fn({ filters: args._?.join(' ') || '' }, {}) });
-ConsoleCommands.register('cd', { description: 'Move selected cards', fn: (args, ctx) => { /* ... */ } });
-ConsoleCommands.register('rm', { description: 'Delete cards', fn: async (args, ctx) => ConsoleCommands.getCommand('delete').fn(args, ctx) });
-ConsoleCommands.register('cp', { description: 'Clone card', fn: (args, ctx) => ConsoleCommands.getCommand('clone').fn(args, ctx) });
-ConsoleCommands.register('mv', { description: 'Move card', fn: (args, ctx) => ConsoleCommands.getCommand('move').fn(args, ctx) });
-ConsoleCommands.register('grep', { description: 'Search cards', fn: (args, ctx) => ConsoleCommands.getCommand('find').fn({ query: args._?.join(' ') || '' }, ctx) });
-ConsoleCommands.register('cat', { description: 'Show card details', fn: (args) => ConsoleCommands.getCommand('get').fn({ key: 'card', id: args.id || args._?.[0] }, {}) });
+ConsoleCommands.register('find', {
+  description: 'Search for cards', usage: 'find <query> [--field <field>] [--limit <n>]',
+  args: [{ name: 'query', required: true }, { name: 'field', optional: true }, { name: 'limit', optional: true }],
+  fn: (args) => {
+    const query = args.query.toLowerCase();
+    const field = args.field || 'all';
+    const limit = parseInt(args.limit) || 20;
+    const results = workspace.cards.filter(c => {
+      if (field === 'subject') return c.subject.toLowerCase().includes(query);
+      if (field === 'desc') return (c.description || '').toLowerCase().includes(query);
+      if (field === 'labels') return c.labels?.some(l => l.toLowerCase().includes(query));
+      if (field === 'people') return c.people?.some(p => p.name.toLowerCase().includes(query));
+      return c.subject.toLowerCase().includes(query) || (c.description || '').toLowerCase().includes(query) ||
+             c.labels?.some(l => l.toLowerCase().includes(query)) || c.people?.some(p => p.name.toLowerCase().includes(query));
+    }).slice(0, limit);
+    if (!results.length) return `🔍 No cards match "${query}"`;
+    return `🔍 Found ${results.length} card(s):\n` + results.map((c,i) => `${i+1}. [${c.id}] ${c.subject} (${c.priority})`).join('\n');
+  }
+});
+
+ConsoleCommands.register('query', {
+  description: 'Advanced card filtering', usage: 'query priority:high column:todo',
+  fn: (args) => {
+    let cards = [...workspace.cards];
+    const filters = args.filters?.match(/(\w+):(\w+)/g) || [];
+    filters.forEach(f => {
+      const [key, val] = f.split(':');
+      if (key === 'priority') cards = cards.filter(c => c.priority === val);
+      if (key === 'column') cards = cards.filter(c => c.column === val);
+      if (key === 'label') cards = cards.filter(c => c.labels?.includes(val));
+      if (key === 'person') cards = cards.filter(c => c.people?.some(p => p.name === val));
+    });
+    const limit = parseInt(args.limit) || 20;
+    cards = cards.slice(0, limit);
+    return `📋 Query results (${cards.length}):\n` + cards.map(c => `[${c.id}] ${c.subject} (${c.priority})`).join('\n');
+  }
+});
+
+ConsoleCommands.register('filter', {
+  description: 'Filter cards by criteria', usage: 'filter [priority|column|label|person] [value]',
+  fn: (args) => {
+    if (!args.field) return `🔧 Available filters:\n  priority: critical, high, medium, low\n  column: todo, in-progress, done\n  label: <label name>\n  person: <person name>`;
+    const results = workspace.cards.filter(card => {
+      if (args.field === 'priority') return card.priority === args.value;
+      if (args.field === 'column') return card.column === args.value;
+      if (args.field === 'label') return card.labels?.includes(args.value);
+      if (args.field === 'person') return card.people?.some(p => p.name === args.value);
+      return false;
+    });
+    if (!results.length) return `🔍 No cards found with ${args.field}:${args.value}`;
+    return `📋 Filtered by ${args.field}:${args.value} (${results.length} cards)\n` + results.map(c => `[${c.id}] ${c.subject}`).join('\n');
+  }
+});
+
+ConsoleCommands.register('bulk', {
+  description: 'Bulk operations', usage: 'bulk <move|delete|edit|tag> <target> [options]',
+  fn: (args, ctx) => {
+    return 'Bulk command - full implementation available upon request.';
+  }
+});
+
+ConsoleCommands.register('export', {
+  description: 'Export data', usage: 'export <cards|selected|csv|json|ics|workspace>',
+  fn: (args) => {
+    const type = args.type;
+    if (type === 'csv') exportWorkspaceCSV();
+    else if (type === 'json') exportAllCardsJSON();
+    else if (type === 'selected') exportSelectedJSON();
+    else if (type === 'ics') exportICS();
+    else if (type === 'workspace') exportWorkspace();
+    else return `❌ Unknown export type: ${type}`;
+    return `✅ Exported ${type}`;
+  }
+});
+
+ConsoleCommands.register('import', {
+  description: 'Import data', usage: 'import <json|csv>',
+  fn: (args) => {
+    const type = args.type;
+    if (type === 'json') document.getElementById('importCardsInput').click();
+    else if (type === 'csv') document.getElementById('fileImport').click();
+    else return `❌ Unknown import type: ${type}`;
+    return `📥 Select a ${type.toUpperCase()} file to import...`;
+  }
+});
+
+ConsoleCommands.register('view', {
+  description: 'Switch view', usage: 'view <dashboard|board|timeline|analytics|trash>',
+  fn: (args) => { switchView(args.view || args._?.[0]); return `✅ Switched to ${args.view || args._?.[0]} view`; }
+});
+
+ConsoleCommands.register('refresh', {
+  description: 'Refresh views', usage: 'refresh [all]',
+  fn: () => { renderAllViews(); return '✅ Views refreshed'; }
+});
+
+ConsoleCommands.register('set', {
+  description: 'Set workspace setting', usage: 'set <key> <value>',
+  fn: (args) => {
+    const k = args.key, v = args.value;
+    if (k === 'theme') { workspace.settings.theme = v; applySettings(); }
+    else if (k === 'autosave') { workspace.settings.autosave = v === 'true' ? true : false; if (workspace.settings.autosave) startAutosave(); else stopAutosave(); }
+    else return `❌ Unknown setting: ${k}`;
+    saveAllData();
+    return `✅ ${k} set to ${v}`;
+  }
+});
+
+ConsoleCommands.register('get', {
+  description: 'Get setting or card', usage: 'get <settings|card <id>>',
+  fn: (args) => {
+    if (args.key === 'settings') return `Theme: ${workspace.settings.theme}, Autosave: ${workspace.settings.autosave}`;
+    if (args.key === 'card' && args.id) {
+      const c = workspace.cards.find(c => c.id == args.id);
+      return c ? `${c.subject} (${c.priority})` : `Card not found`;
+    }
+    return `❌ Unknown key: ${args.key}`;
+  }
+});
+
+ConsoleCommands.register('exec', {
+  description: 'Execute multiple commands', usage: 'exec <command1> ; <command2> ; ...',
+  fn: (args, ctx) => {
+    const commands = args.commands?.split(';').map(c => c.trim()).filter(c => c) || [];
+    let success = 0;
+    let output = '';
+    commands.forEach((cmd, i) => {
+      try {
+        const result = ctx.executeCommand(cmd);
+        if (result && !result.startsWith('❌')) success++;
+        output += `${result}\n`;
+      } catch(e) { output += `❌ ${e.message}\n`; }
+    });
+    return `${output}\n📊 ${success}/${commands.length} commands succeeded`;
+  }
+});
+
+ConsoleCommands.register('alias', {
+  description: 'Create command alias', usage: 'alias <name> <command>',
+  fn: (args, ctx) => {
+    if (!workspace.commandAliases) workspace.commandAliases = {};
+    workspace.commandAliases[args.name] = args.command;
+    ctx.saveWorkspace();
+    return `✅ Alias created: ${args.name} → ${args.command}`;
+  }
+});
+
+ConsoleCommands.register('unalias', {
+  description: 'Remove command alias', usage: 'unalias <name>',
+  fn: (args, ctx) => {
+    if (workspace.commandAliases?.[args.name]) {
+      delete workspace.commandAliases[args.name];
+      ctx.saveWorkspace();
+      return `✅ Alias "${args.name}" removed`;
+    }
+    return `❌ Alias "${args.name}" not found`;
+  }
+});
+
+ConsoleCommands.register('history', {
+  description: 'Show command history', usage: 'history [--clear]',
+  fn: (args) => {
+    if (args.action === '--clear') {
+      consoleCommandHistory = [];
+      workspace.consoleHistory = [];
+      saveAllData();
+      return '✅ Command history cleared';
+    }
+    return consoleCommandHistory.slice(0,20).map((c,i) => `${i+1}. ${c}`).join('\n') || 'No history';
+  }
+});
+
+ConsoleCommands.register('date', {
+  description: 'Get date', usage: 'date [today|tomorrow|yesterday]',
+  fn: (args) => {
+    const d = new Date();
+    if (args.format === 'tomorrow') d.setDate(d.getDate()+1);
+    if (args.format === 'yesterday') d.setDate(d.getDate()-1);
+    return d.toISOString().slice(0,10);
+  }
+});
+
+ConsoleCommands.register('echo', { 
+  description: 'Echo text', 
+  usage: 'echo <text>', 
+  fn: (args) => args.text || args._?.join(' ') || '' 
+});
+
+ConsoleCommands.register('calc', {
+  description: 'Calculate', usage: 'calc <expression>',
+  fn: (args) => { try { return eval(args.expression); } catch(e) { return 'Error'; } }
+});
+
+ConsoleCommands.register('trash', {
+  description: 'Manage trash', usage: 'trash <list|empty|restore <index>>',
+  fn: async (args) => {
+    if (args.action === 'list') return trashItems.map((t,i) => `${i}: ${t.content.subject || t.content}`).join('\n') || 'Trash empty';
+    if (args.action === 'empty') { trashItems = []; saveAllData(); renderTrash(); return 'Trash emptied'; }
+    if (args.action === 'restore' && args.options) {
+      const idx = parseInt(args.options);
+      if (trashItems[idx]) restoreTrashItem(idx);
+      return 'Restored';
+    }
+    return `❌ Unknown trash action`;
+  }
+});
+
+ConsoleCommands.register('log', {
+  description: 'Show activity log', usage: 'log [--clear]',
+  fn: (args) => {
+    if (args.action === '--clear') { activityLog = []; renderActivityFeed(); saveAllData(); return 'Activity log cleared'; }
+    return activityLog.slice(0,10).map(l => `${new Date(l.time).toLocaleString()}: ${l.msg}`).join('\n');
+  }
+});
+
+ConsoleCommands.register('people', {
+  description: 'List people', usage: 'people',
+  fn: () => {
+    const people = new Set();
+    workspace.cards.forEach(c => c.people?.forEach(p => people.add(`${p.name} (${p.role})`)));
+    return Array.from(people).join('\n') || 'No people';
+  }
+});
+
+ConsoleCommands.register('labels', {
+  description: 'List labels', usage: 'labels',
+  fn: () => {
+    const labels = new Set();
+    workspace.cards.forEach(c => c.labels?.forEach(l => labels.add(l)));
+    return Array.from(labels).join('\n') || 'No labels';
+  }
+});
+
+ConsoleCommands.register('chart', {
+  description: 'List charts', usage: 'chart',
+  fn: () => workspace.dashDatasets.map((d,i) => `${i+1}: ${d.name} (${d.type})`).join('\n') || 'No charts'
+});
+
+ConsoleCommands.register('shortcuts', {
+  description: 'Show shortcuts', usage: 'shortcuts',
+  fn: () => 'Ctrl+S Save | Ctrl+F Console | N New Card | / Search | Esc Close'
+});
+
+ConsoleCommands.register('version', {
+  description: 'Show version', usage: 'version', 
+  aliases: ['ver','v'],
+  fn: () => '⚗ Alkembic Ace v2.1 – Super Console Edition'
+});
+
+ConsoleCommands.register('tutorial', {
+  description: 'Show tutorial', 
+  usage: 'tutorial',
+  fn: () => { showConsoleTutorial(); return ''; }
+});
+
+// ========== SHORTCUT ALIASES (ls, cd, rm, cp, mv, grep, cat) ==========
+ConsoleCommands.register('ls', { 
+  description: 'List cards', 
+  fn: (args) => ConsoleCommands.getCommand('query').fn({ filters: args._?.join(' ') || '' }, {}) 
+});
+
+ConsoleCommands.register('cd', {
+  description: 'Move selected cards to column', 
+  usage: 'cd <column>',
+  fn: (args, ctx) => {
+    if (selectedCardIds.size === 0) return `❌ No cards selected. Use "cd <column>" after selecting cards.`;
+    const column = args.column || args._?.[0];
+    if (!['todo','in-progress','done'].includes(column)) return `❌ Invalid column: ${column}`;
+    workspace.cards.forEach(c => { if (selectedCardIds.has(c.id)) c.column = column; });
+    ctx.saveWorkspace(); 
+    renderKanban();
+    return `✅ Moved ${selectedCardIds.size} selected cards to ${column}`;
+  }
+});
+
+ConsoleCommands.register('rm', {
+  description: 'Delete cards', 
+  usage: 'rm <id|all|selected> [--force]',
+  fn: async (args, ctx) => ConsoleCommands.getCommand('delete').fn(args, ctx)
+});
+
+ConsoleCommands.register('cp', {
+  description: 'Clone card', 
+  usage: 'cp <id> [new_subject]',
+  fn: (args, ctx) => ConsoleCommands.getCommand('clone').fn(args, ctx)
+});
+
+ConsoleCommands.register('mv', {
+  description: 'Move card', 
+  usage: 'mv <id> <column>',
+  fn: (args, ctx) => ConsoleCommands.getCommand('move').fn(args, ctx)
+});
+
+ConsoleCommands.register('grep', {
+  description: 'Search cards', 
+  usage: 'grep <query>',
+  fn: (args, ctx) => ConsoleCommands.getCommand('find').fn({ query: args._?.join(' ') || '' }, ctx)
+});
+
+ConsoleCommands.register('cat', {
+  description: 'Show card details', 
+  usage: 'cat <id>',
+  fn: (args) => ConsoleCommands.getCommand('get').fn({ key: 'card', id: args.id || args._?.[0] }, {})
+});
 
 // ========== ENHANCED CONSOLE UI ==========
 let consoleCommandHistory = [], consoleHistoryIndex = -1, consoleAutocompleteIndex = -1, consoleAutocompleteResults = [], consoleClockInterval = null;
@@ -369,34 +653,6 @@ const enhancedConsoleCSS = `
 .fc-help-table th, .fc-help-table td { padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--bd2); }
 `;
 
-// ----- Console UI Functions (full implementations) -----
-function createEnhancedConsole() { /* creates the DOM element – see full definition below */ }
-function addConsoleOutput(text, type) { /* add line to log */ }
-function clearConsoleOutput() { /* clear log */ }
-function loadConsoleHistory() { /* load from workspace */ }
-function updateConsoleStatus() { /* update counters */ }
-function startConsoleClock() { /* start time display */ }
-function setConsoleTab(tab) { /* switch tabs */ }
-function renderConsoleHistory() { /* show history */ }
-function renderConsoleMacros() { /* show macros */ }
-function createMacroFromForm() { /* create macro from form */ }
-function runMacro(name) { /* execute macro */ }
-function renderConsoleHelp() { /* show help */ }
-function showConsoleAutocomplete(prefix) { /* show autocomplete */ }
-function hideConsoleAutocomplete() { /* hide autocomplete */ }
-function updateAutocompleteSelection() { /* highlight selection */ }
-function selectAutocomplete(index) { /* select autocomplete */ }
-function updateConsoleMode() { /* update mode indicator */ }
-function handleEnhancedConsoleKey(e) { /* keyboard handling */ }
-function executeEnhancedConsole() { /* run command */ }
-function executeConsoleCommand(text) { /* parse and execute */ }
-function toggleConsoleVisibility() { /* hide/show */ }
-function makeDraggable(el, handle) { /* make draggable */ }
-function minimizeEnhancedConsole() { /* minimize */ }
-function closeEnhancedConsole() { /* close */ }
-function clearEnhancedConsole() { /* clear output */ }
-function showConsoleTutorial() { /* show tutorial */ }
-
 // Override original console functions
 window.openFloatingConsole = function() {
   if (floatingConsole && floatingConsole.classList.contains('enhanced')) {
@@ -418,12 +674,14 @@ window.openFloatingConsole = function() {
   }
   setTimeout(() => document.getElementById('fcInput')?.focus(), 100);
 };
+
 window.closeFloatingConsole = function() {
   const con = document.getElementById('floatingConsole');
   if (con && con.classList.contains('enhanced')) closeEnhancedConsole();
   else if (con) { con.remove(); floatingConsole = null; }
   document.getElementById('consoleReopen')?.classList.add('show');
 };
+
 window.minimizeConsole = function() { const con = document.getElementById('floatingConsole'); if (con) con.classList.toggle('minimized'); };
 window.addConsoleLog = addConsoleOutput;
 window.runConsoleCommand = executeEnhancedConsole;
@@ -444,7 +702,7 @@ function initEnhancedConsole() {
 window.initEnhancedConsole = initEnhancedConsole;
 window.ConsoleCommands = ConsoleCommands;
 
-// ========== MISSING CONSOLE UI FUNCTIONS (FULL IMPLEMENTATIONS) ==========
+// ========== CONSOLE UI FUNCTIONS (FULL IMPLEMENTATIONS) ==========
 function createEnhancedConsole() {
   const old = document.getElementById('floatingConsole');
   if (old) old.remove();
@@ -705,7 +963,7 @@ function renderConsoleHelp() {
   const content = document.getElementById('fcHelpContent');
   if (!content) return;
   const commands = ConsoleCommands.getAllCommands();
-  let html = `<div class="fc-help-section"><h3>📚 Alkembic Super Console</h3><p>Type <code>help &lt;command&gt;</code> for details.</p><div class="fc-help-tip">💡 Tab for autocomplete, ↑/↓ for history, Ctrl+F to open console</div></div>`;
+  let html = `<div class="fc-help-section"><h3>📚 Alkembic Super Console</h3><p>Type <code>help &lt;command&gt;</code> for details.</p><div class="fc-help-tip">💡 Tab for autocomplete, ↑/↓ for history, Esc to clear</div>`;
   const categories = {
     'System': ['help','clear','stats','autosave','theme','version','shortcuts'],
     'Card Management': ['card','edit','move','delete','clone'],
@@ -1063,299 +1321,4 @@ function showConsoleTutorial() {
   addConsoleOutput(tutorial, 'info');
 }
 
-// ========== REMAINING COMMAND IMPLEMENTATIONS (clone, find, query, filter, bulk, export, import, view, refresh, set, get, exec, macro, alias, unalias, history, date, echo, calc, trash, log, people, labels, chart, shortcuts) ==========
-// These are available in the original "Alky-mistral-v1.html" file.
-// For brevity, I include the full bodies for the most important ones here.
-
-// Clone (already defined above, but ensure completeness)
-ConsoleCommands.register('clone', {
-  description: 'Clone a card', usage: 'clone <id> [new_subject]',
-  args: [{ name: 'id', required: true }, { name: 'new_subject', optional: true }],
-  fn: (args, ctx) => {
-    const card = workspace.cards.find(c => c.id == args.id);
-    if (!card) return `❌ Card ID ${args.id} not found.`;
-    const copy = JSON.parse(JSON.stringify(card));
-    copy.id = Date.now() + Math.floor(Math.random() * 1000);
-    copy.subject = args.new_subject || card.subject + ' (Copy)';
-    copy.comments = [];
-    workspace.cards.push(copy);
-    ctx.saveWorkspace();
-    renderKanban();
-    return `✅ Cloned: "${copy.subject}" (ID: ${copy.id})`;
-  },
-  completions: (args) => args.length === 1 ? workspace.cards.map(c => c.id.toString()).filter(id => id.startsWith(args[0])) : []
-});
-
-// Find
-ConsoleCommands.register('find', {
-  description: 'Search for cards', usage: 'find <query> [--field <field>] [--limit <n>]',
-  args: [{ name: 'query', required: true }, { name: 'field', optional: true }, { name: 'limit', optional: true }],
-  fn: (args) => {
-    const query = args.query.toLowerCase();
-    const field = args.field || 'all';
-    const limit = parseInt(args.limit) || 20;
-    const results = workspace.cards.filter(c => {
-      if (field === 'subject') return c.subject.toLowerCase().includes(query);
-      if (field === 'desc') return (c.description || '').toLowerCase().includes(query);
-      if (field === 'labels') return c.labels?.some(l => l.toLowerCase().includes(query));
-      if (field === 'people') return c.people?.some(p => p.name.toLowerCase().includes(query));
-      return c.subject.toLowerCase().includes(query) || (c.description || '').toLowerCase().includes(query) ||
-             c.labels?.some(l => l.toLowerCase().includes(query)) || c.people?.some(p => p.name.toLowerCase().includes(query));
-    }).slice(0, limit);
-    if (!results.length) return `🔍 No cards match "${query}"`;
-    return `🔍 Found ${results.length} card(s):\n` + results.map((c,i) => `${i+1}. [${c.id}] ${c.subject} (${c.priority})`).join('\n');
-  }
-});
-
-// Query
-ConsoleCommands.register('query', {
-  description: 'Advanced card filtering', usage: 'query priority:high column:todo',
-  fn: (args) => {
-    let cards = [...workspace.cards];
-    const filters = args.filters?.match(/(\w+):(\w+)/g) || [];
-    filters.forEach(f => {
-      const [key, val] = f.split(':');
-      if (key === 'priority') cards = cards.filter(c => c.priority === val);
-      if (key === 'column') cards = cards.filter(c => c.column === val);
-      if (key === 'label') cards = cards.filter(c => c.labels?.includes(val));
-      if (key === 'person') cards = cards.filter(c => c.people?.some(p => p.name === val));
-    });
-    const limit = parseInt(args.limit) || 20;
-    cards = cards.slice(0, limit);
-    return `📋 Query results (${cards.length}):\n` + cards.map(c => `[${c.id}] ${c.subject} (${c.priority})`).join('\n');
-  }
-});
-
-// Filter (interactive)
-ConsoleCommands.register('filter', {
-  description: 'Filter cards by criteria', usage: 'filter [priority|column|label|person] [value]',
-  fn: (args) => {
-    if (!args.field) return `🔧 Available filters:\n  priority: critical, high, medium, low\n  column: todo, in-progress, done\n  label: <label name>\n  person: <person name>`;
-    const results = workspace.cards.filter(card => {
-      if (args.field === 'priority') return card.priority === args.value;
-      if (args.field === 'column') return card.column === args.value;
-      if (args.field === 'label') return card.labels?.includes(args.value);
-      if (args.field === 'person') return card.people?.some(p => p.name === args.value);
-      return false;
-    });
-    if (!results.length) return `🔍 No cards found with ${args.field}:${args.value}`;
-    return `📋 Filtered by ${args.field}:${args.value} (${results.length} cards)\n` + results.map(c => `[${c.id}] ${c.subject}`).join('\n');
-  }
-});
-
-// Bulk (partial – full version in original)
-ConsoleCommands.register('bulk', {
-  description: 'Bulk operations', usage: 'bulk <move|delete|edit|tag> <target> [options]',
-  fn: (args, ctx) => { /* full implementation from original */ return 'Bulk command not fully implemented in this version.'; }
-});
-
-// Export
-ConsoleCommands.register('export', {
-  description: 'Export data', usage: 'export <cards|selected|csv|json|ics|workspace>',
-  fn: (args) => {
-    const type = args.type;
-    if (type === 'csv') exportWorkspaceCSV();
-    else if (type === 'json') exportAllCardsJSON();
-    else if (type === 'selected') exportSelectedJSON();
-    else if (type === 'ics') exportICS();
-    else if (type === 'workspace') exportWorkspace();
-    else return `❌ Unknown export type: ${type}`;
-    return `✅ Exported ${type}`;
-  }
-});
-
-// Import
-ConsoleCommands.register('import', {
-  description: 'Import data', usage: 'import <json|csv>',
-  fn: (args) => {
-    const type = args.type;
-    if (type === 'json') document.getElementById('importCardsInput').click();
-    else if (type === 'csv') document.getElementById('fileImport').click();
-    else return `❌ Unknown import type: ${type}`;
-    return `📥 Select a ${type.toUpperCase()} file to import...`;
-  }
-});
-
-// View
-ConsoleCommands.register('view', {
-  description: 'Switch view', usage: 'view <dashboard|board|timeline|analytics|trash>',
-  fn: (args) => { switchView(args.command); return `✅ Switched to ${args.command} view`; }
-});
-
-// Refresh
-ConsoleCommands.register('refresh', {
-  description: 'Refresh views', usage: 'refresh [all]',
-  fn: () => { renderAllViews(); return '✅ Views refreshed'; }
-});
-
-// Set
-ConsoleCommands.register('set', {
-  description: 'Set workspace setting', usage: 'set <key> <value>',
-  fn: (args) => {
-    const k = args.key, v = args.value;
-    if (k === 'theme') { workspace.settings.theme = v; applySettings(); }
-    else if (k === 'autosave') { workspace.settings.autosave = v === 'true' ? true : false; if (workspace.settings.autosave) startAutosave(); else stopAutosave(); }
-    else return `❌ Unknown setting: ${k}`;
-    saveAllData();
-    return `✅ ${k} set to ${v}`;
-  }
-});
-
-// Get
-ConsoleCommands.register('get', {
-  description: 'Get setting or card', usage: 'get <settings|card <id>>',
-  fn: (args) => {
-    if (args.key === 'settings') return `Theme: ${workspace.settings.theme}, Autosave: ${workspace.settings.autosave}`;
-    if (args.key === 'card' && args.id) {
-      const c = workspace.cards.find(c => c.id == args.id);
-      return c ? `${c.subject} (${c.priority})` : `Card not found`;
-    }
-    return `❌ Unknown key: ${args.key}`;
-  }
-});
-
-// Exec
-ConsoleCommands.register('exec', {
-  description: 'Execute multiple commands', usage: 'exec <command1> ; <command2> ; ...',
-  fn: (args, ctx) => {
-    const commands = args.commands.split(';').map(c => c.trim()).filter(c => c);
-    let success = 0;
-    let output = '';
-    commands.forEach((cmd, i) => {
-      try {
-        const result = ctx.executeCommand(cmd);
-        if (result && !result.startsWith('❌')) success++;
-        output += `${result}\n`;
-      } catch(e) { output += `❌ ${e.message}\n`; }
-    });
-    return `${output}\n📊 ${success}/${commands.length} commands succeeded`;
-  }
-});
-
-// Macro (already registered)
-// Alias / Unalias / History / Date / Echo / Calc / Trash / Log / People / Labels / Chart / Shortcuts / Version / Tutorial
-// These are already defined in the original; we include just the most essential ones.
-ConsoleCommands.register('alias', {
-  description: 'Create command alias', usage: 'alias <name> <command>',
-  fn: (args, ctx) => {
-    if (!workspace.commandAliases) workspace.commandAliases = {};
-    workspace.commandAliases[args.name] = args.command;
-    ctx.saveWorkspace();
-    return `✅ Alias created: ${args.name} → ${args.command}`;
-  }
-});
-ConsoleCommands.register('history', {
-  description: 'Show command history', usage: 'history [--clear]',
-  fn: (args) => {
-    if (args.action === '--clear') {
-      consoleCommandHistory = [];
-      workspace.consoleHistory = [];
-      saveAllData();
-      return '✅ Command history cleared';
-    }
-    return consoleCommandHistory.slice(0,20).map((c,i) => `${i+1}. ${c}`).join('\n') || 'No history';
-  }
-});
-ConsoleCommands.register('date', {
-  description: 'Get date', usage: 'date [today|tomorrow|yesterday]',
-  fn: (args) => {
-    const d = new Date();
-    if (args.format === 'tomorrow') d.setDate(d.getDate()+1);
-    if (args.format === 'yesterday') d.setDate(d.getDate()-1);
-    return d.toISOString().slice(0,10);
-  }
-});
-ConsoleCommands.register('echo', { description: 'Echo text', usage: 'echo <text>', fn: (args) => args.text || '' });
-ConsoleCommands.register('calc', {
-  description: 'Calculate', usage: 'calc <expression>',
-  fn: (args) => { try { return eval(args.expression); } catch(e) { return 'Error'; } }
-});
-ConsoleCommands.register('trash', {
-  description: 'Manage trash', usage: 'trash <list|empty|restore <index>>',
-  fn: async (args) => {
-    if (args.action === 'list') return trashItems.map((t,i) => `${i}: ${t.content.subject || t.content}`).join('\n') || 'Trash empty';
-    if (args.action === 'empty') { trashItems = []; saveAllData(); renderTrash(); return 'Trash emptied'; }
-    if (args.action === 'restore' && args.options) {
-      const idx = parseInt(args.options);
-      if (trashItems[idx]) restoreTrashItem(idx);
-      return 'Restored';
-    }
-    return `❌ Unknown trash action`;
-  }
-});
-ConsoleCommands.register('log', {
-  description: 'Show activity log', usage: 'log [--clear]',
-  fn: (args) => {
-    if (args.action === '--clear') { activityLog = []; renderActivityFeed(); saveAllData(); return 'Activity log cleared'; }
-    return activityLog.slice(0,10).map(l => `${new Date(l.time).toLocaleString()}: ${l.msg}`).join('\n');
-  }
-});
-ConsoleCommands.register('people', {
-  description: 'List people', usage: 'people',
-  fn: () => {
-    const people = new Set();
-    workspace.cards.forEach(c => c.people?.forEach(p => people.add(`${p.name} (${p.role})`)));
-    return Array.from(people).join('\n') || 'No people';
-  }
-});
-ConsoleCommands.register('labels', {
-  description: 'List labels', usage: 'labels',
-  fn: () => {
-    const labels = new Set();
-    workspace.cards.forEach(c => c.labels?.forEach(l => labels.add(l)));
-    return Array.from(labels).join('\n') || 'No labels';
-  }
-});
-ConsoleCommands.register('chart', {
-  description: 'List charts', usage: 'chart',
-  fn: () => workspace.dashDatasets.map((d,i) => `${i+1}: ${d.name} (${d.type})`).join('\n') || 'No charts'
-});
-ConsoleCommands.register('shortcuts', {
-  description: 'Show shortcuts', usage: 'shortcuts',
-  fn: () => 'Ctrl+S Save | Ctrl+F Console | N New Card | / Search | Esc Close'
-});
-ConsoleCommands.register('version', {
-  description: 'Show version', usage: 'version', aliases: ['ver','v'],
-  fn: () => '⚗ Alkembic Ace v2.1 – Super Console Edition'
-});
-ConsoleCommands.register('tutorial', {
-  description: 'Show tutorial', usage: 'tutorial',
-  fn: () => { showConsoleTutorial(); return ''; }
-});
-
-// Shortcut aliases (ls, cd, rm, cp, mv, grep, cat)
-ConsoleCommands.register('ls', { description: 'List cards', fn: (args) => ConsoleCommands.getCommand('query').fn({ filters: args._?.join(' ') || '' }, {}) });
-ConsoleCommands.register('cd', {
-  description: 'Move selected cards to column', usage: 'cd <column>',
-  fn: (args, ctx) => {
-    if (selectedCardIds.size === 0) return `❌ No cards selected. Use "cd <column>" after selecting cards.`;
-    const column = args.column || args._?.[0];
-    if (!['todo','in-progress','done'].includes(column)) return `❌ Invalid column: ${column}`;
-    workspace.cards.forEach(c => { if (selectedCardIds.has(c.id)) c.column = column; });
-    ctx.saveWorkspace(); renderKanban();
-    return `✅ Moved ${selectedCardIds.size} selected cards to ${column}`;
-  }
-});
-ConsoleCommands.register('rm', {
-  description: 'Delete cards', usage: 'rm <id|all|selected> [--force]',
-  fn: async (args, ctx) => ConsoleCommands.getCommand('delete').fn(args, ctx)
-});
-ConsoleCommands.register('cp', {
-  description: 'Clone card', usage: 'cp <id> [new_subject]',
-  fn: (args, ctx) => ConsoleCommands.getCommand('clone').fn(args, ctx)
-});
-ConsoleCommands.register('mv', {
-  description: 'Move card', usage: 'mv <id> <column>',
-  fn: (args, ctx) => ConsoleCommands.getCommand('move').fn(args, ctx)
-});
-ConsoleCommands.register('grep', {
-  description: 'Search cards', usage: 'grep <query>',
-  fn: (args, ctx) => ConsoleCommands.getCommand('find').fn({ query: args._?.join(' ') || '' }, ctx)
-});
-ConsoleCommands.register('cat', {
-  description: 'Show card details', usage: 'cat <id>',
-  fn: (args) => ConsoleCommands.getCommand('get').fn({ key: 'card', id: args.id || args._?.[0] }, {})
-});
-
-// Re-export the ConsoleCommands registry globally (already done at the end of Part 2)
 window.ConsoleCommands = ConsoleCommands;
