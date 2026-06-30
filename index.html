@@ -1,17 +1,15 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="dark">
-<head>
+<!DOCTYPE html><html lang="en" data-theme="dark"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
   <title>⚗ Alkembic Ace v2.1 – Super Console Edition</title>
   <link rel="stylesheet" href="styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
   <script src="utils.js"></script>
   <script src="app.js"></script>
   <script src="console.js"></script>
-</head>
+<meta name="description" content="Page description"></head>
 <body>
   <!-- Setup screen -->
   <div id="setupScreen" class="modal-overlay">
@@ -62,7 +60,7 @@
           <div class="stat-card cy"><h3 id="statTrash">0</h3>Trash</div>
         </div>
         <div style="display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap;">
-          <input type="file" id="fileImport" accept=".txt,.csv,.xlsx,.xls" onchange="handleFileImport(event)" hidden>
+          <input type="file" id="fileImport" accept=".txt,.csv,.xlsx,.xls" onchange="handleFileImport(event)" hidden="">
           <button class="btn" onclick="document.getElementById('fileImport').click()">📄 Import Data</button>
           <button class="btn btn-outline" onclick="exportTilesTable()">📋 Export CSV</button>
         </div>
@@ -121,7 +119,7 @@
       <!-- Analytics view -->
       <div id="view-analytics" class="view">
         <div style="display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap;">
-          <input type="file" id="dashImport" accept=".txt,.csv,.xlsx,.xls" onchange="handleDashImport(event)" hidden>
+          <input type="file" id="dashImport" accept=".txt,.csv,.xlsx,.xls" onchange="handleDashImport(event)" hidden="">
           <button class="btn" onclick="document.getElementById('dashImport').click()">📄 Import</button>
           <select id="chartType" style="padding:8px;background:var(--ibg);border:1px solid var(--bd);color:var(--hd);border-radius:6px;">
             <option value="bar">Bar</option>
@@ -201,7 +199,7 @@
           <div class="form-field"><label>Start Date</label><input type="date" id="cardStart" class="form-input"></div>
           <div class="form-field"><label>End Date</label><input type="date" id="cardEnd" class="form-input"></div>
           <div class="form-field"><label>Status</label><select id="cardStatus" class="form-input"><option value="todo">To Do</option><option value="in-progress">In Progress</option><option value="done">Done</option></select></div>
-          <div class="form-field"><label>Priority</label><select id="cardPriority" class="form-input"><option value="low">🟢 Low</option><option value="medium" selected>🟡 Medium</option><option value="high">🟠 High</option><option value="critical">🔴 Critical</option></select></div>
+          <div class="form-field"><label>Priority</label><select id="cardPriority" class="form-input"><option value="low">🟢 Low</option><option value="medium" selected="">🟡 Medium</option><option value="high">🟠 High</option><option value="critical">🔴 Critical</option></select></div>
         </div>
         <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:8px;">
           <button class="btn btn-ghost" onclick="closeCreateCard()">Cancel</button>
@@ -236,7 +234,7 @@
   <div id="shortcutsModal" class="modal-overlay hidden">
     <div class="modal-content">
       <h3>⌨️ Keyboard Shortcuts</h3>
-      <table style="width:100%"><tr><td style="color:var(--am);">/</td><td>Focus search</td></tr><tr><td style="color:var(--am);">Esc</td><td>Close modal / cancel range</td></tr><tr><td style="color:var(--am);">Ctrl+S</td><td>Save workspace</td></tr><tr><td style="color:var(--am);">N</td><td>New card (when not in input)</td></tr><tr><td style="color:var(--am);">Ctrl+F</td><td>Open Super Console</td></tr></table>
+      <table style="width:100%"><tbody><tr><td style="color:var(--am);">/</td><td>Focus search</td></tr><tr><td style="color:var(--am);">Esc</td><td>Close modal / cancel range</td></tr><tr><td style="color:var(--am);">Ctrl+S</td><td>Save workspace</td></tr><tr><td style="color:var(--am);">N</td><td>New card (when not in input)</td></tr><tr><td style="color:var(--am);">Ctrl+F</td><td>Open Super Console</td></tr></tbody></table>
       <button class="btn btn-sm" onclick="closeModal('shortcutsModal')">Close</button>
     </div>
   </div>
@@ -252,5 +250,5 @@
       if (typeof initEnhancedConsole === 'function') initEnhancedConsole();
     });
   </script>
-</body>
-</html>
+
+</body></html>
