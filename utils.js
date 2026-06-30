@@ -90,4 +90,4 @@ let timelineMonth, timelineYear, rangeStart;
 let dashboardChart, dashChartInstances, autosaveInterval;
 let editingCardId, viewingCardId, activeFilter, multiSelectMode, selectedCardIds;
 let floatingConsole, tableLocked, currentMultiSheetData, currentSheetColumns;
-let consoleCommandHistory = [], consoleHistoryIndex = -1, consoleAutocompleteIndex = -1, consoleAutocompleteResults = [], consoleClockInterval = null;
+let consoleCommandHistory = [], consoleHistoryIndex = -1, consoleAutocompleteIndex = -1, consoleAutocompleteResults = [], consoleClockInterval = null; 
