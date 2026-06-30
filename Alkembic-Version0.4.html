@@ -17,13 +17,10 @@ Full visual chain: circular avatar with numbered priority badge (1, 2, 3...), na
 Colored connector arrows between each person
 Multi-role persons get a "Multi-role" badge
 Hides the section entirely if no people are added
-Cards are draggable between all 4 columns. People list inside the form is also drag-reorderable. -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+Cards are draggable between all 4 columns. People list inside the form is also drag-reorderable. --><!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Alkembic v0.3 — SM Knowledge Board</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/minisearch@6.3.0/dist/umd/index.min.js"></script>
 <style>
 :root{
@@ -299,7 +296,7 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;heig
 @keyframes fadeUp{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
 @keyframes modalIn{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:scale(1)}}
 </style>
-</head>
+<meta name="description" content="Page description"></head>
 <body>
 
 <!-- Name Setup -->
@@ -307,8 +304,8 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;heig
   <div class="ns-box">
     <div class="ns-logo">⚗ Alkembic</div>
     <div class="ns-ver">VERSION 0.3</div>
-    <div class="ns-sub">Your offline SM Knowledge Board.<br/>People-aware · Zero cloud · MiniSearch powered.</div>
-    <input type="text" id="nameInput" placeholder="Your name (e.g. Surya)" maxlength="30" onkeydown="if(event.key==='Enter')setName()"/>
+    <div class="ns-sub">Your offline SM Knowledge Board.<br>People-aware · Zero cloud · MiniSearch powered.</div>
+    <input type="text" id="nameInput" placeholder="Your name (e.g. Surya)" maxlength="30" onkeydown="if(event.key==='Enter')setName()">
     <button class="ns-enter" onclick="setName()">Enter Alkembic →</button>
   </div>
 </div>
@@ -322,10 +319,10 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;heig
     <button class="vtab" id="tab-timeline" onclick="switchView('timeline')">↕ Timeline</button>
     <button class="vtab" id="tab-trash" onclick="switchView('trash')">🗑 Trash</button>
   </div>
-  <input type="text" id="srchBar" placeholder="Search tiles, people, tags…" oninput="doSearch(this.value)"/>
+  <input type="text" id="srchBar" placeholder="Search tiles, people, tags…" oninput="doSearch(this.value)">
   <button class="hbtn" onclick="exportAll()">⬇ Export</button>
   <button class="hbtn" onclick="triggerImport()">⬆ Import</button>
-  <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)"/>
+  <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
   <button class="newbtn" onclick="openCreate()">+ New Tile</button>
 </div>
 
@@ -346,7 +343,7 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;heig
 
   <div class="frow">
     <label class="flbl">Title *</label>
-    <input type="text" class="finput" id="fTitle" placeholder="e.g. Sprint 12 Retro — Team Phoenix"/>
+    <input type="text" class="finput" id="fTitle" placeholder="e.g. Sprint 12 Retro — Team Phoenix">
   </div>
 
   <div class="frow">
@@ -356,7 +353,7 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;heig
       <button class="add-cat-btn" onclick="toggleNewCat()" title="Add category">+</button>
     </div>
     <div id="newCatWrap">
-      <input type="text" class="finput" id="newCatInput" placeholder="New category name…" style="margin-top:8px" onkeydown="if(event.key==='Enter')addCat()"/>
+      <input type="text" class="finput" id="newCatInput" placeholder="New category name…" style="margin-top:8px" onkeydown="if(event.key==='Enter')addCat()">
       <div class="nca-acts">
         <button class="bxs-a" onclick="addCat()">Add</button>
         <button class="bxs-g" onclick="cancelNewCat()">Cancel</button>
@@ -368,7 +365,7 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;heig
   <div class="frow">
     <label class="flbl">👥 People Involved</label>
     <div class="people-add-row">
-      <input type="text" class="finput" id="piName" placeholder="Name (e.g. Rajesh)"/>
+      <input type="text" class="finput" id="piName" placeholder="Name (e.g. Rajesh)">
       <div class="role-multi-wrap">
         <div class="role-chips-sel" id="roleChips"></div>
       </div>
@@ -381,8 +378,8 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;heig
     <label class="flbl">Labels</label>
     <div class="labels-wrap" id="labelsWrap"></div>
     <div class="add-lbl-row">
-      <input type="text" id="newLblTxt" placeholder="New label…"/>
-      <input type="color" id="newLblColor" value="#f59e0b"/>
+      <input type="text" id="newLblTxt" placeholder="New label…">
+      <input type="color" id="newLblColor" value="#f59e0b">
       <button class="add-lbl-btn" onclick="addLabel()">+ Add</button>
     </div>
   </div>
@@ -913,5 +910,6 @@ document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeCreate(); cl
 /* ══ Boot ══ */
 init();
 </script>
-</body>
-</html>
+
+
+</body></html>
