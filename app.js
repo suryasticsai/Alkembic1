@@ -44,7 +44,7 @@ function renderImportedTable() {
   const tbody = document.querySelector('#importedTable tbody');
   if (!tbody) return;
   tbody.innerHTML = workspace.importedData.map((item, i) => `
-    <td><td ${!tableLocked ? 'contenteditable="true"' : ''} onblur="updateImported(${i},'label',this.innerText)">${escapeHTML(item.label)}</td>
+    <tr><td ${!tableLocked ? 'contenteditable="true"' : ''} onblur="updateImported(${i},'label',this.innerText)">${escapeHTML(item.label)}</td>
     <td ${!tableLocked ? 'contenteditable="true"' : ''} onblur="updateImported(${i},'value',this.innerText)">${item.value}</td>
     </tr>`).join('') || '<tr><td colspan="2">No data</td></tr>';
   const lockBtn = document.getElementById('toggleTableLockBtn');
@@ -517,7 +517,7 @@ function renderTrash() {
   const container = document.getElementById('trashContent');
   if (!container) return;
   if (!trashItems.length) { container.innerHTML = '<div class="section-card">Trash is empty</div>'; return; }
-  container.innerHTML = `<td><thead><tr><th>Type</th><th>Content</th><th>Deleted</th><th></th></tr></thead><tbody>${trashItems.map((item,i) => `
+  container.innerHTML = `<table><thead><tr><th>Type</th><th>Content</th><th>Deleted</th><th></th></tr></thead><tbody>${trashItems.map((item,i) => `
     <tr><td>${item.type}</td><td>${item.type === 'card' ? escapeHTML(item.content.subject) : 'Event'}</td><td>${new Date(item.deletedAt).toLocaleString()}</td>
     <td><button class="btn btn-sm btn-outline" onclick="restoreTrashItem(${i})">Restore</button> <button class="btn btn-sm btn-danger" onclick="permanentDelete(${i})">Perm Delete</button></td>
     </tr>`).join('')}</tbody></table>`;
@@ -708,6 +708,7 @@ window.exportSelectedJSON = exportSelectedJSON;
 window.exportSelectedICS = exportSelectedICS;
 window.bulkDeleteSelected = bulkDeleteSelected;
 window.showShortcuts = showShortcuts;
+window.applyChartConfig = applyChartConfig;
 
 // Inside app.js, after all other functions, before the window exports:
 
