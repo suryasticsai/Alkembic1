@@ -7,6 +7,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
   <script src="utils.js"></script>
+  <script src="auth.js"></script>
   <script src="app.js"></script>
   <script src="console.js"></script>
 <meta name="description" content="Page description"></head>
@@ -94,6 +95,19 @@
             <option value="date">Due Date</option>
             <option value="alpha">A → Z</option>
           </select>
+          <button class="btn btn-sm btn-outline" id="multiSelectToggle" onclick="toggleMultiSelect()">☑ Select</button>
+        </div>
+        <div id="bulkMovePanel" class="hidden" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:16px;padding:10px 14px;background:var(--card2);border:1px solid var(--bd2);border-radius:10px;">
+          <span class="selected-count" style="font-size:0.8rem;color:var(--mu);"></span>
+          <select id="bulkMoveTarget" style="padding:6px 10px;border:1px solid var(--bd);border-radius:8px;background:var(--ibg);color:var(--hd);font-size:0.8rem;">
+            <option value="todo">To Do</option>
+            <option value="in-progress">In Progress</option>
+            <option value="done">Done</option>
+          </select>
+          <button class="btn btn-sm" onclick="bulkMoveCards()">Move</button>
+          <button class="btn btn-sm btn-outline" onclick="exportSelectedJSON()">📋 JSON</button>
+          <button class="btn btn-sm btn-outline" onclick="exportSelectedICS()">📅 ICS</button>
+          <button class="btn btn-sm btn-danger" onclick="bulkDeleteSelected()">🗑 Delete</button>
         </div>
         <div class="kanban-board" id="kanbanBoard"></div>
       </div>
