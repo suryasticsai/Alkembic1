@@ -584,8 +584,12 @@ ConsoleCommands.register('cat', {
 });
 
 // ========== ENHANCED CONSOLE UI ==========
-let consoleCommandHistory = [], consoleHistoryIndex = -1, consoleAutocompleteIndex = -1, consoleAutocompleteResults = [], consoleClockInterval = null;
-let floatingConsole = null;
+consoleCommandHistory = consoleCommandHistory || [];
+consoleHistoryIndex = -1;
+consoleAutocompleteIndex = -1;
+consoleAutocompleteResults = [];
+consoleClockInterval = null;
+floatingConsole = null;
 
 const enhancedConsoleCSS = `
 /* ===== ENHANCED CONSOLE STYLES ===== */
@@ -688,7 +692,7 @@ window.runConsoleCommand = executeEnhancedConsole;
 window.handleConsoleKey = handleEnhancedConsoleKey;
 
 function initEnhancedConsole() {
-  if (workspace.consoleHistory) consoleCommandHistory = [...workspace.consoleHistory];
+  if (workspace && workspace.consoleHistory) consoleCommandHistory = [...workspace.consoleHistory];
   document.addEventListener('keydown', (e) => {
     if (e.ctrlKey && e.key === 'f' && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) {
       e.preventDefault();
