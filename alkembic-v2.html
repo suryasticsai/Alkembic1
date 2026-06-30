@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Alkembic — SM Knowledge Board</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/minisearch@6.3.0/dist/umd/index.min.js"></script>
 <style>
 :root {
@@ -217,15 +215,15 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;heig
 @keyframes modalIn{from{opacity:0;transform:scale(0.97)}to{opacity:1;transform:scale(1)}}
 .modal-inner,.detail-inner,.confirm-box{animation:modalIn 0.2s ease;}
 </style>
-</head>
+<meta name="description" content="Page description"></head>
 <body>
 
 <!-- Name Setup -->
 <div id="nameSetup">
   <div class="name-box">
     <div class="name-logo">⚗ Alkembic</div>
-    <div class="name-sub">Your offline SM Knowledge Board.<br/>Powered by MiniSearch. Zero cloud. What should we call you?</div>
-    <input type="text" id="nameInput" placeholder="Your name (e.g. Surya)" maxlength="30" onkeydown="if(event.key==='Enter')setName()"/>
+    <div class="name-sub">Your offline SM Knowledge Board.<br>Powered by MiniSearch. Zero cloud. What should we call you?</div>
+    <input type="text" id="nameInput" placeholder="Your name (e.g. Surya)" maxlength="30" onkeydown="if(event.key==='Enter')setName()">
     <button class="name-enter" onclick="setName()">Enter Alkembic →</button>
   </div>
 </div>
@@ -239,10 +237,10 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;heig
     <button class="view-tab" id="tab-timeline" onclick="switchView('timeline')">↕ Timeline</button>
     <button class="view-tab" id="tab-trash" onclick="switchView('trash')">🗑 Trash</button>
   </div>
-  <input type="text" id="searchBar" placeholder="Search tiles, tags, content..." oninput="doSearch(this.value)"/>
+  <input type="text" id="searchBar" placeholder="Search tiles, tags, content..." oninput="doSearch(this.value)">
   <button class="hdr-btn" onclick="exportAll()">⬇ Export</button>
   <button class="hdr-btn" onclick="triggerImport()">⬆ Import</button>
-  <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)"/>
+  <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
   <button class="new-btn" onclick="openCreate()">+ New Tile</button>
 </div>
 
@@ -281,7 +279,7 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;heig
 
     <div class="form-row">
       <label class="form-label">Title *</label>
-      <input type="text" class="form-input" id="fTitle" placeholder="e.g. Sprint 12 Retro — Team Phoenix"/>
+      <input type="text" class="form-input" id="fTitle" placeholder="e.g. Sprint 12 Retro — Team Phoenix">
     </div>
 
     <div class="form-row">
@@ -291,7 +289,7 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;heig
         <button class="add-cat-btn" title="Add new category" onclick="toggleNewCat()">+</button>
       </div>
       <div id="newCatWrap" style="display:none;margin-top:8px;">
-        <input type="text" class="form-input" id="newCatInput" placeholder="New category name..." onkeydown="if(event.key==='Enter')addCategory()"/>
+        <input type="text" class="form-input" id="newCatInput" placeholder="New category name..." onkeydown="if(event.key==='Enter')addCategory()">
         <div class="new-cat-acts" style="margin-top:8px;">
           <button class="btn-xs-amber" onclick="addCategory()">Add Category</button>
           <button class="btn-xs-ghost" onclick="cancelNewCat()">Cancel</button>
@@ -303,8 +301,8 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;heig
       <label class="form-label">Labels</label>
       <div class="labels-grid" id="labelsGrid"></div>
       <div class="add-label-row">
-        <input type="text" id="newLabelText" placeholder="New label name..."/>
-        <input type="color" id="newLabelColor" value="#f59e0b"/>
+        <input type="text" id="newLabelText" placeholder="New label name...">
+        <input type="color" id="newLabelColor" value="#f59e0b">
         <button class="add-label-btn" onclick="addLabel()">+ Add</button>
       </div>
     </div>
@@ -884,5 +882,6 @@ document.addEventListener('keydown',e=>{
 // ── Boot ──
 init();
 </script>
-</body>
-</html>
+
+
+</body></html>
