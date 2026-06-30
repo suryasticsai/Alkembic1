@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="dark">
-<head>
+<!DOCTYPE html><html lang="en" data-theme="dark"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <title>⚗ Alkembic Ace v1.2 – Leadership Intelligence Platform</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
   <style>
@@ -143,7 +141,7 @@ th{color:var(--am);font-family:'JetBrains Mono',monospace;font-size:0.75rem;text
   .floating-console{width:90vw;height:50vh;bottom:70px;right:5vw;left:5vw}
 }
 </style>
-<body>
+<meta name="description" content="Page description"></head><body>
   <!-- Setup Screen -->
   <div id="setupScreen" class="modal-overlay">
     <div class="setup-card" id="setupContent"></div>
@@ -264,7 +262,7 @@ th{color:var(--am);font-family:'JetBrains Mono',monospace;font-size:0.75rem;text
           <button class="btn" onclick="document.getElementById('dashImport').click()">📄 Import Excel/CSV</button>
           <select id="chartType" class="form-input"><option value="bar">Bar</option><option value="line">Line</option><option value="pie">Pie</option><option value="doughnut">Doughnut</option></select>
           <select id="xAxisColumn" class="form-input"><option value="">X-Axis Column</option></select>
-          <select id="yAxisColumns" class="form-input" multiple size="1"><option value="">Y-Axis Columns (Ctrl+click)</option></select>
+          <select id="yAxisColumns" class="form-input" multiple="" size="1"><option value="">Y-Axis Columns (Ctrl+click)</option></select>
           <button class="btn btn-outline" onclick="applyChartConfig()">📊 Generate Chart</button>
           <button class="btn btn-sm btn-ghost" onclick="resetAnalytics()">Reset</button>
         </div>
@@ -320,7 +318,7 @@ th{color:var(--am);font-family:'JetBrains Mono',monospace;font-size:0.75rem;text
         <input type="date" id="cardStart" class="form-input">
         <input type="date" id="cardEnd" class="form-input">
         <select id="cardStatus" class="form-input"><option value="todo">To Do</option><option value="in-progress">In Progress</option><option value="done">Done</option></select>
-        <select id="cardPriority" class="form-input"><option value="low">🟢 Low</option><option value="medium" selected>🟡 Medium</option><option value="high">🟠 High</option><option value="critical">🔴 Critical</option></select>
+        <select id="cardPriority" class="form-input"><option value="low">🟢 Low</option><option value="medium" selected="">🟡 Medium</option><option value="high">🟠 High</option><option value="critical">🔴 Critical</option></select>
       </div>
       <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;"><button class="btn btn-ghost" onclick="closeCreateCard()">Cancel</button><button class="btn" id="cardSaveBtn" onclick="saveKanbanCard()">Create</button></div>
     </div>
@@ -357,11 +355,11 @@ th{color:var(--am);font-family:'JetBrains Mono',monospace;font-size:0.75rem;text
     <div class="modal-content" style="max-width:380px;">
       <div style="display:flex; justify-content:space-between; margin-bottom:12px;"><h3>⌨ Shortcuts</h3><button onclick="document.getElementById('shortcutsModal').classList.add('hidden')">×</button></div>
       <table style="width:100%; font-family:'JetBrains Mono',monospace; font-size:0.8rem;">
-        <tr><td style="color:var(--am);">/</td><td>Focus search</td></tr>
+        <tbody><tr><td style="color:var(--am);">/</td><td>Focus search</td></tr>
         <tr><td style="color:var(--am);">Esc</td><td>Close modal / cancel range</td></tr>
         <tr><td style="color:var(--am);">Ctrl+S</td><td>Save workspace</td></tr>
         <tr><td style="color:var(--am);">N</td><td>New card (when not in input)</td></tr>
-      </table>
+      </tbody></table>
       <button class="btn btn-sm btn-ghost" onclick="document.getElementById('shortcutsModal').classList.add('hidden')" style="margin-top:12px;">Close</button>
     </div>
   </div>
@@ -1163,5 +1161,5 @@ document.getElementById('sidebarOverlay').addEventListener('click', toggleSideba
 renderSetupScreen();
 makeDraggableFAB(); 
   </script>
-</body>
-</html>
+
+</body></html>

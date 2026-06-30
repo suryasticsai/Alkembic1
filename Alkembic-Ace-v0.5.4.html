@@ -173,14 +173,11 @@ LICENSE / USAGE
 • Offline, private, local‑machine usage
 
 ════════════════════════════════════════════════════════════
--->
-<!DOCTYPE html>
-<html lang="en" data-theme="dark">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+--><!DOCTYPE html><html lang="en" data-theme="dark"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Alkembic Ace v0.5.3</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/minisearch@6.3.0/dist/umd/index.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
@@ -605,7 +602,7 @@ input,button,select,textarea{font-family:'Inter',sans-serif;}
 .kc-sid{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--am);white-space:nowrap}.kc-footer{display:inline-flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;padding:12px 16px}.glass-tile{background:rgba(255,255,255,.08);backdrop-filter:blur(14px)saturate(120%);-webkit-backdrop-filter:blur(14px)saturate(120%);border:1px solid rgba(255,215,150,.25);border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.12);transition:all .25s ease-in-out}.glass-tile:hover{transform:translateY(-1px);box-shadow:0 12px 32px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.16)}.kc-footer a{color:inherit;text-decoration:none;opacity:.85}.kc-footer a:hover{opacity:1;text-decoration:underline}.kc-footer .sep{opacity:.4}.kc-brand{font-weight:600;letter-spacing:.3px}
 
 </style>
-</head>
+<meta name="description" content="Page description"></head>
 <body>
 
 <!-- ══ LOGIN ══ -->
@@ -617,7 +614,7 @@ input,button,select,textarea{font-family:'Inter',sans-serif;}
       <div class="l-sub">Offline-first · People-aware · Zero cloud</div>
       <h3>👤 Who are you?</h3>
       <p class="hint">Enter your name to continue</p>
-      <input class="l-inp" id="lcName" type="text" placeholder="e.g. Surya" maxlength="30" autocomplete="off"/>
+      <input class="l-inp" id="lcName" type="text" placeholder="e.g. Surya" maxlength="30" autocomplete="off">
       <button class="l-btn" id="lcBtn1">Continue →</button>
       <div class="l-err" id="lcErr1"></div>
     </div>
@@ -626,10 +623,10 @@ input,button,select,textarea{font-family:'Inter',sans-serif;}
       <h3>🔐 Enter Token</h3>
       <p class="hint" id="lcWelcome">Enter your access token</p>
       <div class="otp-row">
-        <input type="password" maxlength="1" class="otp-box" id="otp0"/>
-        <input type="password" maxlength="1" class="otp-box" id="otp1"/>
-        <input type="password" maxlength="1" class="otp-box" id="otp2"/>
-        <input type="password" maxlength="1" class="otp-box" id="otp3"/>
+        <input type="password" maxlength="1" class="otp-box" id="otp0">
+        <input type="password" maxlength="1" class="otp-box" id="otp1">
+        <input type="password" maxlength="1" class="otp-box" id="otp2">
+        <input type="password" maxlength="1" class="otp-box" id="otp3">
       </div>
       <button class="l-btn" id="lcBtn2">Verify &amp; Enter</button>
       <div class="l-err" id="lcErr2"></div>
@@ -657,10 +654,10 @@ input,button,select,textarea{font-family:'Inter',sans-serif;}
     <button class="dtab" id="tab-timeline" onclick="switchView('timeline')">↕ Timeline</button>
     <button class="dtab" id="tab-trash" onclick="switchView('trash')">🗑 Trash</button>
   </div>
-  <input type="text" id="srchBar" placeholder="Search… ( / )" oninput="doSearch(this.value)"/>
+  <input type="text" id="srchBar" placeholder="Search… ( / )" oninput="doSearch(this.value)">
   <button class="icon-btn" onclick="openSettings()">⚙ Settings</button>
   <button class="icon-btn" onclick="triggerImport()">⬆ Import</button>
-  <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)"/>
+  <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
   <button class="new-btn" onclick="openCreate()">+ New Tile</button>
 </div>
 
@@ -720,14 +717,7 @@ input,button,select,textarea{font-family:'Inter',sans-serif;}
       <!-- OPTIONAL: Brightness Slider (Additive Feature) -->
 <div class="theme-row ace-brightness">
   <span class="theme-label">🔆</span>
-  <input
-    type="range"
-    min="70"
-    max="115"
-    value="100"
-    class="theme-slider"
-    oninput="aceSetBrightness(this.value)"
-  />
+  <input type="range" min="70" max="115" value="100" class="theme-slider" oninput="aceSetBrightness(this.value)">
 </div>
     </div>
 
@@ -773,23 +763,23 @@ input,button,select,textarea{font-family:'Inter',sans-serif;}
 <div class="modal-wrap" id="createModal">
 <div class="modal-box">
   <div class="mh"><div class="mh-tit" id="mTit">New Tile</div><button class="mcls" onclick="closeCreate()">✕</button></div>
-  <div class="frow"><label class="flbl">Title *</label><input type="text" class="finp" id="fTitle" placeholder="e.g. Sprint 12 Retro — Team Phoenix"/></div>
+  <div class="frow"><label class="flbl">Title *</label><input type="text" class="finp" id="fTitle" placeholder="e.g. Sprint 12 Retro — Team Phoenix"></div>
   <div class="frow"><label class="flbl">Category *</label>
     <div class="cat-row"><select class="fsel" id="fCat"></select><button class="add-cat-btn" onclick="toggleNewCat()">+</button></div>
-    <div id="newCatWrap"><input type="text" class="finp" id="newCatInp" placeholder="New category…" style="margin-top:7px"/>
+    <div id="newCatWrap"><input type="text" class="finp" id="newCatInp" placeholder="New category…" style="margin-top:7px">
     <div class="nca"><button class="bxa" onclick="addCat()">Add</button><button class="bxg" onclick="cancelNewCat()">Cancel</button></div></div>
   </div>
   <div class="frow"><label class="flbl">📅 Due Date &amp; Time</label>
-    <div class="date-row"><input type="date" class="finp" id="fDue"/><input type="time" class="finp" id="fTime" value="09:00" style="max-width:120px;"/></div>
+    <div class="date-row"><input type="date" class="finp" id="fDue"><input type="time" class="finp" id="fTime" value="09:00" style="max-width:120px;"></div>
   </div>
   <div class="frow"><label class="flbl">👥 People Involved</label>
-    <div class="par"><input type="text" class="finp" id="piN" placeholder="Name (e.g. Rajesh)"/>
+    <div class="par"><input type="text" class="finp" id="piN" placeholder="Name (e.g. Rajesh)">
     <div style="flex:3;min-width:150px;"><div class="rcs" id="rcsSel"></div></div>
     <button class="apb" onclick="addPerson()">+ Add</button></div>
     <div class="plist" id="plistEl"></div>
   </div>
   <div class="frow"><label class="flbl">Labels</label><div class="lw" id="lwEl"></div>
-    <div class="alr"><input type="text" id="nlTxt" placeholder="New label…"/><input type="color" id="nlColor" value="#f0a500"/><button class="alb" onclick="addLabel()">+ Add</button></div>
+    <div class="alr"><input type="text" id="nlTxt" placeholder="New label…"><input type="color" id="nlColor" value="#f0a500"><button class="alb" onclick="addLabel()">+ Add</button></div>
   </div>
   <div class="frow"><label class="flbl">Priority</label>
     <div class="pbs"><button class="pb" data-p="Low" onclick="selP('Low')">Low</button><button class="pb" data-p="Medium" onclick="selP('Medium')">Medium</button><button class="pb" data-p="High" onclick="selP('High')">High</button><button class="pb" data-p="Critical" onclick="selP('Critical')">Critical</button></div>
@@ -1379,5 +1369,5 @@ lcInit();
 document.getElementById('ubadge').textContent=sets.userName||'';
 if(sets.userName)switchView('kanban');
 </script>
-</body>
-</html>
+
+</body></html>

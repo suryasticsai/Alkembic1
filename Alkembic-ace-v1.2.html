@@ -3,14 +3,11 @@
 ⚗ Alkembic Ace · v1.2
 Leadership Intelligence Platform
 ════════════════════════════════════════════════════════════
--->
-<!DOCTYPE html>
-<html lang="en" data-theme="dark">
-<head>
+--><!DOCTYPE html><html lang="en" data-theme="dark"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
   <title>⚗ Alkembic Ace v1.2.0</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
   <style>
@@ -329,7 +326,7 @@ textarea:focus-visible {
 .fc-log::-webkit-scrollbar { width: 4px; }
 .fc-log::-webkit-scrollbar-thumb { background: var(--fc-bd); border-radius: 2px; }
   </style>
-</head>
+<meta name="description" content="Page description"></head>
 <body>
   <!-- Setup screen -->
   <div id="setupScreen" class="modal-overlay">
@@ -372,13 +369,13 @@ textarea:focus-visible {
       <div class="user-badge" id="ubadge" onclick="logout()" title="Click to logout">👤 <span id="userNameDisplay"></span></div>
     </div>
 <!-- Alkembic Ace v1.2 -->
-<!DOCTYPE html>
-<html lang="en" data-theme="dark">
-<head>
+
+
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
   <title>⚗ Alkembic Ace v1.2.0</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
   <style>
@@ -697,8 +694,8 @@ textarea:focus-visible {
 .fc-log::-webkit-scrollbar { width: 4px; }
 .fc-log::-webkit-scrollbar-thumb { background: var(--fc-bd); border-radius: 2px; }
   </style>
-</head>
-<body>
+
+
   <!-- Setup screen -->
   <div id="setupScreen" class="modal-overlay">
     <div class="setup-card" id="setupContent"></div>
@@ -752,7 +749,7 @@ textarea:focus-visible {
           <div class="stat-card cy"><h3 id="statTrash">0</h3>Trash</div>
         </div>
         <div style="display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap;">
-          <input type="file" id="fileImport" accept=".txt,.csv,.xlsx,.xls" onchange="handleFileImport(event)" hidden>
+          <input type="file" id="fileImport" accept=".txt,.csv,.xlsx,.xls" onchange="handleFileImport(event)" hidden="">
           <button class="btn btn-sm btn-ghost" onclick="renderDashboard()">🔄 Refresh</button>
           <button class="btn" onclick="document.getElementById('fileImport').click()">📄 Import Data</button>
           <button class="btn btn-outline" onclick="exportTilesTable()">📋 Export CSV</button>
@@ -828,7 +825,7 @@ textarea:focus-visible {
       <!-- Analytics view -->
       <div id="view-analytics" class="view">
         <div style="display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap;">
-          <input type="file" id="dashImport" accept=".txt,.csv,.xlsx,.xls" onchange="handleDashImport(event)" hidden>
+          <input type="file" id="dashImport" accept=".txt,.csv,.xlsx,.xls" onchange="handleDashImport(event)" hidden="">
           <button class="btn" onclick="document.getElementById('dashImport').click()">📄 Import</button>
           <select id="chartType" style="padding:8px;background:var(--ibg);border:1px solid var(--bd);color:var(--hd);border-radius:6px;">
             <option value="bar">Bar</option>
@@ -901,7 +898,7 @@ textarea:focus-visible {
           <div class="form-field"><label>Start Date</label><input type="date" id="cardStart" class="form-input"></div>
           <div class="form-field"><label>End Date</label><input type="date" id="cardEnd" class="form-input"></div>
           <div class="form-field"><label>Status</label><select id="cardStatus" class="form-input"><option value="todo">To Do</option><option value="in-progress">In Progress</option><option value="done">Done</option></select></div>
-          <div class="form-field"><label>Priority</label><select id="cardPriority" class="form-input"><option value="low">🟢 Low</option><option value="medium" selected>🟡 Medium</option><option value="high">🟠 High</option><option value="critical">🔴 Critical</option></select></div>
+          <div class="form-field"><label>Priority</label><select id="cardPriority" class="form-input"><option value="low">🟢 Low</option><option value="medium" selected="">🟡 Medium</option><option value="high">🟠 High</option><option value="critical">🔴 Critical</option></select></div>
         </div>
         <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:8px;">
           <button class="btn btn-ghost" onclick="closeCreateCard()">Cancel</button>
@@ -972,11 +969,11 @@ textarea:focus-visible {
       <button onclick="document.getElementById('shortcutsModal').classList.add('hidden')" style="background:none;border:none;color:var(--mu);font-size:1.5rem;">×</button>
     </div>
     <table style="font-family:'JetBrains Mono',monospace;font-size:0.8rem;width:100%;">
-      <tr><td style="color:var(--am);">/</td><td>Focus search</td></tr>
+      <tbody><tr><td style="color:var(--am);">/</td><td>Focus search</td></tr>
       <tr><td style="color:var(--am);">Esc</td><td>Close modal / cancel range</td></tr>
       <tr><td style="color:var(--am);">Ctrl+S</td><td>Save workspace</td></tr>
       <tr><td style="color:var(--am);">N</td><td>New card (when not in input)</td></tr>
-    </table>
+    </tbody></table>
     <button class="btn btn-sm btn-ghost" onclick="document.getElementById('shortcutsModal').classList.add('hidden')" style="margin-top:12px;">Close</button>
   </div>
 </div>
@@ -1680,8 +1677,8 @@ function startFooterClock(){
 /* ---------- INIT ---------- */
 renderSetupScreen();
 </script>
-</body>
-    <!-- Main views -->
+
+    
     <div class="main-area">
       <!-- Dashboard view -->
       <div id="view-dashboard" class="view active">
@@ -1693,7 +1690,7 @@ renderSetupScreen();
           <div class="stat-card cy"><h3 id="statTrash">0</h3>Trash</div>
         </div>
         <div style="display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap;">
-          <input type="file" id="fileImport" accept=".txt,.csv,.xlsx,.xls" onchange="handleFileImport(event)" hidden>
+          <input type="file" id="fileImport" accept=".txt,.csv,.xlsx,.xls" onchange="handleFileImport(event)" hidden="">
           <button class="btn btn-sm btn-ghost" onclick="renderDashboard()">🔄 Refresh</button>
           <button class="btn" onclick="document.getElementById('fileImport').click()">📄 Import Data</button>
           <button class="btn btn-outline" onclick="exportTilesTable()">📋 Export CSV</button>
@@ -1769,7 +1766,7 @@ renderSetupScreen();
       <!-- Analytics view -->
       <div id="view-analytics" class="view">
         <div style="display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap;">
-          <input type="file" id="dashImport" accept=".txt,.csv,.xlsx,.xls" onchange="handleDashImport(event)" hidden>
+          <input type="file" id="dashImport" accept=".txt,.csv,.xlsx,.xls" onchange="handleDashImport(event)" hidden="">
           <button class="btn" onclick="document.getElementById('dashImport').click()">📄 Import</button>
           <select id="chartType" style="padding:8px;background:var(--ibg);border:1px solid var(--bd);color:var(--hd);border-radius:6px;">
             <option value="bar">Bar</option>
@@ -1842,7 +1839,7 @@ renderSetupScreen();
           <div class="form-field"><label>Start Date</label><input type="date" id="cardStart" class="form-input"></div>
           <div class="form-field"><label>End Date</label><input type="date" id="cardEnd" class="form-input"></div>
           <div class="form-field"><label>Status</label><select id="cardStatus" class="form-input"><option value="todo">To Do</option><option value="in-progress">In Progress</option><option value="done">Done</option></select></div>
-          <div class="form-field"><label>Priority</label><select id="cardPriority" class="form-input"><option value="low">🟢 Low</option><option value="medium" selected>🟡 Medium</option><option value="high">🟠 High</option><option value="critical">🔴 Critical</option></select></div>
+          <div class="form-field"><label>Priority</label><select id="cardPriority" class="form-input"><option value="low">🟢 Low</option><option value="medium" selected="">🟡 Medium</option><option value="high">🟠 High</option><option value="critical">🔴 Critical</option></select></div>
         </div>
         <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:8px;">
           <button class="btn btn-ghost" onclick="closeCreateCard()">Cancel</button>
@@ -1913,11 +1910,11 @@ renderSetupScreen();
       <button onclick="document.getElementById('shortcutsModal').classList.add('hidden')" style="background:none;border:none;color:var(--mu);font-size:1.5rem;">×</button>
     </div>
     <table style="font-family:'JetBrains Mono',monospace;font-size:0.8rem;width:100%;">
-      <tr><td style="color:var(--am);">/</td><td>Focus search</td></tr>
+      <tbody><tr><td style="color:var(--am);">/</td><td>Focus search</td></tr>
       <tr><td style="color:var(--am);">Esc</td><td>Close modal / cancel range</td></tr>
       <tr><td style="color:var(--am);">Ctrl+S</td><td>Save workspace</td></tr>
       <tr><td style="color:var(--am);">N</td><td>New card (when not in input)</td></tr>
-    </table>
+    </tbody></table>
     <button class="btn btn-sm btn-ghost" onclick="document.getElementById('shortcutsModal').classList.add('hidden')" style="margin-top:12px;">Close</button>
   </div>
 </div>
@@ -2621,4 +2618,4 @@ function startFooterClock(){
 /* ---------- INIT ---------- */
 renderSetupScreen();
 </script>
-</body>
+</body><!-- Main views --></html>

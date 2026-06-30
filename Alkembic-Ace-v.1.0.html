@@ -4,14 +4,11 @@
 Leadership Intelligence Platform
 Zero‑Cloud | Offline‑First | Folder or IndexedDB
 ════════════════════════════════════════════════════════════
--->
-<!DOCTYPE html>
-<html lang="en" data-theme="dark">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+--><!DOCTYPE html><html lang="en" data-theme="dark"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Alkembic Ace v1.0.0</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/minisearch@6.3.0/dist/umd/index.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
@@ -67,7 +64,7 @@ input,button,select,textarea{font-family:'Inter',sans-serif;}
 .dash-tab:hover:not(.active) { border-color:var(--am); color:var(--am); }
 /* ... all other existing styles retained ... */
 </style>
-</head>
+<meta name="description" content="Page description"></head>
 <body>
 
 <!-- SETUP SCREEN (first-time workspace / profile setup) -->
@@ -90,10 +87,10 @@ input,button,select,textarea{font-family:'Inter',sans-serif;}
       <button class="dtab" id="tab-dashboards" onclick="switchView('dashboards')">📊 Dashboards</button>
       <button class="dtab" id="tab-calendar" onclick="switchView('calendar')">📅 Calendar</button>
     </div>
-    <input type="text" id="srchBar" placeholder="Search… ( / )" oninput="doSearch(this.value)"/>
+    <input type="text" id="srchBar" placeholder="Search… ( / )" oninput="doSearch(this.value)">
     <button class="icon-btn" onclick="openSettings()">⚙ Settings</button>
     <button class="icon-btn" onclick="triggerImport()">⬆ Import</button>
-    <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)"/>
+    <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
     <button class="new-btn" onclick="openCreate()">+ New Tile</button>
   </div>
   <!-- BULK BAR, MAIN VIEWS (kanban, dashboard, timeline, trash, dashboards, calendar) -->
@@ -302,5 +299,5 @@ function renderCalendarView() {
 /* ── BOOT ── */
 initApp();
 </script>
-</body>
-</html>
+
+</body></html>
