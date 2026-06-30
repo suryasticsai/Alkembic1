@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Alkembic v0.4 — SM Knowledge Board</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/minisearch@6.3.0/dist/umd/index.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
@@ -310,7 +308,7 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;heig
 @media(max-width:768px){.s-row{grid-template-columns:repeat(2,1fr);}.c-row{grid-template-columns:1fr;}}
 
 </style>
-</head>
+<meta name="description" content="Page description"></head>
 <body>
 
 <!-- Name Setup -->
@@ -318,8 +316,8 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;heig
   <div class="ns-box">
     <div class="ns-logo">⚗ Alkembic</div>
     <div class="ns-ver">VERSION 0.3</div>
-    <div class="ns-sub">Your offline SM Knowledge Board.<br/>People-aware · Zero cloud · MiniSearch powered.</div>
-    <input type="text" id="nameInput" placeholder="Your name (e.g. Surya)" maxlength="30" onkeydown="if(event.key==='Enter')setName()"/>
+    <div class="ns-sub">Your offline SM Knowledge Board.<br>People-aware · Zero cloud · MiniSearch powered.</div>
+    <input type="text" id="nameInput" placeholder="Your name (e.g. Surya)" maxlength="30" onkeydown="if(event.key==='Enter')setName()">
     <button class="ns-enter" onclick="setName()">Enter Alkembic →</button>
   </div>
 </div>
@@ -334,12 +332,12 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;heig
     <button class="vtab" id="tab-timeline" onclick="switchView('timeline')">↕ Timeline</button>
     <button class="vtab" id="tab-trash" onclick="switchView('trash')">🗑 Trash</button>
   </div>
-  <input type="text" id="srchBar" placeholder="Search tiles, people, tags…" oninput="doSearch(this.value)"/>
+  <input type="text" id="srchBar" placeholder="Search tiles, people, tags…" oninput="doSearch(this.value)">
   <button class="theme-tog" id="themeTogBtn" onclick="toggleTheme()">🌙</button>
   <button class="hbtn" onclick="exportAllICS()">📅 ICS</button>
   <button class="hbtn" onclick="exportAll()">⬇ Export</button>
   <button class="hbtn" onclick="triggerImport()">⬆ Import</button>
-  <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)"/>
+  <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
   <button class="newbtn" onclick="openCreate()">+ New Tile</button>
 </div>
 
@@ -361,7 +359,7 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;heig
 
   <div class="frow">
     <label class="flbl">Title *</label>
-    <input type="text" class="finput" id="fTitle" placeholder="e.g. Sprint 12 Retro — Team Phoenix"/>
+    <input type="text" class="finput" id="fTitle" placeholder="e.g. Sprint 12 Retro — Team Phoenix">
   </div>
 
   <div class="frow">
@@ -371,7 +369,7 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;heig
       <button class="add-cat-btn" onclick="toggleNewCat()" title="Add category">+</button>
     </div>
     <div id="newCatWrap">
-      <input type="text" class="finput" id="newCatInput" placeholder="New category name…" style="margin-top:8px" onkeydown="if(event.key==='Enter')addCat()"/>
+      <input type="text" class="finput" id="newCatInput" placeholder="New category name…" style="margin-top:8px" onkeydown="if(event.key==='Enter')addCat()">
       <div class="nca-acts">
         <button class="bxs-a" onclick="addCat()">Add</button>
         <button class="bxs-g" onclick="cancelNewCat()">Cancel</button>
@@ -382,15 +380,15 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;heig
   <div class="frow">
     <label class="flbl">📅 Due Date (calendar reminder)</label>
     <div style="display:flex;gap:8px">
-      <input type="date" class="finput" id="fDueDate" style="flex:1"/>
-      <input type="time" class="finput" id="fDueTime" value="09:00" style="max-width:128px;"/>
+      <input type="date" class="finput" id="fDueDate" style="flex:1">
+      <input type="time" class="finput" id="fDueTime" value="09:00" style="max-width:128px;">
     </div>
   </div>
   <!-- PEOPLE INVOLVED -->
   <div class="frow">
     <label class="flbl">👥 People Involved</label>
     <div class="people-add-row">
-      <input type="text" class="finput" id="piName" placeholder="Name (e.g. Rajesh)"/>
+      <input type="text" class="finput" id="piName" placeholder="Name (e.g. Rajesh)">
       <div class="role-multi-wrap">
         <div class="role-chips-sel" id="roleChips"></div>
       </div>
@@ -403,8 +401,8 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;heig
     <label class="flbl">Labels</label>
     <div class="labels-wrap" id="labelsWrap"></div>
     <div class="add-lbl-row">
-      <input type="text" id="newLblTxt" placeholder="New label…"/>
-      <input type="color" id="newLblColor" value="#f59e0b"/>
+      <input type="text" id="newLblTxt" placeholder="New label…">
+      <input type="color" id="newLblColor" value="#f59e0b">
       <button class="add-lbl-btn" onclick="addLabel()">+ Add</button>
     </div>
   </div>
@@ -936,8 +934,8 @@ document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeCreate(); cl
 /* ══ Boot ══ */
 init();
 </script>
-</body>
-</html>
+
+
 /* ══ v0.4: Theme, Dashboard, ICS, Incremental IDs ══ */
 
 function applyTheme(t) {
@@ -969,7 +967,7 @@ function renderDashboard() {
   var inp = artifacts.filter(function(a){return a.status==='In Progress';}).length;
   var inv = artifacts.filter(function(a){return a.status==='In Review';}).length;
   var ppl = new Set(); artifacts.forEach(function(a){(a.people||[]).forEach(function(p){ppl.add(p.name);});});
-  var rec = artifacts.filter(function(a){return new Date(a.createdAt)>=tm;}).length;
+  var rec = artifacts.filter(function(a){return new Date(a.createdAt)&gt;=tm;}).length;
   var isDark = (settings.theme||'dark') !== 'light';
   var gc = isDark ? 'rgba(45,58,85,.5)' : 'rgba(226,232,240,.8)';
   var P_MAP = {Low:'#22c55e',Medium:'#f59e0b',High:'#f97316',Critical:'#ef4444'};
@@ -1006,7 +1004,7 @@ function renderDashboard() {
   var ce=Object.entries(cc).sort(function(a,b){return b[1]-a[1];}).slice(0,6);
   window._dch.cat = new Chart(document.getElementById('chCat'),{type:'bar',data:{labels:ce.map(function(e){return e[0];}),datasets:[{data:ce.map(function(e){return e[1];}),backgroundColor:'#f59e0b55',borderColor:'#f59e0b',borderWidth:2,borderRadius:4}]},options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{grid:{color:gc}},y:{grid:{color:gc}}},responsive:true,maintainAspectRatio:false}});
   var ms2=[],mC=[];
-  for(var i=5;i>=0;i--){var d=new Date(now.getFullYear(),now.getMonth()-i,1);ms2.push(d.toLocaleDateString('en-IN',{month:'short'}));mC.push(artifacts.filter(function(a){var c=new Date(a.createdAt);return c.getMonth()===d.getMonth()&&c.getFullYear()===d.getFullYear();}).length);}
+  for(var i=5;i&gt;=0;i--){var d=new Date(now.getFullYear(),now.getMonth()-i,1);ms2.push(d.toLocaleDateString('en-IN',{month:'short'}));mC.push(artifacts.filter(function(a){var c=new Date(a.createdAt);return c.getMonth()===d.getMonth()&amp;&amp;c.getFullYear()===d.getFullYear();}).length);}
   window._dch.act = new Chart(document.getElementById('chAct'),{type:'line',data:{labels:ms2,datasets:[{data:mC,borderColor:'#3b82f6',backgroundColor:'#3b82f620',borderWidth:2,fill:true,tension:.4,pointBackgroundColor:'#3b82f6',pointRadius:4}]},options:{plugins:{legend:{display:false}},scales:{x:{grid:{color:gc}},y:{grid:{color:gc},ticks:{stepSize:1}}},responsive:true,maintainAspectRatio:false}});
 }
 
@@ -1087,3 +1085,4 @@ function saveWithCalendar() {
 
 
 
+</body></html>
